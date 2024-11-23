@@ -1,0 +1,54 @@
+# ========== 应用基本配置 ==========
+# 应用名称
+spring:
+  application:
+    name: StrangeLoop
+
+  # 服务器端口
+  server:
+    port: 8080
+
+  # 编码配置
+  web:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+# ========== 日志配置 ==========
+# 日志输出级别（可选：TRACE, DEBUG, INFO, WARN, ERROR）
+logging:
+  level:
+    root: INFO
+    com.example.demo: DEBUG
+  # 日志文件位置（默认在控制台输出）
+  # file:
+  #   name: logs/demo-app.log
+  #   path: logs
+
+  # ========== 数据源配置（可选，初始化数据库时使用）==========
+  # 数据库连接
+  datasource:
+    url: jdbc:mysql://localhost:3306/strange-loop?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+
+  # 数据库驱动类
+  driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA 配置（如果使用 Spring Data JPA）
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*/*.xml
+  type-aliases-package: com.xiaofeng.strangeloop.system.domain.*
+  configuration:
+    map-underscore-to-camel-case: true

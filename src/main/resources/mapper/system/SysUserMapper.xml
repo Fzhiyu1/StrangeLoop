@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaofeng.strangeloop.system.mapper.SysUserMapper">
+    <!--
+
+    -->
+    <resultMap id="SysUserResult" type="com.xiaofeng.strangeloop.system.domain.SysUser">
+        <result property="id" column="id"/>
+        <result property="account" column="account"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="disable" column="disable"/>
+        <result property="role" column="role"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <sql id="selectAllUser">
+        select * from Sys_user
+    </sql>
+    <!-- 示例查询 -->
+    <select id="selectAllUser" resultMap="SysUserResult">
+        <include refid="selectAllUser"></include>
+    </select>
+
+</mapper>
