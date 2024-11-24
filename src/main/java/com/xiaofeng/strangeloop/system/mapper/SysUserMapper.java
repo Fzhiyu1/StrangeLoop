@@ -10,4 +10,8 @@ import java.util.List;
  */
 public interface SysUserMapper {
     public List<SysUser> selectAllUser(SysUser sysUser);
+
+    public SysUser selectUserByName(String account);
+
+    public int insertOneUser(SysUser sysUser);
 }

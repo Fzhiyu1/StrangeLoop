@@ -7,4 +7,8 @@ import java.util.List;
 public interface SysUserService {
 
     public List<SysUser> findAllUsers(SysUser sysUser);
+
+    public SysUser findUserByName(String account);
+
+    public int insertUser(SysUser sysUser);
 }

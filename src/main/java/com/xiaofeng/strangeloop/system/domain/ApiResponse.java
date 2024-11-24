@@ -18,8 +18,16 @@ public class ApiResponse<T> {
         return new ApiResponse<>(200, "Success", data);
     }
 
-    public static ApiResponse<Void> error(String message) {
+
+    public static ApiResponse<String> error(String message) {
         return new ApiResponse<>(500, message, null);
+    }
+
+    public static ApiResponse<String> createdUserSuccess() {
+        return new ApiResponse<>(200, "创建用户成功！", null);
+    }
+    public static ApiResponse<String> errorLogin(String message) {
+        return new ApiResponse<>(401, message, null);
     }
 
 }

@@ -12,14 +12,30 @@
         <result property="disable" column="disable"/>
         <result property="role" column="role"/>
         <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectAllUser">
-        select * from Sys_user
+        select id,account,email,phone,disable,role,name,password from sys_user
     </sql>
-    <!-- 示例查询 -->
+<!--    新增一个用户-->
+    <insert id="insertOneUser" parameterType="com.xiaofeng.strangeloop.system.domain.SysUser">
+        insert into sys_user (account,password,email,role,disable,name,created_time)
+        values (#{account},#{password},#{email},#{role},#{disable},#{name},#{createTime})
+
+    </insert>
+
+
+    <!--    查询所有用户-->
     <select id="selectAllUser" resultMap="SysUserResult">
         <include refid="selectAllUser"></include>
+    </select>
+<!--    根据用户名查询用户-->
+    <select id="selectUserByName" resultMap="SysUserResult" parameterType="string">
+        <include refid="selectAllUser"></include>
+        where account = #{account};
     </select>
 
 </mapper>
