@@ -18,11 +18,6 @@ const service = axios.create(
 //请求拦截器
 service.interceptors.request.use(
     config => {
-
-        console.log('请求方法:', config.method);
-        console.log('请求参数:', config.params); // 如果有 params
-        console.log('请求数据:', JSON.stringify(config.data));
-        console.log('请求参数:', config.params);
           // 如果有 data
         // 是否需要设置 token
         const isToken = (config.headers || {}).isToken === false
@@ -36,7 +31,6 @@ service.interceptors.request.use(
             typeof config.data === 'object' &&
             config.data !== null) {
             config.headers['Content-Type'] = 'application/json;charset=UTF-8';
-
             config.data = JSON.stringify(config.data);
         }
 
