@@ -2,6 +2,7 @@
 import axios from 'axios';
 // 使用elmentui message作为信息提醒
 import {ElMessage } from "element-plus";
+import {getToken} from "./auth.ts";
 // import {getToken} from "./auth.ts";
 
 
@@ -24,10 +25,10 @@ service.interceptors.request.use(
         console.log('请求参数:', config.params);
           // 如果有 data
         // 是否需要设置 token
-        // const isToken = (config.headers || {}).isToken === false
-        // if (getToken() && !isToken) {
-        //     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
-        // }
+        const isToken = (config.headers || {}).isToken === false
+        if (getToken() && !isToken) {
+            config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+        }
         // 发送前做一些处理，数据转化,配置请求头，设置token，设置loading等
         // 只对 POST/PUT/PATCH 方法序列化请求体，并且确认 data 是对象或数组
         // @ts-ignore
@@ -66,6 +67,7 @@ service.interceptors.response.use(response => {
                 break;
             case 401:
                 error.message = '未授权，请重新登录';
+                ElMessage.error(error.message);
                 break;
             case 403:
                 error.message = '拒绝访问';
