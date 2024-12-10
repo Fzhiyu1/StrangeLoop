@@ -27,14 +27,14 @@
               <div class="login-border loginInput" style="margin-top: 20px">
                 <span>密码</span>
                 <el-row>
-                  <input placeholder="请输入密码">
+                  <input placeholder="请输入密码" type="password">
                 </el-row>
               </div>
               <div class="login-button login-border" style="margin-top: 20px">
                 登录
               </div>
               <span class="downText">还没有账号？
-                <a>注册</a>
+                <a href="#">注册</a>
               </span>
             </div>
           </el-col>

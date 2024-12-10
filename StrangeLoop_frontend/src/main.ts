@@ -4,14 +4,18 @@ import App from './App.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import router from "./router";
+import axios from  "axios"
 
 
 const app=createApp(App)
 //注册路由
 app.use(router);
-app.use(ElementPlus)
+// 注册ElementPlus
+app.use(ElementPlus);
+// 注册axios
+app.use(axios);
 
-app.mount('#app')
+app.mount('#app');
 
 
 
