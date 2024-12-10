@@ -2,30 +2,47 @@
 import axios from 'axios';
 // 使用elmentui message作为信息提醒
 import {ElMessage } from "element-plus";
+// import {getToken} from "./auth.ts";
+
 
 // 创建新的axios实例
 const service = axios.create(
     {
-
-        baseURL: process.env.VUE_APP_API_URL,
+        baseURL: "http://localhost:9090",
         //配置超时时间
-        timeout: 3 * 1000
+        timeout: 6000,
+
     }
 );
 //请求拦截器
 service.interceptors.request.use(
     config => {
+
+        console.log('请求方法:', config.method);
+        console.log('请求参数:', config.params); // 如果有 params
+        console.log('请求数据:', JSON.stringify(config.data));
+        console.log('请求参数:', config.params);
+          // 如果有 data
+        // 是否需要设置 token
+        // const isToken = (config.headers || {}).isToken === false
+        // if (getToken() && !isToken) {
+        //     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+        // }
         // 发送前做一些处理，数据转化,配置请求头，设置token，设置loading等
-        config.data = JSON.stringify(config.data);
-        config.headers = {
-            'Content-Type': 'application/json'//配置请求头
-        };
-        //如有需要：注意使用token的时候需要引入cookie方法或者用本地localStorage等方法，推荐js-cookie
-        //const token = getCookie('名称');//这里取token之前，你肯定需要先拿到token,存一下
-        //if(token){
-        //config.params = {'token':token} //如果要求携带在参数中
-        //config.headers.token= token; //如果要求携带在请求头中
-        //}
+        // 只对 POST/PUT/PATCH 方法序列化请求体，并且确认 data 是对象或数组
+        // @ts-ignore
+        if (['POST', 'PUT', 'PATCH'].includes(config.method.toUpperCase()) &&
+            typeof config.data === 'object' &&
+            config.data !== null) {
+            config.headers['Content-Type'] = 'application/json;charset=UTF-8';
+
+            config.data = JSON.stringify(config.data);
+        }
+
+        // 配置请求头
+
+
+
 
         return config;
     }, error => {
@@ -39,6 +56,7 @@ service.interceptors.response.use(response => {
     return response
 }, error => {
     // 根据接收到的异常进行处理
+    console.log(error)
     if (error && error.response) {
         //     1、公共错误处理
         //     2、根据响应码做具体处理
