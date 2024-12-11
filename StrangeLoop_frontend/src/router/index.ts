@@ -1,16 +1,25 @@
 
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Login from "../views/Login.vue";
-
-
-
-
+import Layout from "../layout/index.vue"
+import {getToken} from "../utils/auth.ts";
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/login',
         name: 'Login',
         component: Login,
     },
+    {
+        path: '/',
+        name: 'Home',
+        component: Layout,
+        children:[
+
+        ]
+
+    }
+
+
     // 其他页面路由...
 ];
 
@@ -22,7 +31,8 @@ const router = createRouter({
 export default router;
 router.beforeEach((to, from, next) => {
     //判断是否有token
-    const isAuthenticated: boolean = !!localStorage.getItem('token');
+    const isAuthenticated: boolean = !!getToken();
+    console.log(getToken());
 
     if (to.path !== '/login' && !isAuthenticated) {
         //未登录则跳转到登录页面

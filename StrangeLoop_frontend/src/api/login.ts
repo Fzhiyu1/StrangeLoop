@@ -12,10 +12,11 @@ export function loginUser({data}: { data: any }) {
     })
 }
 
-export function createUser({params}: { params: any }) {
+export function createUser({data}: { data: any }) {
     return request({
         url: baseUrl + "/create",
         method: 'post',
-        params: qs.stringify(params)
+        data: data,
+
     })
 }

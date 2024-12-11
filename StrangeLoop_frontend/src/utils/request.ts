@@ -27,12 +27,10 @@ service.interceptors.request.use(
         // 发送前做一些处理，数据转化,配置请求头，设置token，设置loading等
         // 只对 POST/PUT/PATCH 方法序列化请求体，并且确认 data 是对象或数组
         // @ts-ignore
-        if (['POST', 'PUT', 'PATCH'].includes(config.method.toUpperCase()) &&
-            typeof config.data === 'object' &&
-            config.data !== null) {
+
             config.headers['Content-Type'] = 'application/json;charset=UTF-8';
             config.data = JSON.stringify(config.data);
-        }
+
 
         // 配置请求头
 
