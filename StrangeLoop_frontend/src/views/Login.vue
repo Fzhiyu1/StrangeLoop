@@ -149,7 +149,7 @@ const startLogin = async () => {
                 </el-row>
               </div>
               <div class="login-border loginInput" style="margin-top: 20px" v-if="loginStatus">
-                <span style="margin-left: 100px;font-size: 20px">请再次输入密码密码</span>
+                <span style="margin-left: 100px;font-size: 20px">请再次输入密码</span>
                 <el-row>
 
                   <el-form-item prop="passwordAgain" >
