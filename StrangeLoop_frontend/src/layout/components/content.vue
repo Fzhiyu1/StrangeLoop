@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <div id="content" class=""></div>
+  <div id="content" class="">
+    <router-view></router-view>
+  </div>
 </template>
 
 <style scoped>

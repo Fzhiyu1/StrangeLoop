@@ -17,6 +17,8 @@ app.use(router);
 app.use(ElementPlus);
 // 注册图标
 app.component('SvgIcon',SvgIcon)
+// 注册chat
+
 
 
 app.mount('#app');

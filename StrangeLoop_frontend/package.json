@@ -9,9 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kousum/semi-icons-vue": "^0.23.0",
+    "@kousum/semi-ui-vue": "^0.24.0",
     "axios": "^1.7.9",
     "element-plus": "^2.9.0",
     "js-cookie": "^3.0.5",
+    "marked": "^15.0.3",
     "qs": "^6.13.1",
     "sass": "^1.82.0",
     "vue": "^3.5.12",

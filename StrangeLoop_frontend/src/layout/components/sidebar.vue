@@ -41,7 +41,6 @@ import SvgIcon from "../../components/SvgIcon.vue";
   position: absolute;
   bottom: 30px;
   cursor: pointer;
-
   width: 80px;
 }
 
@@ -59,21 +58,18 @@ import SvgIcon from "../../components/SvgIcon.vue";
   margin-top: 50px;
   width: 80px;
   height: 70px;
-  cursor: pointer;
-
 }
 
 .icon {
   color: white;
   width: 40px;
   height: 40px;
+  cursor: pointer;
 }
 
 .sidebar {
   width: 80px;
   height: 100%;
-
-
 }
 
 #logoBlock {

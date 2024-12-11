@@ -3,6 +3,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Login from "../views/Login.vue";
 import Layout from "../layout/index.vue"
 import {getToken} from "../utils/auth.ts";
+import Aichat from "../views/AiChat/index.vue";
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/login',
@@ -14,7 +15,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Home',
         component: Layout,
         children:[
-
+            {
+                path:'/aichat',
+                name: 'AiChat',
+                component:Aichat
+            }
         ]
 
     }
