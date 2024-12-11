@@ -63,15 +63,18 @@ public class SysUserControl {
      */
     @PostMapping("/create")
     public ApiResponse<String> createOneUser(@RequestBody SysUser sysUser) {
-        System.out.println(sysUserService.findUserByName(sysUser.getAccount()));
+//        当用户已存在的时候
         if(sysUserService.findUserByName(sysUser.getAccount()) !=null){
             return ApiResponse.error("创建失败,用户已存在，请重新命名");
         }
+//        创建用户
         int i = sysUserService.insertUser(sysUser);
-        System.out.println("用户类："+sysUser+"用户创建返回值:"+i);
+
+//        创建失败
         if ( i== -1) {
             return ApiResponse.error("创建失败");
         }
+//        返回创建成功
         return ApiResponse.createdUserSuccess();
     }
 
