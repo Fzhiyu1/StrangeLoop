@@ -7,6 +7,9 @@
 </template>
 
 <script setup>
+/**
+ * 废弃组件
+ */
 import {defineProps, computed} from 'vue';
 
 const props = defineProps({

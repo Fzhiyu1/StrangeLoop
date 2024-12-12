@@ -8,6 +8,9 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * 废弃组件
+ */
 import { ref, defineProps } from 'vue';
 import { marked } from 'marked';
 import avatarUrl from "../assets/images/logo/logo.png"
