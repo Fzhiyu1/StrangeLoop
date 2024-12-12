@@ -1,47 +1,53 @@
 <script setup lang="ts">
 
 import ChatBubble from "./ChatBubble.vue";
-import {reactive, ref} from "vue";
+import {PropType, reactive, ref, watch} from "vue";
 import AiChatBubble from "./AiChatBubble.vue";
 
-import { Chat } from '@kousum/semi-ui-vue';
+import {Chat} from '@kousum/semi-ui-vue';
 import {uploadProps} from "element-plus";
+
+// 组件参数
+ const props =defineProps({
+   messages:{
+     type: Array as PropType<Array<{
+       role: string,
+       id: string,
+       createAt: bigint,
+       content: string;
+     }>>,
+     default: () => [],
+
+   },
+   roleInfo:{
+     type:Array as PropType<Array<{
+       name:string,
+       avatar:string
+     }>>,
+     default:{
+       user: {
+         name: 'User',
+         avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/docs-icon.png'
+       },
+       assistant: {
+         name: 'Assistant',
+         avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/other/logo.png'
+       },
+       system: {
+         name: 'System',
+         avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/other/logo.png'
+       }
+     }
+   }
+ })
 // demo消息历史记录
-const defaultMessage = [
-  {
-    role: 'system',
-    id: '1',
-    createAt: 1715676751919,
-    content: "Hello, I'm your AI assistant.",
-  },
-  {
-    role: 'user',
-    id: '2',
-    createAt: 1715676751919,
-    content: "给一个 Semi Design 的 Button 组件的使用示例",
-  },
-  {
-    role: 'assistant',
-    id: '3',
-    createAt: 1715676751919,
-    content: "以下是一个 Semi 代码的使用示例：\n\`\`\`jsx \nimport React from 'react';\nimport { Button } from '@kousum/semi-ui-vue';\n\nconst MyComponent = () => {\n  return (\n    <Button>Click me</Button>\n );\n};\nexport default MyComponent;\n\`\`\`\n",
-  }
-];
-// 角色设定
-const roleInfo = {
-  user: {
-    name: 'User',
-    avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/docs-icon.png'
-  },
-  assistant: {
-    name: 'Assistant',
-    avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/other/logo.png'
-  },
-  system: {
-    name: 'System',
-    avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/other/logo.png'
-  }
-}
+const defaultMessage = props.messages;
+const emit = defineEmits(['update:messages']);
+ //监听message
+watch(()=>props.messages,(newMessages) =>{
+  message.value = [...newMessages];
+
+})
 
 //生成 id
 let id = 0;
@@ -49,17 +55,19 @@ let id = 0;
 function getId() {
   return `id-${id++}`
 }
+
 // 样式
 const commonOuterStyle = {
-  border: '1px solid var(--semi-color-border)',
-  borderRadius: '16px',
   margin: '8px 16px',
-  height: '550px',
+  height: '90%',
+  width: '90%',
+
 }
 
 // 交互
 
 const message = ref(defaultMessage);
+props.messages=message.value;
 const mode = ref('bubble');
 const align = ref('leftRight');
 
@@ -85,6 +93,7 @@ const onMessageSend = (content, attachment) => {
 
 const onChatsChange = (chats) => {
   message.value = chats;
+  emit('update:messages', chats); // 向父组件发出事件
 };
 
 const onMessageReset = (e) => {
@@ -102,26 +111,38 @@ const onMessageReset = (e) => {
 </script>
 
 <template>
-<div id="frame">
-  <Chat
-      :chats="message"
-      :role-config="roleInfo"
-      :onChatsChange="onChatsChange"
-      :onMessageSend="onMessageSend"
-      :onMessageReset="onMessageReset"
-
-  />
-</div>
+  <div id="frame">
+    <Chat id="chat"
+          :style="commonOuterStyle"
+        :chats="message"
+        :role-config="props.roleInfo"
+        :onChatsChange="onChatsChange"
+        :onMessageSend="onMessageSend"
+        :onMessageReset="onMessageReset"
+    />
+  </div>
 </template>
 
 <style scoped>
-#frame {
-  width: 1000px;
-  height: 500px;
-  background-color: rgb(255, 255, 255);
-}
-#chat {
-  position: relative;
 
+#frame {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center;     /* 垂直居中 */
+  width: 100%;
+  height: 100%;
+  /* 如果父元素没有指定高度，可能需要确保 #frame 有足够的高度才能垂直居中 */
+  min-height: 100vh;       /* 确保最小高度为视口高度 */
 }
+
+#chat {
+  margin: 8px 16px; /* 移动到这儿，以便更好地控制 */
+  max-width: 1000px;
+  width: 1000px;
+}
+
+#semi-chat-inputBox{
+  width: 500px;
+}
+
 </style>
