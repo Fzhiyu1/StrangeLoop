@@ -106,7 +106,7 @@ const startLogin = async () => {
 
   <el-form :rules="rules" :model="loginForm" ref="formRef">
   <el-row>
-    <el-col :span="10" :offset="7">
+    <el-col :span="14" :offset="10">
       <div class="login-border login">
         <el-row>
           <el-col :span="20" :offset="2">
