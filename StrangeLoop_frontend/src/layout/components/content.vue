@@ -15,7 +15,7 @@
   left: 80px; /* 左侧固定边距 */
   right: 0.5%; /* 保证右边距固定 */
   bottom: 1%; /* 保证底部边距固定 */
-  background-color: rgba(255, 255, 255, 0.71);
+  background-color: rgba(255, 255, 255, 0.82);
   border-radius: 30px;
 }
 </style>
