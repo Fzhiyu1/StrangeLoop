@@ -1,10 +1,8 @@
 export class SSEService {
     private decoder: TextDecoder;
-    private loading: boolean;
 
     constructor() {
         this.decoder = new TextDecoder();
-        this.loading = false;
     }
 
     /**
@@ -14,18 +12,16 @@ export class SSEService {
      * @param onUpdate 回调函数，用于更新流式消息
      * @param onComplete 回调函数，当消息完成时触发
      */
-    async send(url: string, data: any, onUpdate: (message: string) => void, onComplete: (finalMessage: string) => void): Promise<void> {
-        if (this.loading) {
-            console.warn("Request is still loading...");
-            return;
-        }
-
-        this.loading = true;
-
+    async send(
+        url: string,
+        data: any,
+        onUpdate: (message: string) => void,
+        onComplete: (finalMessage: string) => void
+    ): Promise<void> {
         try {
             const response = await fetch(url, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data),
             });
 
@@ -34,28 +30,47 @@ export class SSEService {
 
             let accumulatedMessage = '';
 
-            const processStream = async ({ done, value }: ReadableStreamReadResult<Uint8Array>) => {
+            // 处理流的每个数据块
+            const processStream = async ({done, value}: ReadableStreamReadResult<Uint8Array>) => {
                 if (done) {
-                    this.loading = false;
                     onComplete(accumulatedMessage); // 通知完成
                     return;
                 }
 
-                const result = this.decoder.decode(value, { stream: true });
-                const message = JSON.parse(result).message.content;
+                // 确保 value 是 Uint8Array
+                if (!(value instanceof Uint8Array)) {
+                    console.error("Unexpected data type:", value);
+                    return;
+                }
 
-                accumulatedMessage += message; // 累加消息
-                onUpdate(accumulatedMessage); // 更新实时消息
+                // 解码当前数据块
+                const result = this.decoder.decode(value, {stream: true});
+                let message: string;
 
+                try {
+                    const parsed = JSON.parse(result);
+                    message = parsed.message?.content || '';
+                } catch (err) {
+
+                    message = ''; // 如果解析失败，继续处理下一个数据块
+                }
+
+                // 累加消息并更新
+                accumulatedMessage += message;
+
+                onUpdate(accumulatedMessage);
+
+                // 读取下一个数据块
                 const nextChunk = await reader.read();
-                return processStream(nextChunk);
+                await processStream(nextChunk);
             };
 
+            // 读取流的第一个数据块并开始处理
             const initialChunk = await reader.read();
             await processStream(initialChunk);
         } catch (error) {
             console.error("SSE Error:", error);
-            this.loading = false;
+            onComplete(""); // 确保在错误发生时也调用 onComplete
         }
     }
 }
