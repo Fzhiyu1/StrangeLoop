@@ -4,15 +4,12 @@ import axios from 'axios';
 import {ElMessage } from "element-plus";
 import {getToken} from "./auth.ts";
 // import {getToken} from "./auth.ts";
-
-
 // 创建新的axios实例
 const service = axios.create(
     {
         baseURL: "http://localhost:9090",
         //配置超时时间
         timeout: 6000,
-
     }
 );
 //请求拦截器
@@ -30,13 +27,7 @@ service.interceptors.request.use(
 
             config.headers['Content-Type'] = 'application/json;charset=UTF-8';
             config.data = JSON.stringify(config.data);
-
-
         // 配置请求头
-
-
-
-
         return config;
     }, error => {
         Promise.reject(error);
