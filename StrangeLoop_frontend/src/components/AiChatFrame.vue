@@ -87,30 +87,26 @@ const align = ref('leftRight');
 const onAlignChange = (e) => {
   align.value = (e.target.value);
 };
-
+// 弃用的方法
 const onModeChange = (e) => {
   mode.value = (e.target.value);
 };
-// 本地ai请求体格式
 
-// 格式转换方法
 
 // 收到信息
 const onMessageSend = async (content, attachment) => {
   // 1. 用户发送的消息
   let sseService = new SSEService();
-
+  //用户消息体
   const userMessage = {
     role: 'user',
     id: getId(),
     createAt: Date.now(),
     content: content,
   };
-
-
   // 将用户消息添加到数组中
   message.value = [...message.value, userMessage];
-
+  // ai消息体
   let aiData = {
     model: props.model,
     messages: message.value,
@@ -132,10 +128,10 @@ const onMessageSend = async (content, attachment) => {
     // 最后处理
   }
 
+  // 判断ai类型是否为本地ai
   if (props.aiType === 0) {
     console.log(message.value);
     await sseService.send(props.url, aiData, onUpdate, onComplete);
-
   }
 };
 // 当信息发生改变
@@ -149,13 +145,13 @@ const onChatsChange = (chats) => {
 
 <template>
   <div id="frame">
+<!--    -->
     <Chat id="chat"
           :style="commonOuterStyle"
           :chats="message"
           :role-config="props.roleInfo"
           :onChatsChange="onChatsChange"
           :onMessageSend="onMessageSend"
-
     />
   </div>
 </template>

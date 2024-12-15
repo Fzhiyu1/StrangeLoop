@@ -37,9 +37,6 @@ const rules = reactive<FormRules>({
     { validator: validatePass2, trigger: 'blur' }
   ],
 });
-
-
-
 // 登录表单
 let loginForm = reactive({
   account: undefined,
@@ -96,14 +93,10 @@ const startLogin = async () => {
     }
   });
 };
-
-
-
 </script>
 
 <template>
 <div id="content">
-
   <el-form :rules="rules" :model="loginForm" ref="formRef">
   <el-row>
     <el-col :span="14" :offset="10">
@@ -120,8 +113,6 @@ const startLogin = async () => {
             <Transition name="login">
               <h1 style="margin-top: 70px" v-if="!loginStatus">欢迎回来</h1>
             </Transition>
-
-
             <Transition name="create">
               <h1 style="margin-top: 70px" v-if="loginStatus">注册账号</h1>
             </Transition>
@@ -129,46 +120,36 @@ const startLogin = async () => {
               <div class="login-border loginInput">
                 <span>用户名</span>
                 <el-row>
-
                   <el-form-item prop="account">
                     <input placeholder="请输入用户名" v-model="loginForm.account">
                   </el-form-item>
-
                 </el-row>
               </div>
-
-
               <div class="login-border loginInput" style="margin-top: 20px">
                 <span>密码</span>
                 <el-row>
-
                   <el-form-item prop="password">
                     <input placeholder="请输入密码" type="password" v-model="loginForm.password">
                   </el-form-item>
-
                 </el-row>
               </div>
               <div class="login-border loginInput" style="margin-top: 20px" v-if="loginStatus">
                 <span style="margin-left: 100px;font-size: 20px">请再次输入密码</span>
                 <el-row>
-
                   <el-form-item prop="passwordAgain" >
                     <input placeholder="请再次输入密码" type="password" v-model="loginForm.passwordAgain">
                   </el-form-item>
-
                 </el-row>
               </div>
               <div class="login-button login-border" style="margin-top: 20px" @click="startLogin" v-if="!loginStatus">
                 登录
               </div>
-
               <div class="login-button login-border" style="margin-top: 20px" @click="startCreate" v-if="loginStatus">
                 注册
               </div>
               <span class="downText" v-if="!loginStatus">还没有账号？
                 <a @click="loginStatus=!loginStatus" style="cursor: pointer">注册</a>
               </span>
-
               <span class="downText" v-if="loginStatus">我已经有账号了。
                 <a @click="loginStatus=!loginStatus;resetForm();" style="cursor: pointer">登录</a>
               </span>
@@ -184,7 +165,7 @@ const startLogin = async () => {
 
 <style scoped>
 #content{
-
+margin-top: 100px;
 }
 .login {
   width: 500px;
