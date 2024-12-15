@@ -54,6 +54,7 @@ const props = defineProps({
 // 获取长链接对象
 // chat实例
 const chatRef = ref(null);
+const bottom = ref(null);
 // demo消息历史记录
 const defaultMessage = props.messages;
 //  自定义事件
@@ -124,12 +125,13 @@ const onMessageSend = async (content, attachment) => {
     messages: message.value,
   }
   const onUpdate = (message1) => {
-    // 2. AI 的消息
+    // AI 的消息 注意status控制停止按钮的显示 status==incomplete 为加载中 status==complete 为停止加载
     const aiMessage = {
       role: 'assistant',
       id: getId(),
       createAt: Date.now(),
       content: message1,
+      status:'incomplete'
     };
     // 只更新最后一条消息
     message.value[props.messages.length]=aiMessage;
@@ -137,7 +139,16 @@ const onMessageSend = async (content, attachment) => {
   }
 
   const onComplete = (finalMessage) => {
-    console.log("收到信息结束", finalMessage);
+    // AI 的消息 注意status控制停止按钮的显示 status==incomplete 为加载中 status==complete 为停止加载
+    const aiMessage = {
+      role: 'assistant',
+      id: getId(),
+      createAt: Date.now(),
+      content: finalMessage,
+      status:'complete'
+    };
+    // 只更新最后一条消息
+    message.value[props.messages.length]=aiMessage;
     stopGenter.value = false;
     // 最后处理
   }
@@ -174,8 +185,14 @@ const onStopGenerator =()=>{
             :onChatsChange="onChatsChange"
             :onMessageSend="onMessageSend"
             :onStopGenerator="onStopGenerator"
-
-      />
+            :mode="'userBubble'"
+      >
+<!--        <template #bottomSlot>-->
+<!--          <div style="text-align: center; padding: 10px;">-->
+<!--            这是一个自定义的底部插槽内容！-->
+<!--          </div>-->
+<!--        </template>-->
+      </Chat>
   </div>
 
 </template>
