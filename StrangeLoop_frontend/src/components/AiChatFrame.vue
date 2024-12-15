@@ -44,6 +44,7 @@ const props = defineProps({
     default: 0,
 
   },
+
   // 模型名称
   model: {
     type: String,
@@ -51,7 +52,8 @@ const props = defineProps({
   }
 })
 // 获取长链接对象
-
+// chat实例
+const chatRef = ref(null);
 // demo消息历史记录
 const defaultMessage = props.messages;
 //  自定义事件
@@ -62,6 +64,8 @@ watch(() => props.messages, (newMessages) => {
   message.value = [...newMessages];
   console.log()
 })
+// 停止按钮
+const stopGenter=ref(false);
 
 //生成 id
 let id = 0;
@@ -77,6 +81,14 @@ const commonOuterStyle = {
   width: '90%',
 
 }
+// 自动滚动
+const scrollToBottomWithAnimation = () => {
+  if (chatRef.value) {
+    chatRef.value.scrollToBottom(true);
+
+  }
+};
+
 
 // 交互
 const intervalId = ref();
@@ -92,11 +104,11 @@ const onModeChange = (e) => {
   mode.value = (e.target.value);
 };
 
-
+let sseService = new SSEService();
 // 收到信息
 const onMessageSend = async (content, attachment) => {
   // 1. 用户发送的消息
-  let sseService = new SSEService();
+  stopGenter.value = true;
   //用户消息体
   const userMessage = {
     role: 'user',
@@ -121,10 +133,12 @@ const onMessageSend = async (content, attachment) => {
     };
     // 只更新最后一条消息
     message.value[props.messages.length]=aiMessage;
+    scrollToBottomWithAnimation();
   }
 
   const onComplete = (finalMessage) => {
     console.log("收到信息结束", finalMessage);
+    stopGenter.value = false;
     // 最后处理
   }
 
@@ -141,28 +155,40 @@ const onChatsChange = (chats) => {
   console.log(message.value);
 };
 
+const onStopGenerator =()=>{
+  sseService.stop();
+}
+
 </script>
 
 <template>
   <div id="frame">
 <!--    -->
-    <Chat id="chat"
-          :style="commonOuterStyle"
-          :chats="message"
-          :role-config="props.roleInfo"
-          :onChatsChange="onChatsChange"
-          :onMessageSend="onMessageSend"
-    />
+
+      <Chat id="chat"
+            :style="commonOuterStyle"
+            :show-stop-generate="true"
+            ref="chatRef"
+            :chats="message"
+            :role-config="props.roleInfo"
+            :onChatsChange="onChatsChange"
+            :onMessageSend="onMessageSend"
+            :onStopGenerator="onStopGenerator"
+
+      />
   </div>
+
 </template>
 
 <style scoped>
 
 #frame {
+  overflow: hidden;
   display: flex;
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
   width: 100%;
+
   height: 100%;
   /* 如果父元素没有指定高度，可能需要确保 #frame 有足够的高度才能垂直居中 */
   min-height: 100vh; /* 确保最小高度为视口高度 */
