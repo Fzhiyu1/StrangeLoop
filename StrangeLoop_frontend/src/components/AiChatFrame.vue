@@ -44,6 +44,11 @@ const props = defineProps({
     default: 0,
 
   },
+  // token
+  token: {
+    type: String,
+    default: null,
+  },
 
   // 模型名称
   model: {
@@ -119,11 +124,24 @@ const onMessageSend = async (content, attachment) => {
   };
   // 将用户消息添加到数组中
   message.value = [...message.value, userMessage];
+  const aiMessageInit = {
+    role: 'assistant',
+    id: getId(),
+    createAt: Date.now(),
+    content: " ",
+    status: 'incomplete'
+  };
+  // 只更新最后一条消息
+  message.value[props.messages.length] = aiMessageInit;
   // ai消息体
   let aiData = {
     model: props.model,
     messages: message.value,
+    stream:true
   }
+  //初始化消息体
+
+
   const onUpdate = (message1) => {
     // AI 的消息 注意status控制停止按钮的显示 status==incomplete 为加载中 status==complete 为停止加载
     const aiMessage = {
@@ -131,10 +149,10 @@ const onMessageSend = async (content, attachment) => {
       id: getId(),
       createAt: Date.now(),
       content: message1,
-      status:'incomplete'
+      status: 'loading'
     };
     // 只更新最后一条消息
-    message.value[props.messages.length]=aiMessage;
+    message.value[props.messages.length] = aiMessage;
     scrollToBottomWithAnimation();
   }
 
@@ -145,10 +163,11 @@ const onMessageSend = async (content, attachment) => {
       id: getId(),
       createAt: Date.now(),
       content: finalMessage,
-      status:'complete'
+      status: 'complete',
+
     };
     // 只更新最后一条消息
-    message.value[props.messages.length]=aiMessage;
+    message.value[props.messages.length] = aiMessage;
 
     // 最后处理
   }
@@ -156,8 +175,14 @@ const onMessageSend = async (content, attachment) => {
   // 判断ai类型是否为本地ai
   if (props.aiType === 0) {
     console.log(message.value);
-    await sseService.send(props.url, aiData, onUpdate, onComplete);
+    console.log(aiData)
+    await sseService.sendLocal(props.url, aiData, onUpdate, onComplete);
+  }else if(props.aiType === 1) {
+    sseService.setToken(props.token);
+    await sseService.sendOnline(props.url, aiData, onUpdate, onComplete);
   }
+
+
 };
 // 当信息发生改变
 const onChatsChange = (chats) => {
@@ -166,7 +191,7 @@ const onChatsChange = (chats) => {
   console.log(message.value);
 };
 
-const onStopGenerator =()=>{
+const onStopGenerator = () => {
   sseService.stop();
 }
 
@@ -174,25 +199,25 @@ const onStopGenerator =()=>{
 
 <template>
   <div id="frame">
-<!--    -->
+    <!--    -->
 
-      <Chat id="chat"
-            :style="commonOuterStyle"
-            :show-stop-generate="true"
-            ref="chatRef"
-            :chats="message"
-            :role-config="props.roleInfo"
-            :onChatsChange="onChatsChange"
-            :onMessageSend="onMessageSend"
-            :onStopGenerator="onStopGenerator"
-            mode="userBubble"
-      >
-<!--        <template #bottomSlot>-->
-<!--          <div style="text-align: center; padding: 10px;">-->
-<!--            这是一个自定义的底部插槽内容！-->
-<!--          </div>-->
-<!--        </template>-->
-      </Chat>
+    <Chat id="chat"
+          :style="commonOuterStyle"
+          :show-stop-generate="true"
+          ref="chatRef"
+          :chats="message"
+          :role-config="props.roleInfo"
+          :onChatsChange="onChatsChange"
+          :onMessageSend="onMessageSend"
+          :onStopGenerator="onStopGenerator"
+          mode="userBubble"
+    >
+      <!--        <template #bottomSlot>-->
+      <!--          <div style="text-align: center; padding: 10px;">-->
+      <!--            这是一个自定义的底部插槽内容！-->
+      <!--          </div>-->
+      <!--        </template>-->
+    </Chat>
   </div>
 
 </template>
