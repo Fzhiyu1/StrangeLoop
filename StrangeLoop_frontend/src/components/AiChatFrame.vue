@@ -66,7 +66,7 @@ watch(() => props.messages, (newMessages) => {
   console.log()
 })
 // 停止按钮
-const stopGenter=ref(false);
+
 
 //生成 id
 let id = 0;
@@ -109,7 +109,7 @@ let sseService = new SSEService();
 // 收到信息
 const onMessageSend = async (content, attachment) => {
   // 1. 用户发送的消息
-  stopGenter.value = true;
+
   //用户消息体
   const userMessage = {
     role: 'user',
@@ -149,7 +149,7 @@ const onMessageSend = async (content, attachment) => {
     };
     // 只更新最后一条消息
     message.value[props.messages.length]=aiMessage;
-    stopGenter.value = false;
+
     // 最后处理
   }
 
@@ -185,7 +185,7 @@ const onStopGenerator =()=>{
             :onChatsChange="onChatsChange"
             :onMessageSend="onMessageSend"
             :onStopGenerator="onStopGenerator"
-            :mode="'userBubble'"
+            mode="userBubble"
       >
 <!--        <template #bottomSlot>-->
 <!--          <div style="text-align: center; padding: 10px;">-->
