@@ -35,6 +35,14 @@ spring:
   main:
     banner-mode: off
 
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
 # ========== 日志配置 ==========
 # 日志输出级别（可选：TRACE, DEBUG, INFO, WARN, ERROR）
 logging:
@@ -49,17 +57,12 @@ logging:
 
 
   # JPA 配置（如果使用 Spring Data JPA）
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate.format_sql: true
+
 
 
 
 # MyBatis配置
-mybatis:
+mybatis-plus:
   mapper-locations: classpath:mapper/*/*.xml
   type-aliases-package: com.xiaofeng.strangeloop.system.domain.*
   configuration:

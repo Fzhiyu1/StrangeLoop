@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     }
 
 
-    // 其他页面路由...
+
 ];
 
 const router = createRouter({
