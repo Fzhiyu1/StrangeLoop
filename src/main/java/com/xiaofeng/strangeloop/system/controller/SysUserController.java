@@ -1,4 +1,4 @@
-package com.xiaofeng.strangeloop.system.control;
+package com.xiaofeng.strangeloop.system.controller;
 
 import com.xiaofeng.strangeloop.springframework.JwtUtil;
 import com.xiaofeng.strangeloop.system.domain.ApiResponse;
@@ -10,16 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 /**
  * 用户管理Controler
  */
 @RestController
 @RequestMapping("/sys/user")
-public class SysUserControl {
+public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
