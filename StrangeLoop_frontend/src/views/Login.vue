@@ -4,6 +4,10 @@ import {onMounted, reactive, ref} from "vue";
 import {ElMessage, FormRules} from "element-plus";
 import {setToken} from "../utils/auth.ts";
 import router from "../router";
+
+const USERNAME = import.meta.env.VITE_USERNAMES || "";
+const PASSWORD = import.meta.env.VITE_PASSWORD || "";
+
 let loginStatus = ref(false);
 //  表单实例
 const formRef = ref(null);
@@ -39,9 +43,9 @@ const rules = reactive<FormRules>({
 });
 // 登录表单
 let loginForm = reactive({
-  account: undefined,
+  account: USERNAME,
   passwordAgain: undefined,
-  password: undefined,
+  password: PASSWORD,
 });
 // 重置表单事件
 const resetForm= ()=>{

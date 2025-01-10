@@ -1,5 +1,5 @@
 
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router';
 import Login from "../views/Login.vue";
 import Layout from "../layout/index.vue"
 import {getToken} from "../utils/auth.ts";
@@ -14,11 +14,22 @@ const routes: Array<RouteRecordRaw> = [
         path: '/',
         name: 'Home',
         component: Layout,
+        redirect: '/aichat',
         children:[
             {
-                path:'/aichat',
+                path:'aichat',
                 name: 'AiChat',
                 component:Aichat
+            },
+            {
+                path:'modelManager',
+                name: 'modelManager',
+                component:()=>import('@/views/ModelManager/index.vue')
+            },
+            {
+                path:'aiToolbox',
+                name: 'aiToolbox',
+                component:()=>import('@/views/AiToolbox/index.vue')
             }
         ]
 
@@ -37,8 +48,8 @@ export default router;
 router.beforeEach((to, from, next) => {
     //判断是否有token
     const isAuthenticated: boolean = !!getToken();
-    console.log(getToken());
-
+    // console.log(getToken());
+    from
     if (to.path !== '/login' && !isAuthenticated) {
         //未登录则跳转到登录页面
         next('/login');

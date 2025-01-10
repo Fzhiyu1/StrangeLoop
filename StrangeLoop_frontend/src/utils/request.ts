@@ -7,7 +7,7 @@ import {getToken} from "./auth.ts";
 // 创建新的axios实例
 const service = axios.create(
     {
-        baseURL: "http://localhost:9090",
+        baseURL: import.meta.env.VITE_API_URL,
         //配置超时时间
         timeout: 6000,
     }
