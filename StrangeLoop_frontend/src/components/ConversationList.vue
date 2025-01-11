@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import defaultAvatar from "@/assets/images/user/avatar.jpeg";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 defineProps(
     {
       url: {
@@ -21,16 +24,20 @@ defineProps(
       description: {
         type: String,
         default: "AI小智是一只可爱的小机器人，她的名字叫做小智。她的主人是一位叫做小明的程序员，她的目标是成为一名优秀的机器学习工程师。"
+      },
+      classStyle:{
+        type:Boolean
       }
     })
 </script>
 
 <template>
-  <div class="card">
+  <div :class="classStyle? 'active': ''" class="card" @click="router.push('/aichat')">
     <img :src="url" alt="logo">
     <div class="rightSide">
       <div>
-        <span class="aiName">{{aiName}}</span>
+        <span  class="aiName">{{aiName}}</span>
+        <span style="margin: 0 5px;color: #02a7f0">|</span>
         <span class="aiType">{{aiType}}</span>
         <span class="date">{{date}}</span>
       </div>
@@ -47,6 +54,8 @@ defineProps(
     justify-content: center;
     align-items: center;
     padding: 10px 0;
+    text-wrap: nowrap;
+    overflow: hidden;
 
     &:hover {
       background-color: #CCEBFF;
@@ -81,13 +90,15 @@ defineProps(
       .description{
         overflow: clip;
         text-overflow: ellipsis;
-        text-wrap: nowrap;
         width: 90%;
         height: 1rem;
         font-size: 12px;
         color: #666;
       }
     }
-
+  }
+  .active {
+    background:linear-gradient(to right, #f1f7fa,#CCEBFF);
+    color: #02a7f0;
   }
 </style>

@@ -2,8 +2,16 @@
 
 import AiChatFrame from "../../components/AiChatFrame.vue";
 import {ref} from "vue";
-const messages = ref([
-]);
+const messages = ref([{
+  role: "assistant",
+  content: "您好，我是您的智能AI小助手，有什么可以帮助您？",
+  roleInfo: {
+    assistant: {
+      name: 'Assistant',
+      avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/other/logo.png'
+    }
+  }
+}]);
 const showArray=()=>{
   console.log(messages.value);
 }

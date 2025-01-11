@@ -30,6 +30,16 @@ const routes: Array<RouteRecordRaw> = [
                 path:'aiToolbox',
                 name: 'aiToolbox',
                 component:()=>import('@/views/AiToolbox/index.vue')
+            },
+            {
+                path:'chooseAi',
+                name: 'chooseAi',
+                component:()=>import('@/views/AiChat/ChooseAi.vue')
+            },
+            {
+                path:'chooseModel',
+                name: 'chooseModel',
+                component:()=>import('@/views/ModelManager/ChooseModel.vue')
             }
         ]
 

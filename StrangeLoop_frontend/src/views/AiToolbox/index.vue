@@ -1,3 +1,8 @@
 <script setup></script>
-<template>AI工具</template>
+<template>
+  <div>
+    AI工具
+  </div>
+
+</template>
 <style></style>

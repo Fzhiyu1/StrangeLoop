@@ -2,7 +2,9 @@
 import SvgIcon from "../../components/SvgIcon.vue";
 import {ref,reactive} from "vue";
 import {Router, useRouter} from "vue-router";
+import {useModelStore} from "@/store/ModelStore.ts";
 
+const modelStore = useModelStore()
 const router:Router = useRouter()
 const activeMenu = ref<number>(0)
 const hoverColor = reactive<string[] | null[]>([null, null, null])
@@ -18,6 +20,11 @@ const conf = {
     }
   }
 }
+const gotoPage = (index:number,path:string) => {
+  activeMenu.value=index
+  router.push(path)
+  modelStore.modelIndex = index
+}
 </script>
 
 <template>
@@ -31,17 +38,17 @@ const conf = {
 
 <!--      改颜色见上conf配置项-->
       <div id="logoMenu">
-        <div @mouseover="hoverColor[0] = conf.menuColor.hoverColor" @mouseleave="hoverColor[0]=null" class="logoAndText" @click="activeMenu=0;router.push('/aichat')" >
+        <div @mouseover="hoverColor[0] = conf.menuColor.hoverColor" @mouseleave="hoverColor[0]=null" class="logoAndText" @click="gotoPage(0,'/aichat')" >
           <svg-icon :style="activeMenu===0?conf.menuColor.activeStyle:''" :hover-color="hoverColor[0]" icon-name="icon-duihua" class="icon" :color="activeMenu===0? conf.menuColor.hoverColor:conf.menuColor.leavedColor"></svg-icon>
           <br/>
           <span>对话</span>
         </div>
-        <div @mouseover="hoverColor[1] = conf.menuColor.hoverColor" @mouseleave="hoverColor[1]=null"  class="logoAndText"  @click="activeMenu=1;router.push('/modelManager')">
+        <div @mouseover="hoverColor[1] = conf.menuColor.hoverColor" @mouseleave="hoverColor[1]=null"  class="logoAndText"  @click="gotoPage(1,'/modelManager')">
           <svg-icon :style="activeMenu===1?conf.menuColor.activeStyle:''" :hover-color="hoverColor[1]" icon-name="icon-damoxing" class="icon" :color="activeMenu===1? conf.menuColor.hoverColor:conf.menuColor.leavedColor"></svg-icon>
           <br/>
           <span>模型管理</span>
         </div>
-        <div  @mouseover="hoverColor[2] = conf.menuColor.hoverColor" @mouseleave="hoverColor[2]=null"  class="logoAndText"  @click="activeMenu=2;router.push('/aiToolbox')">
+        <div  @mouseover="hoverColor[2] = conf.menuColor.hoverColor" @mouseleave="hoverColor[2]=null"  class="logoAndText"  @click="gotoPage(2,'/aiToolbox')">
           <svg-icon :style="activeMenu===2?conf.menuColor.activeStyle:''" :hover-color="hoverColor[2]" icon-name="icon-AIgongjuxiang" class="icon" :color="activeMenu===2? conf.menuColor.hoverColor:conf.menuColor.leavedColor"></svg-icon>
           <br/>
           <span>AI工具箱</span>

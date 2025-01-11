@@ -1,7 +1,5 @@
 
 
-
-
 html,
 body {
   margin: 0;
@@ -40,10 +38,6 @@ body {
 }
 
 
-/*登录注册圆角边框*/
-.login-border{
-  border-radius: 30px;
-}
 /*大Logo*/
 .logo_big {
   width: 100px;
@@ -53,16 +47,7 @@ body {
   width: 50px;
   height: 50px;
 }
-/*登录注册按钮样式*/
-.login-button {
-  width: 420px;
-  height: 70px;
-  background-color: #3f4583;
-  font-size: 25px;
-  color: white;
-  line-height: 70px;
-  cursor: pointer;
-}
+
 
 
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PropType, reactive, ref, watch} from "vue";
+import {PropType, ref, watch} from "vue";
 import {Chat} from '@kousum/semi-ui-vue';
 import {SSEService} from "../utils/SSEService.ts";
 
