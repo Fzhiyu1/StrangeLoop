@@ -1,11 +1,13 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave">
-    <use :xlink:href="iconClassName" :fill="iconColor" />
+  <svg :class="svgClass" aria-hidden="true" >
+    <use :xlink:href="iconClassName"  :fill="props.hoverColor || props.color" />
   </svg>
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import {computed} from 'vue';
+
+const emit = defineEmits(['over','leave'])
 
 const props = defineProps({
   iconName: {
@@ -18,11 +20,9 @@ const props = defineProps({
   },
   color: {
     type: String,
-    default: '#409eff'
   },
-  hoverColor:{
-    type:String,
-    default:'#409eff'
+  hoverColor: {
+    type: [String ,null],
   }
 });
 
@@ -33,19 +33,6 @@ const iconClassName = `#${props.iconName}`;
 const svgClass = computed(() => {
   return props.className ? `svg-icon ${props.className}` : 'svg-icon';
 });
-
-// 默认颜色和悬浮后的颜色
-const iconColor = ref(props.color);
-
-// 鼠标悬浮事件
-const handleMouseOver = () => {
-  iconColor.value = props.hoverColor; // 鼠标悬浮时变为白色
-};
-
-// 鼠标移出事件
-const handleMouseLeave = () => {
-  iconColor.value = props.color; // 鼠标移出时恢复原色
-};
 </script>
 
 <style scoped>
@@ -55,5 +42,10 @@ const handleMouseLeave = () => {
   position: relative;
   fill: currentColor;
   vertical-align: -2px;
+}
+
+.activeStyle{
+  background-color: rgba(255,255,255,0.5);
+  border-radius: 50%;
 }
 </style>

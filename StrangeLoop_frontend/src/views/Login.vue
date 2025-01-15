@@ -4,6 +4,10 @@ import {onMounted, reactive, ref} from "vue";
 import {ElMessage, FormRules} from "element-plus";
 import {setToken} from "../utils/auth.ts";
 import router from "../router";
+
+const USERNAME = import.meta.env.VITE_USERNAMES || "";
+const PASSWORD = import.meta.env.VITE_PASSWORD || "";
+
 let loginStatus = ref(false);
 //  表单实例
 const formRef = ref(null);
@@ -39,9 +43,9 @@ const rules = reactive<FormRules>({
 });
 // 登录表单
 let loginForm = reactive({
-  account: undefined,
+  account: USERNAME,
   passwordAgain: undefined,
-  password: undefined,
+  password: PASSWORD,
 });
 // 重置表单事件
 const resetForm= ()=>{
@@ -98,114 +102,136 @@ const startLogin = async () => {
 <template>
 <div id="content">
   <el-form :rules="rules" :model="loginForm" ref="formRef">
-  <el-row>
-    <el-col :span="14" :offset="10">
       <div class="login-border login">
-        <el-row>
-          <el-col :span="20" :offset="2">
-            <div style="margin-top: 50px">
+            <div >
               <img src="../assets/images/logo/logo.png" class="logo_big" v-if="!loginStatus">
               <img src="../assets/images/logo/logo.png" class="log_small" style="" v-if="loginStatus">
-              <h2 style="font-size: 30px">
+              <h2 >
                 怪圈
               </h2>
             </div>
             <Transition name="login">
-              <h1 style="margin-top: 70px" v-if="!loginStatus">欢迎回来</h1>
+              <h1 v-if="!loginStatus">欢迎回来</h1>
             </Transition>
             <Transition name="create">
-              <h1 style="margin-top: 70px" v-if="loginStatus">注册账号</h1>
+              <h1  v-if="loginStatus">注册账号</h1>
             </Transition>
-            <div>
-              <div class="login-border loginInput">
+            <div class="box">
+              <div class=" loginInput">
                 <span>用户名</span>
-                <el-row>
                   <el-form-item prop="account">
                     <input placeholder="请输入用户名" v-model="loginForm.account">
                   </el-form-item>
-                </el-row>
               </div>
-              <div class="login-border loginInput" style="margin-top: 20px">
+              <div class=" loginInput">
                 <span>密码</span>
-                <el-row>
                   <el-form-item prop="password">
                     <input placeholder="请输入密码" type="password" v-model="loginForm.password">
                   </el-form-item>
-                </el-row>
               </div>
-              <div class="login-border loginInput" style="margin-top: 20px" v-if="loginStatus">
-                <span style="margin-left: 100px;font-size: 20px">请再次输入密码</span>
-                <el-row>
+              <div class=" loginInput" v-if="loginStatus">
+                <span >请再次输入密码</span>
                   <el-form-item prop="passwordAgain" >
                     <input placeholder="请再次输入密码" type="password" v-model="loginForm.passwordAgain">
                   </el-form-item>
-                </el-row>
               </div>
-              <div class="login-button login-border" style="margin-top: 20px" @click="startLogin" v-if="!loginStatus">
+              <div class="login-button " @click="startLogin" v-if="!loginStatus">
                 登录
               </div>
-              <div class="login-button login-border" style="margin-top: 20px" @click="startCreate" v-if="loginStatus">
+              <div class="login-button " @click="startCreate" v-if="loginStatus">
                 注册
               </div>
               <span class="downText" v-if="!loginStatus">还没有账号？
-                <a @click="loginStatus=!loginStatus" style="cursor: pointer">注册</a>
+                <a @click="loginStatus=!loginStatus" >注册</a>
               </span>
               <span class="downText" v-if="loginStatus">我已经有账号了。
-                <a @click="loginStatus=!loginStatus;resetForm();" style="cursor: pointer">登录</a>
+                <a @click="loginStatus=!loginStatus;resetForm();">登录</a>
               </span>
             </div>
-          </el-col>
-        </el-row>
       </div>
-    </el-col>
-  </el-row>
   </el-form>
 </div>
 </template>
 
 <style scoped>
 #content{
-margin-top: 100px;
-}
-.login {
-  width: 500px;
-  height: 900px;
-  background-color: #eff5fc;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+
+  .login {
+    max-width: 40vw;
+    min-width: 30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f1f7fe;
+    border-radius: 30px;
+
+    .box{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 50px;
+
+      .loginInput {
+        width: 80%;
+        font-size: 20px;
+        background-color: #fff;
+        border: 1px solid #d9d9d9;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 0 0 2vw;
+        min-height: 10vh;
+        justify-content: space-between;
+        margin-bottom: 3vh;
+
+      }
+
+      .login-button {
+        width: 80%;
+        height: 6vh;
+        border-radius: 30px;
+        background-color: #3f4583;
+        font-size: 20px;
+        line-height: 6vh;
+        color: white;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+    }
+
+  }
+
+  img {
+    border-radius: 50%;
+  }
+
+  input {
+    width: 100%;
+    height: 5vh;
+    outline: none;
+    border: none;
+    line-height: 5vh;
+  }
 
 }
-.loginInput {
-  width: 420px;
-  height: 120px;
-  background-color:white ;
 
-}
-.loginInput span {
-  font-size: 30px;
+.downText {
+  font-size: 14px;
   position: relative;
-  left: -150px;
-  top:10px
-}
-.loginInput input {
-  border: none;
-  background-color: #ffffff;
-  width: 400px;
-  height: 50px;
-  margin-top: 10px;
-  margin-left: 10px;
-  font-size: 20px;
-}
+  left: 30%;
 
-.loginInput input:focus{
-  border: 0px;
-  background-color: white;
-}
-.downText{
-  position: absolute;
-  left: 300px;
-  margin-top: 20px;
-}
-.downText a{
-  text-decoration: underline;
+  a{
+    color: #02a7f0;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 
 

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Masters xmlns='http://schemas.microsoft.com/office/visio/2012/main' xmlns:r='http://schemas.openxmlformats.org/officeDocument/2006/relationships' xml:space='preserve'><Master ID='8' NameU='Process' IsCustomNameU='1' Name='流程' IsCustomName='1' Prompt='拖到绘图页后，可以添加将数据从一种形式转换为另一种形式的活动。' IconSize='1' AlignName='2' MatchByName='0' IconUpdate='0' UniqueID='{28A17F80-0002-0000-8E40-00608CF305B2}' BaseID='{775CF4F0-A064-45A2-B483-7F41F0CBCCD0}' PatternFlags='0' Hidden='0' MasterType='2'><PageSheet LineStyle='0' FillStyle='0' TextStyle='0'><Cell N='PageWidth' V='1.013333333333334' U='MM'/><Cell N='PageHeight' V='0.5133333333333334' U='MM'/><Cell N='ShdwOffsetX' V='0.1230314960629921' U='MM'/><Cell N='ShdwOffsetY' V='-0.1230314960629921' U='MM'/><Cell N='PageScale' V='0.03937007874015748' U='MM'/><Cell N='DrawingScale' V='0.03937007874015748' U='MM'/><Cell N='DrawingSizeType' V='1'/><Cell N='DrawingScaleType' V='0'/><Cell N='InhibitSnap' V='0'/><Cell N='PageLockReplace' V='0' U='BOOL'/><Cell N='PageLockDuplicate' V='0' U='BOOL'/><Cell N='UIVisibility' V='0'/><Cell N='ShdwType' V='0'/><Cell N='ShdwObliqueAngle' V='0'/><Cell N='ShdwScaleFactor' V='1'/><Cell N='DrawingResizeType' V='1'/><Cell N='XGridSpacing' V='0' U='MM'/><Cell N='YGridSpacing' V='0' U='MM'/><Cell N='LineToNodeX' V='0.125'/><Cell N='LineToNodeY' V='0.125'/><Cell N='BlockSizeX' V='0.25'/><Cell N='BlockSizeY' V='0.25'/><Cell N='AvenueSizeX' V='0.375'/><Cell N='AvenueSizeY' V='0.375'/><Cell N='LineToLineX' V='0.125'/><Cell N='LineToLineY' V='0.125'/><Cell N='PrintPageOrientation' V='0'/><Cell N='PaperKind' V='19'/><Cell N='ShapeKeywords' V='流程,Gane,Sarson,数据,流,数据流,DFD'/></PageSheet><Icon>
+AAABAAEAICAQAAAAAADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAgAIAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/w
+D/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD////////////////wAAD//
+////////////////wAA///////////////////wAP//////////////////8AD///////////////
+////AA///////////////////wAP//////////////////8AD///////////////////AA///////
+////////////wAP//////////////////8AD///////////////////AA//////////////////8A
+AAD////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAD///////////////////////////////////////////AAAAfAAAABgAAAAYAAAACAAAAAgAAA
+AIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAAHAAAAB8AAAB////////////////////////////
+////////////////////w==</Icon><Rel r:id='rId1'/></Master><Master ID='9' NameU='Data Flow' IsCustomNameU='1' Name='数据流' IsCustomName='1' Prompt='拖到绘图页上，然后连接到一个流程，以便指示由该流程发送或接收的数据包。' IconSize='1' AlignName='2' MatchByName='0' IconUpdate='0' UniqueID='{28A18193-0006-0000-8E40-00608CF305B2}' BaseID='{AD19CF85-3BD0-4F66-9E6F-0045C03AED58}' PatternFlags='0' Hidden='0' MasterType='541'><PageSheet LineStyle='0' FillStyle='0' TextStyle='0'><Cell N='PageWidth' V='1.263523138347365' U='MM'/><Cell N='PageHeight' V='0.638523138347365' U='MM'/><Cell N='ShdwOffsetX' V='0.1230314960629921' U='MM'/><Cell N='ShdwOffsetY' V='-0.1230314960629921' U='MM'/><Cell N='PageScale' V='0.03937007874015748' U='MM'/><Cell N='DrawingScale' V='0.03937007874015748' U='MM'/><Cell N='DrawingSizeType' V='1'/><Cell N='DrawingScaleType' V='0'/><Cell N='InhibitSnap' V='0'/><Cell N='PageLockReplace' V='0' U='BOOL'/><Cell N='PageLockDuplicate' V='0' U='BOOL'/><Cell N='UIVisibility' V='0'/><Cell N='ShdwType' V='0'/><Cell N='ShdwObliqueAngle' V='0'/><Cell N='ShdwScaleFactor' V='1'/><Cell N='DrawingResizeType' V='1'/><Cell N='XGridSpacing' V='0' U='MM'/><Cell N='YGridSpacing' V='0' U='MM'/><Cell N='LineToNodeX' V='0.125'/><Cell N='LineToNodeY' V='0.125'/><Cell N='BlockSizeX' V='0.25'/><Cell N='BlockSizeY' V='0.25'/><Cell N='AvenueSizeX' V='0.375'/><Cell N='AvenueSizeY' V='0.375'/><Cell N='LineToLineX' V='0.125'/><Cell N='LineToLineY' V='0.125'/><Cell N='PrintPageOrientation' V='0'/><Cell N='PaperKind' V='19'/><Cell N='ShapeKeywords' V='连接线,包,Gane,Sarson,数据,流,数据流,DFD'/></PageSheet><Icon>
+AAABAAEAICAQAAAAAADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAgAIAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/w
+D/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAeHh4eAAAAAAAAAAAAAAAAIAAAAcAAAAAAAAAAAAAADNzMzAIAAAAAAAAAAAAAAAAAAAwBw
+AAAAAAAAAAAAAw///wMAgAAAAAAAAAAAAHgP//8IeHh4eHh4eHAAAACAD/n/AwCAAAAAAACAAAAAc
+ACZkAAAcAAAAAAAcAAAAIAACTAAAIAAAAAAAIAAAABwAAAAAABwAAAAAABwAAAAgAAAMAAAgAAAAA
+AAgAAAAHAAADMzM3MzMzMAAHAAAACAAAAAAAAAAAADAACAAAAAcAAAAAAAcAAAAwAAcAAAAIAAAAA
+AAIAAAAMAAIAAAABwAAAAAABwAAADAABwAAAAgAAAAAAAgAAAAwAAgAAAAHAAAAAAAHAAM5MzMHAA
+AACAAAAAAACAAAmZADCAAAAAcAAAAAAAcAD/n/AwcAAAAIeHh4eHh4eA///wh4AAAAAAAAAAAABwA
+P//8DAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAHAAAHAAAAAAAAAAAAAAAACAAACAAAAAAAAAAA
+AAAAAAeHh4cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAD/////////////////gH///79///4Df//8A3//+AN///AAAAf0A3/39Ad/9/eff/f3H3/3959/
+9/eAAPf3gAD39/989/f/fPf3/3z39/989/f/cBf3/2AX9/9gF/AAAAf//2Af//9gP///ff///33//
+/8B/////////////////w==</Icon><Rel r:id='rId2'/></Master><Master ID='10' NameU='Task' IsCustomNameU='1' Name='任务' IsCustomName='1' Prompt='任务是指流程内包含的活动。将此形状拖到绘图页上，然后右键单击该形状以更改其外观。' IconSize='1' AlignName='2' MatchByName='0' IconUpdate='1' UniqueID='{10297535-0002-0000-8E40-00608CF305B2}' BaseID='{AD52C90D-8C6B-4607-80AF-08B93602D58F}' PatternFlags='0' Hidden='0' MasterType='2'><PageSheet LineStyle='0' FillStyle='0' TextStyle='0'><Cell N='PageWidth' V='4' U='MM'/><Cell N='PageHeight' V='4' U='MM'/><Cell N='ShdwOffsetX' V='0.125'/><Cell N='ShdwOffsetY' V='-0.125'/><Cell N='PageScale' V='1' U='MM'/><Cell N='DrawingScale' V='1' U='MM'/><Cell N='DrawingSizeType' V='0'/><Cell N='DrawingScaleType' V='0'/><Cell N='InhibitSnap' V='0'/><Cell N='PageLockReplace' V='0' U='BOOL'/><Cell N='PageLockDuplicate' V='0' U='BOOL'/><Cell N='UIVisibility' V='0'/><Cell N='ShdwType' V='0'/><Cell N='ShdwObliqueAngle' V='0'/><Cell N='ShdwScaleFactor' V='1'/><Cell N='DrawingResizeType' V='1'/><Cell N='ShapeKeywords' V='任务,工作项,业务,流程,建模,表示法,BPMN,BPM,服务,接收,发送,脚本,参考,循环,矩形,阶跃'/><Section N='Layer'><Row IX='0'><Cell N='Name' V='流程图'/><Cell N='Color' V='255'/><Cell N='Status' V='0'/><Cell N='Visible' V='1'/><Cell N='Print' V='1'/><Cell N='Active' V='0'/><Cell N='Lock' V='0'/><Cell N='Snap' V='1'/><Cell N='Glue' V='1'/><Cell N='NameUniv' V='Flowchart'/><Cell N='ColorTrans' V='0'/></Row></Section></PageSheet><Icon>
+AAABAAEAICAQAAAAAADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAgAIAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/w
+D/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiIiIiIiIiIiIiIiIiIgAAP//////////
+////////cAD//////////////////3AA//////////////////9wAP//////////////////cAD//
+////////////////3AA//////////////////9wAP//////////////////cAD///////////////
+///3AA//////////////////9wAP//////////////////cAD//////////////////3AA///////
+///////////9wAP//////////////////cAD//////////////////3AA//////////////////9w
+AP//////////////////cAD//////////////////3AA//////////////////9wAP///////////
+///////cAD//////////////////wAAB3d3d3d3d3d3d3d3d3AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAD/////////////////////4AAAB4AAAAGAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAA
+AcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABgAAAA8AAAAX//////
+////////////////////w==</Icon><Rel r:id='rId3'/></Master><Master ID='11' NameU='Sequence Flow' IsCustomNameU='1' Name='序列流' IsCustomName='1' Prompt='序列流显示流程中活动的发生顺序。将此形状拖到绘图页上，然后右键单击该形状以更改其外观。' IconSize='1' AlignName='2' MatchByName='0' IconUpdate='1' UniqueID='{728537A4-000B-0000-8E40-00608CF305B2}' BaseID='{52B81AF2-8F3E-4659-8E31-B61CB1FE49DF}' PatternFlags='0' Hidden='0' MasterType='541'><PageSheet LineStyle='0' FillStyle='0' TextStyle='0'><Cell N='PageWidth' V='4' U='MM'/><Cell N='PageHeight' V='4' U='MM'/><Cell N='ShdwOffsetX' V='0.125'/><Cell N='ShdwOffsetY' V='-0.125'/><Cell N='PageScale' V='1' U='MM'/><Cell N='DrawingScale' V='1' U='MM'/><Cell N='DrawingSizeType' V='0'/><Cell N='DrawingScaleType' V='0'/><Cell N='InhibitSnap' V='0'/><Cell N='PageLockReplace' V='0' U='BOOL'/><Cell N='PageLockDuplicate' V='0' U='BOOL'/><Cell N='UIVisibility' V='0'/><Cell N='ShdwType' V='0'/><Cell N='ShdwObliqueAngle' V='0'/><Cell N='ShdwScaleFactor' V='1'/><Cell N='DrawingResizeType' V='1'/><Cell N='ShapeKeywords' V='连接,对象,业务,流程,建模,表示法,BPMN,BPM,顺序,序列,排列,进程,方向性,条件'/><Cell N='RouteStyle' V='6'/><Cell N='LineToNodeX' V='0.125' F='Inh'/><Cell N='LineToNodeY' V='0.125' F='Inh'/><Cell N='BlockSizeX' V='0.25' F='Inh'/><Cell N='BlockSizeY' V='0.25' F='Inh'/><Cell N='AvenueSizeX' V='0.375' F='Inh'/><Cell N='AvenueSizeY' V='0.375' F='Inh'/><Cell N='LineToLineX' V='0.125' F='Inh'/><Cell N='LineToLineY' V='0.125' F='Inh'/><Section N='Layer'><Row IX='0'><Cell N='Name' V='连接线'/><Cell N='Color' V='255'/><Cell N='Status' V='0'/><Cell N='Visible' V='1'/><Cell N='Print' V='1'/><Cell N='Active' V='0'/><Cell N='Lock' V='0'/><Cell N='Snap' V='1'/><Cell N='Glue' V='1'/><Cell N='NameUniv' V='Connector'/><Cell N='ColorTrans' V='0'/></Row></Section></PageSheet><Icon>
+AAABAAEAICAQAAAAAADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAgAIAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/w
+D/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAD/////////////////////////////////////////////////////////////////////////
+////+f/8AAD//gAA////+////////////////////////////////////////////////////////
+////////////////////w==</Icon><Rel r:id='rId4'/></Master><Master ID='12' NameU='Association' IsCustomNameU='1' Name='关联' IsCustomName='1' Prompt='关联用于显示信息和流对象之间的关系。将此形状拖到绘图页上，然后右键单击该形状以更改其外观。' IconSize='1' AlignName='2' MatchByName='0' IconUpdate='1' UniqueID='{72858B90-000C-0000-8E40-00608CF305B2}' BaseID='{4A772B25-1C1A-4F0B-969B-8485D9317A14}' PatternFlags='0' Hidden='0' MasterType='541'><PageSheet LineStyle='0' FillStyle='0' TextStyle='0'><Cell N='PageWidth' V='4' U='MM'/><Cell N='PageHeight' V='4' U='MM'/><Cell N='ShdwOffsetX' V='0.125'/><Cell N='ShdwOffsetY' V='-0.125'/><Cell N='PageScale' V='1' U='MM'/><Cell N='DrawingScale' V='1' U='MM'/><Cell N='DrawingSizeType' V='0'/><Cell N='DrawingScaleType' V='0'/><Cell N='InhibitSnap' V='0'/><Cell N='PageLockReplace' V='0' U='BOOL'/><Cell N='PageLockDuplicate' V='0' U='BOOL'/><Cell N='UIVisibility' V='0'/><Cell N='ShdwType' V='0'/><Cell N='ShdwObliqueAngle' V='0'/><Cell N='ShdwScaleFactor' V='1'/><Cell N='DrawingResizeType' V='1'/><Cell N='ShapeKeywords' V='连接,对象,业务,流程,建模,表示法,BPMN,BPM,组,组织结构,关系,连接,方向性'/><Cell N='RouteStyle' V='6'/><Cell N='LineToNodeX' V='0.125' F='Inh'/><Cell N='LineToNodeY' V='0.125' F='Inh'/><Cell N='BlockSizeX' V='0.25' F='Inh'/><Cell N='BlockSizeY' V='0.25' F='Inh'/><Cell N='AvenueSizeX' V='0.375' F='Inh'/><Cell N='AvenueSizeY' V='0.375' F='Inh'/><Cell N='LineToLineX' V='0.125' F='Inh'/><Cell N='LineToLineY' V='0.125' F='Inh'/><Section N='Layer'><Row IX='0'><Cell N='Name' V='连接线'/><Cell N='Color' V='255'/><Cell N='Status' V='0'/><Cell N='Visible' V='1'/><Cell N='Print' V='1'/><Cell N='Active' V='0'/><Cell N='Lock' V='0'/><Cell N='Snap' V='1'/><Cell N='Glue' V='1'/><Cell N='NameUniv' V='Connector'/><Cell N='ColorTrans' V='0'/></Row></Section></PageSheet><Icon>
+AAABAAEAICAQAAAAAADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAgAIAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/w
+D/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAD/////////////////////////////////////////////////////////////////////////
+//////+f3+/3/////////////////////////////////////////////////////////////////
+////////////////////w==</Icon><Rel r:id='rId5'/></Master></Masters>

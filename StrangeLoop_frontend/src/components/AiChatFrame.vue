@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PropType, reactive, ref, watch} from "vue";
+import {PropType, ref, watch} from "vue";
 import {Chat} from '@kousum/semi-ui-vue';
 import {SSEService} from "../utils/SSEService.ts";
 
@@ -83,9 +83,9 @@ function getId() {
 // 样式
 const commonOuterStyle = {
   margin: '8px 16px',
-  height: '90%',
-  width: '90%',
-
+  height: 'calc(100% - 40px)',
+  maxWidth:'calc(100% - 32px)',
+  overflow: 'hidden'
 }
 // 自动滚动
 const scrollToBottomWithAnimation = () => {
@@ -230,17 +230,24 @@ const onStopGenerator = () => {
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
   width: 100%;
-
   height: 100%;
   /* 如果父元素没有指定高度，可能需要确保 #frame 有足够的高度才能垂直居中 */
   min-height: 100vh; /* 确保最小高度为视口高度 */
 }
 
 #chat {
-  margin: 8px 16px; /* 移动到这儿，以便更好地控制 */
-  max-width: 1000px;
-  width: 1000px;
   text-align: left;
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+  }
 }
 
 

@@ -1,17 +1,32 @@
 
 
-
-
 html,
 body {
   margin: 0;
   padding: 0;
-
+  overflow: hidden;
   background-color: #dae3f2;
   min-width: 320px;
   min-height: 100vh;
 }
 
+::-webkit-scrollbar-thumb{
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar{
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(0, 159, 255);
+}
+
+::-webkit-scrollbar-track{
+  background-color: #ffffff;
+}
 
 
 
@@ -23,10 +38,6 @@ body {
 }
 
 
-/*登录注册圆角边框*/
-.login-border{
-  border-radius: 30px;
-}
 /*大Logo*/
 .logo_big {
   width: 100px;
@@ -36,16 +47,7 @@ body {
   width: 50px;
   height: 50px;
 }
-/*登录注册按钮样式*/
-.login-button {
-  width: 420px;
-  height: 70px;
-  background-color: #3f4583;
-  font-size: 25px;
-  color: white;
-  line-height: 70px;
-  cursor: pointer;
-}
+
 
 
 

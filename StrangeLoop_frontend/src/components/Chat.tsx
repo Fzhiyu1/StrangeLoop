@@ -67,7 +67,7 @@ const Demo = defineComponent(() => {
         }, 200);
     };
 
-    const onChatsChange = (chats) => {
+    const onChatsChange = (chats): void => {
         message.value = (chats);
     };
 
