@@ -3,11 +3,13 @@ import {loginUser,createUser} from "../api/login.ts";
 import {onMounted, reactive, ref} from "vue";
 import {ElMessage, FormRules} from "element-plus";
 import {setToken} from "../utils/auth.ts";
+import {useRequestStore} from "@/store/RequestStore.ts";
 import router from "../router";
 
 const USERNAME = import.meta.env.VITE_USERNAMES || "";
 const PASSWORD = import.meta.env.VITE_PASSWORD || "";
 
+const requestStore = useRequestStore();
 let loginStatus = ref(false);
 //  表单实例
 const formRef = ref(null);
@@ -84,10 +86,8 @@ const startLogin = async () => {
       loginUser({ data: loginForm }).then((res) => {
         if (res.data.code == 200) {
           ElMessage.success("登录成功");
-
           setToken({token:res.data.data});
           router.push("/");
-          console.log(router)
         } else {
           ElMessage.error(res.data.message);
         }
@@ -145,7 +145,7 @@ const startLogin = async () => {
                 <a @click="loginStatus=!loginStatus" >注册</a>
               </span>
               <span class="downText" v-if="loginStatus">我已经有账号了。
-                <a @click="loginStatus=!loginStatus;resetForm();">登录</a>
+                <a @click="loginStatus=!loginStatus;resetForm();" >登录</a>
               </span>
             </div>
       </div>

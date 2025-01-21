@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {reactive, ref,watchEffect} from "vue";
 import ConversationList from "@/components/ConversationList.vue";
-import DialogCom from "@/components/DialogCom.vue";
+import DialogCom from "../../views/AiChat/DialogCom.vue";
 import ModelList from "@/components/ModelList.vue";
 import router from "@/router";
 import {useModelStore} from "@/store/ModelStore.ts";
+import {getModuleList} from "../../api/module.ts";
 
 interface Module{
   topBtnName:string
@@ -17,6 +18,7 @@ const modelStore = useModelStore()
 const activeMenu = ref<number>(1)
 const dialog = ref<boolean>(false)
 const isShow = ref<boolean>(false)
+const leftList = ref<any>(null)
 const module = reactive<Module[]>([
     {
       topBtnName:"新增对话",
@@ -45,6 +47,25 @@ const choose = (index:number) => {
 const search = () => {
 
 }
+
+const manageToggle = () => {
+  if(modelStore.modelIndex===0){
+    dialog.value = true
+    return
+  }
+  if(modelStore.modelIndex===1){
+    router.push("/ManageModel")
+  }
+}
+
+watchEffect(async ()=>{
+  if(modelStore.modelIndex===1){
+    const res = await getModuleList()
+    leftList.value = res.data.models
+    console.log(leftList)
+  }
+})
+
 </script>
 
 <template>
@@ -66,12 +87,12 @@ const search = () => {
 
   <div class="middle">
     <ConversationList v-if="modelStore.modelIndex === 0" :class-style="activeMenu === i" @click="activeMenu = i" v-for="i in 3" :key="i"></ConversationList>
-    <ModelList v-if="modelStore.modelIndex === 1" :class-style="activeMenu === i" @click="activeMenu = i" v-for="i in 3" :key="i"></ModelList>
+    <ModelList v-if="modelStore.modelIndex === 1" :aiName="item.name" :class-style="activeMenu === index" @click="activeMenu = index" v-for="(item,index) in leftList" :key="index"></ModelList>
   </div>
 
   <hr color="#d7d7d7">
   <div class="management">
-    <div @click="dialog = true" class="managerBtn">
+    <div @click="manageToggle" class="managerBtn">
       <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M389.44 768a96.064 96.064 0 0 1 181.12 0H896v64H570.56a96.064 96.064 0 0 1-181.12 0H128v-64zm192-288a96.064 96.064 0 0 1 181.12 0H896v64H762.56a96.064 96.064 0 0 1-181.12 0H128v-64zm-320-288a96.064 96.064 0 0 1 181.12 0H896v64H442.56a96.064 96.064 0 0 1-181.12 0H128v-64z"></path></svg>
       <span>{{ module[modelStore.modelIndex].bottomBtnName }}</span>
     </div>

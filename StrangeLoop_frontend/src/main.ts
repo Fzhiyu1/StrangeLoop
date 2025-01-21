@@ -9,10 +9,16 @@ import SvgIcon from "./components/SvgIcon.vue";
 // 使用阿里云图标
 import './assets/iconfont/iconfont.js'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
+//全局组件
+import LoadingPage from "./views/LoadingPage.vue";
 const pinia=createPinia()
 // 注册ElementPlusIconsVue
 const app=createApp(App)
+// 注册全局组件
+app.component('LoadingPage',LoadingPage)
+// 全局变量控制全局组件显示
+app.config.globalProperties.$loadingPageShow=false
+
 //注册路由
 app.use(router);
 // 注册ElementPlus

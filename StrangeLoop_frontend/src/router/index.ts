@@ -40,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
                 path:'chooseModel',
                 name: 'chooseModel',
                 component:()=>import('@/views/ModelManager/ChooseModel.vue')
+            },
+            {
+                path:'ManageModel',
+                name: 'ManageModel',
+                component:()=>import('@/views/ModelManager/ManageModel.vue')
             }
         ]
 

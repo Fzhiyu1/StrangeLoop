@@ -1,11 +1,10 @@
 <script setup lang="ts">
-// import {useRouter} from "vue-router";
-//
-// const router =useRouter()
-// router.push("/login");
+import {useRequestStore} from "@/store/RequestStore.ts";
+const requestStore = useRequestStore();
 </script>
 
 <template>
+    <loading-page style="position:absolute;z-index: 99999" v-show="requestStore.isLoading"></loading-page>
   <div>
     <router-view></router-view>
   </div>

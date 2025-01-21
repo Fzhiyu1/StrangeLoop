@@ -1,7 +1,7 @@
 <!-- 代码已包含 CSS：使用 TailwindCSS , 安装 TailwindCSS 后方可看到布局样式效果 -->
 
 <template>
-  <div class="flex h-full">
+  <div class="flex h-full ">
     <div class=" bg-white p-5 rounded-lg shadow-md  overflow-y-scroll">
       <!-- 模型信息区 -->
       <div class="flex justify-start">
@@ -19,58 +19,54 @@
       </div>
 
       <!-- 参数设置区 -->
-      <div class="mt-8">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">高级设置</h3>
+      <div class="mt-8 text-[16px]">
+        <h3 class="text-[20px] font-medium text-gray-900 mb-4">高级设置</h3>
         <div class="grid grid-cols-2 gap-6">
           <div>
-            <label for="system-prompt" class="block text-sm font-medium text-gray-700 mb-1">系统提示词</label>
-            <select id="system-prompt" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-              <option>默认</option>
-              <option>专业</option>
-              <option>友好</option>
-            </select>
+            <label for="system-prompt" class="block  font-medium text-gray-700 mb-1">系统提示词</label>
+            <textarea class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm: border-gray-300 rounded-md">关键词1234566</textarea>
           </div>
           <div>
-            <label for="mirostat" class="block text-sm font-medium text-gray-700 mb-1">Mirostat</label>
-            <select id="mirostat" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+            <label for="mirostat" class="block  font-medium text-gray-700 mb-1">Mirostat</label>
+            <select id="mirostat" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm: rounded-md">
               <option>关闭</option>
               <option>开启</option>
             </select>
           </div>
           <div>
-            <label for="mirostat-learning-rate" class="block text-sm font-medium text-gray-700 mb-1">Mirostat学习速率</label>
-            <input type="number" id="mirostat-learning-rate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.1" step="0.1" min="0" max="1">
+            <label for="mirostat-learning-rate" class="block  font-medium text-gray-700 mb-1">Mirostat学习速率</label>
+            <input type="number" id="mirostat-learning-rate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm: border-gray-300 rounded-md" value="0.1" step="0.1" min="0" max="1">
           </div>
           <div>
-            <label for="mirostat-entropy" class="block text-sm font-medium text-gray-700 mb-1">Mirostat熵值</label>
-            <input type="number" id="mirostat-entropy" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="5.0" step="0.1" min="0" max="10">
+            <label for="mirostat-entropy" class="block  font-medium text-gray-700 mb-1">Mirostat熵值</label>
+            <input type="number" id="mirostat-entropy" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm: border-gray-300 rounded-md" value="5.0" step="0.1" min="0" max="10">
           </div>
           <div>
-            <label for="context-length" class="block text-sm font-medium text-gray-700 mb-1">上下文长度</label>
-            <input type="number" id="context-length" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="2048" step="1" min="0">
+            <label for="context-length" class="block  font-medium text-gray-700 mb-1">上下文长度</label>
+            <input type="number" id="context-length" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm: border-gray-300 rounded-md" value="2048" step="1" min="0">
           </div>
           <div>
-            <label for="repeat-check-length" class="block text-sm font-medium text-gray-700 mb-1">检查重复长度</label>
-            <input type="number" id="repeat-check-length" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="64" step="1" min="0">
+            <label for="repeat-check-length" class="block  font-medium text-gray-700 mb-1">检查重复长度</label>
+            <input type="number" id="repeat-check-length" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm: border-gray-300 rounded-md" value="64" step="1" min="0">
           </div>
           <div>
-            <label for="repeat-penalty" class="block text-sm font-medium text-gray-700 mb-1">重复token惩罚</label>
-            <input type="number" id="repeat-penalty" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="1.1" step="0.1" min="1">
+            <label for="repeat-penalty" class="block  font-medium text-gray-700 mb-1">重复token惩罚</label>
+            <input type="number" id="repeat-penalty" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm: border-gray-300 rounded-md" value="1.1" step="0.1" min="1">
           </div>
           <div>
-            <label for="output-randomness" class="block text-sm font-medium text-gray-700 mb-1">输出随机度</label>
-            <input type="number" id="output-randomness" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.8" step="0.1" min="0" max="1">
+            <label for="output-randomness" class="block  font-medium text-gray-700 mb-1">输出随机度</label>
+            <input type="number" id="output-randomness" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm: border-gray-300 rounded-md" value="0.8" step="0.1" min="0" max="1">
           </div>
         </div>
         <div class="mt-4 flex items-center">
           <label for="tail-free-sampling" class="flex items-center">
             <input id="tail-free-sampling" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-            <span class="ml-2 text-sm text-gray-600">Tail Free Sampling</span>
+            <span class="ml-2  text-gray-600">Tail Free Sampling</span>
           </label>
-          <input type="number" id="tail-free-sampling-value" class="ml-4 w-16 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.8" step="0.1" min="0" max="1">
+          <input type="number" id="tail-free-sampling-value" class="ml-4 w-16 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm: border-gray-300 rounded-md" value="0.8" step="0.1" min="0" max="1">
         </div>
         <div class="mt-4">
-          <label for="creativity-level" class="block text-sm font-medium text-gray-700 mb-1">创意等级</label>
+          <label for="creativity-level" class="block  font-medium text-gray-700 mb-1">创意等级</label>
           <input type="range" id="creativity-level" class="w-full" min="0" max="10" step="0.1" value="5.0">
         </div>
       </div>

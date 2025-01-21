@@ -1,14 +1,11 @@
-// 导入axios
 import axios from 'axios';
-// 使用elmentui message作为信息提醒
 import {ElMessage } from "element-plus";
 import {getToken} from "./auth.ts";
 import {useRequestStore} from "../store/RequestStore.ts";
 // import {getToken} from "./auth.ts";
-// 创建新的axios实例
 const service = axios.create(
     {
-        baseURL: import.meta.env.VITE_API_URL,
+        baseURL: import.meta.env.VITE_LOCAL_API_URL,
         //配置超时时间
         timeout: 6000,
     }
@@ -18,7 +15,7 @@ service.interceptors.request.use(
     config => {
         const  store = useRequestStore();
         store.isLoading = true;
-          // 如果有 data
+        // 如果有 data
         // 是否需要设置 token
         const isToken = (config.headers || {}).isToken === false
         if (getToken() && !isToken) {
@@ -28,8 +25,8 @@ service.interceptors.request.use(
         // 只对 POST/PUT/PATCH 方法序列化请求体，并且确认 data 是对象或数组
         // @ts-ignore
 
-            config.headers['Content-Type'] = 'application/json;charset=UTF-8';
-            config.data = JSON.stringify(config.data);
+        config.headers['Content-Type'] = 'application/json;charset=UTF-8';
+        config.data = JSON.stringify(config.data);
         // 配置请求头
         return config;
     }, error => {
@@ -94,7 +91,7 @@ service.interceptors.response.use(response => {
         }
 
     }else {
-    //     超时处理
+        //     超时处理
         if (JSON.stringify(error).includes('timeout')) {
             ElMessage.error('服务器响应超时,请刷新当前页面');
 

@@ -1,8 +1,12 @@
 StrangeLoop_frontend/node_modules/
-src/
+./src/
 .gitignore
 target/
 .env
 strange-loop.sql
+.mvn/
+.idea/
+.vscode/
+pom.xml
 
 
