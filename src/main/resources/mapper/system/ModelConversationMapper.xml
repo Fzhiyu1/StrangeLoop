@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaofeng.strangeloop.system.mapper.ModelConversationMapper">
+    <resultMap id="ModelConversationResult" type="com.xiaofeng.strangeloop.system.domain.ModelConversation">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="title" column="title"/>
+    </resultMap>
+
+
+    <sql id="selectAll">
+        select id,user_id,title from model_conversation
+    </sql>
+    <select id="selectAll" resultMap="ModelConversationResult" parameterType="com.xiaofeng.strangeloop.system.domain.ModelConversation">
+        <include refid="selectAll"/>
+        <where>
+            <if test="id != null and id != ''">
+                and id =#{id}
+            </if>
+            <if test="userId != null and userId != ''">
+                and userId= #{userId}
+            </if>
+            <if test="title != null and title != ''">
+                and title like concat('%',#{title},'%')
+            </if>
+        </where>
+
+    </select>
+</mapper>

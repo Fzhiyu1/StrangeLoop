@@ -27,7 +27,6 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser findUserByName(String account) {
         SysUser sysUser = sysUserMapper.selectUserByName(account);
-        System.out.println(sysUser);
         return sysUser;
     }
 
