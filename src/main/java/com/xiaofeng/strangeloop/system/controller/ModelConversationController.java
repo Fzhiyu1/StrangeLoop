@@ -21,6 +21,12 @@ public class ModelConversationController {
     private ModelConversationService modelConversationService;
 
     //    使用mabatis-plus示例controller list操作
+
+    /**
+     * 获取会话列表
+     * @param modelConversation
+     * @return
+     */
     @GetMapping("/list")
     public ApiResponse<PageResult> getModelConversationList(@RequestBody ModelConversation modelConversation) {
         List<ModelConversation> modelConversationList = modelConversationService.findAll(modelConversation);
@@ -28,6 +34,11 @@ public class ModelConversationController {
         return ApiResponse.success(modelConversationPageResult);
     }
 
+    /**
+     * 删除一条或者多条会话
+     * @param ids
+     * @return
+     */
     @DeleteMapping("/{ids}")
     public ApiResponse deleteModelConversation(@PathVariable("ids") Long[] ids) {
         ArrayList<Long> idArray = new ArrayList<>();
@@ -42,12 +53,18 @@ public class ModelConversationController {
         return ApiResponse.success(null);
     }
 
+    /**
+     *新增一条会话
+     * @param modelConversation
+     * @return
+     */
     @PostMapping
     public ApiResponse addModelConversation(@RequestBody ModelConversation modelConversation) {
         boolean isSave = modelConversationService.save(modelConversation);
         if (!isSave) {
             return ApiResponse.error("新增失败");
         }
+
         return ApiResponse.success(null);
     }
 }
