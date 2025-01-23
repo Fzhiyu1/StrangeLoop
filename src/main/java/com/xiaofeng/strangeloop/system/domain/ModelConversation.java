@@ -10,6 +10,7 @@ public class ModelConversation {
     private Integer id;
     private Integer userId;
     private String title;
+    private String aiName;
     private ArrayList<ModelMessage> modelMessageArrayList;
 
 }
