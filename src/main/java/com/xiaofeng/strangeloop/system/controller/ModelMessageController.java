@@ -31,13 +31,13 @@ public class ModelMessageController {
     }
 
     @DeleteMapping("/{ids}")
-    public ApiResponse deleteModelMessage(@PathVariable Long[] ids) {
+    public ApiResponse deleteModelMessage(@PathVariable("ids") Long[] ids) {
         ArrayList<Long> idArray = new ArrayList<>();
         for (Long id : ids) {
             idArray.add(id);
         }
-        boolean isDelete = modelMessageService.removeByIds(idArray);
-        if (isDelete) {
+        boolean isDelete = modelConversationService.removeByIds(idArray);
+        if (!isDelete) {
             return ApiResponse.error("删除失败！");
         }
 
