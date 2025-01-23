@@ -11,7 +11,7 @@
  Target Server Version : 80037 (8.0.37)
  File Encoding         : 65001
 
- Date: 09/01/2025 11:19:30
+ Date: 23/01/2025 15:01:33
 */
 
 SET NAMES utf8mb4;
@@ -45,15 +45,24 @@ CREATE TABLE `model_ai_online`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `model_conversation`;
 CREATE TABLE `model_conversation`  (
-  `id` int NOT NULL COMMENT '编号',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '编号',
   `user_id` int NULL DEFAULT NULL COMMENT '用户编号',
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '会话标题',
+  `ai_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'ai名称',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 608768008 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_conversation
 -- ----------------------------
+INSERT INTO `model_conversation` VALUES (1, 1, '测试数据22212121', 'qwen2.5');
+INSERT INTO `model_conversation` VALUES (4, 1, '测试数据4', 'XiaoZhi');
+INSERT INTO `model_conversation` VALUES (5, 1, '测试数据222', 'qwen2.5');
+INSERT INTO `model_conversation` VALUES (6, 1, '测试数据22212121', 'qwen2.5');
+INSERT INTO `model_conversation` VALUES (7, 1, '修改后的数据', 'qwen2.5');
+INSERT INTO `model_conversation` VALUES (8, 1, '测试数据22212121121212312', 'qwen2.5');
+INSERT INTO `model_conversation` VALUES (608768006, 1, '测试数据22212121121212312', 'qwen2.5');
+INSERT INTO `model_conversation` VALUES (608768007, 1, '测试数据22212121121212312', 'qwen2.5');
 
 -- ----------------------------
 -- Table structure for model_file
@@ -123,18 +132,21 @@ CREATE TABLE `model_info`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `model_message`;
 CREATE TABLE `model_message`  (
-  `id` int NOT NULL COMMENT '编号',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '编号',
   `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '发送人',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '消息',
   `conversation_id` int NULL DEFAULT NULL COMMENT '会话id',
   `created_time` datetime NULL DEFAULT NULL COMMENT '发送时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_message
 -- ----------------------------
 INSERT INTO `model_message` VALUES (1, '1', '测试数据', 1, '2024-12-11 19:03:04');
+INSERT INTO `model_message` VALUES (2, '1', '测试数据123123', 1, '2025-01-10 14:35:59');
+INSERT INTO `model_message` VALUES (3, '1', '测试数据', 7, '2025-01-23 14:58:38');
+INSERT INTO `model_message` VALUES (4, '1', '测试数据2', 7, '2025-01-16 14:58:51');
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -199,7 +211,7 @@ CREATE TABLE `sys_user`  (
   `created_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `updated_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
@@ -212,5 +224,6 @@ INSERT INTO `sys_user` VALUES (12, 'testUser04', NULL, NULL, NULL, NULL, NULL, '
 INSERT INTO `sys_user` VALUES (13, 'testUser05', NULL, NULL, NULL, NULL, NULL, '$2a$10$avluQvSEksZT6e4wYHxlOujLPg5pjJETy6TvS2goOwjZlMZmpMTaO', '2024-12-11 19:15:40', NULL);
 INSERT INTO `sys_user` VALUES (14, 'testUser06', NULL, NULL, NULL, NULL, NULL, '$2a$10$/deBjB1mFqHu0lkIPVZglOjOLEV1CTUxKnlxqWzrgihVNn8XQbAKi', '2024-12-11 19:17:40', NULL);
 INSERT INTO `sys_user` VALUES (15, 'testUser07', NULL, NULL, NULL, NULL, NULL, '$2a$10$yo8IP2U1S0LtDiLyCeeKH.JGtgQgWp52rqGx75e4Vlw99NwF1mPq.', '2024-12-11 19:18:25', NULL);
+INSERT INTO `sys_user` VALUES (16, 'testUser0', NULL, NULL, NULL, NULL, NULL, '$2a$10$lf4kjOy68D19OA6czTwk9uFGOpVyMXcD/j6y9jl56fXJuQXmcpfeu', '2025-01-10 14:21:46', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
