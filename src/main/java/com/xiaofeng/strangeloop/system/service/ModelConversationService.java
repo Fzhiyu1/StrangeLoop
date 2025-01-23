@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface ModelConversationService extends IService<ModelConversation> {
     public List<ModelConversation> findAll(ModelConversation modelConversation);
+    public ModelConversation findDetailById(Long id);
 
 }

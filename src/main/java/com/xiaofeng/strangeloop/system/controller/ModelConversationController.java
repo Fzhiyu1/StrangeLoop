@@ -1,13 +1,16 @@
 package com.xiaofeng.strangeloop.system.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xiaofeng.strangeloop.system.domain.ApiResponse;
 import com.xiaofeng.strangeloop.system.domain.ModelConversation;
+import com.xiaofeng.strangeloop.system.domain.ModelMessage;
 import com.xiaofeng.strangeloop.system.domain.PageResult;
 import com.xiaofeng.strangeloop.system.service.ModelConversationService;
 import com.xiaofeng.strangeloop.system.service.ModelMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +83,21 @@ public class ModelConversationController {
             return ApiResponse.error("修改失败");
         }
         return ApiResponse.success(null);
+    }
+    @GetMapping("/detail/{id}")
+    public ApiResponse getModelConversationDetailById(@PathVariable("id") Long id) {
+        ModelConversation modelConversation = modelConversationService.findDetailById(id);
+        if(modelConversation == null) {
+            return ApiResponse.error("会话不存在");
+        }
+//       构建查询器
+        LambdaQueryWrapper<ModelMessage> modelMessageLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        modelMessageLambdaQueryWrapper.eq(ModelMessage::getConversationId, modelConversation.getId());
+
+//        将查找到的数据传入modelConversation
+        List<ModelMessage> modelMessageList = modelMessageService.list(modelMessageLambdaQueryWrapper);
+        modelConversation.setModelMessageArrayList(modelMessageList);
+        return ApiResponse.success(modelConversation);
     }
 
 }

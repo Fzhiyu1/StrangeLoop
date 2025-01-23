@@ -24,4 +24,9 @@ public class ModelConversationServiceImpl extends ServiceImpl<ModelConversationM
         List<ModelConversation> modelConversations = modelConversationMapper.selectAll(modelConversation);
         return modelConversations;
     }
+
+    @Override
+    public ModelConversation findDetailById(Long id) {
+        return modelConversationMapper.getDetailById(id);
+    }
 }

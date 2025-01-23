@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Data
 public class ModelConversation {
@@ -15,6 +16,6 @@ public class ModelConversation {
     private Integer userId;
     private String title;
     private String aiName;
-    private ArrayList<ModelMessage> modelMessageArrayList;
+    private List<ModelMessage> modelMessageArrayList;
 
 }

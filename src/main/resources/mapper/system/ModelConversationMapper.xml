@@ -30,4 +30,8 @@
         </where>
 
     </select>
+    <select id="getDetailById" resultMap="ModelConversationResult" parameterType="long">
+        <include refid="selectAll"></include>
+        where id = #{id}
+    </select>
 </mapper>

@@ -9,4 +9,5 @@ import java.util.List;
 @Mapper
 public interface ModelConversationMapper extends BaseMapper<ModelConversation> {
     public List<ModelConversation> selectAll(ModelConversation conversation);
+    public ModelConversation getDetailById(Long id);
 }
