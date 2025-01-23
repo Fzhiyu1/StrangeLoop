@@ -67,4 +67,19 @@ public class ModelConversationController {
 
         return ApiResponse.success(null);
     }
+
+    /**
+     * 修改一条会话
+     * @param modelConversation
+     * @return
+     */
+    @PutMapping
+    public ApiResponse updateModelConversation(@RequestBody ModelConversation modelConversation) {
+        boolean isSave = modelConversationService.updateById(modelConversation);
+        if (!isSave) {
+            return ApiResponse.error("修改失败");
+        }
+        return ApiResponse.success(null);
+    }
+
 }
