@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/model/message")
+@RequestMapping("/model/conversation")
 public class ModelConversationController {
     @Autowired
     private ModelMessageService modelMessageService;
@@ -78,8 +78,8 @@ public class ModelConversationController {
      */
     @PutMapping
     public ApiResponse updateModelConversation(@RequestBody ModelConversation modelConversation) {
-        boolean isSave = modelConversationService.updateById(modelConversation);
-        if (!isSave) {
+        boolean isUpdate = modelConversationService.updateById(modelConversation);
+        if (!isUpdate) {
             return ApiResponse.error("修改失败");
         }
         return ApiResponse.success(null);
