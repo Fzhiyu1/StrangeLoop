@@ -1,0 +1,21 @@
+package com.xiaofeng.strangeloop.system.domain;
+
+import lombok.Data;
+
+@Data
+public class ModelFile {
+    private Integer modelFileId;
+    private Integer mirostat;
+    private Double mirostatEat;
+    private Double mirostatTau;
+    private Integer numCtx;
+    private Integer repeatLastN;
+    private Double repeatPenalty;
+    private Double temperature;
+    private Integer seed;
+    private String stop;
+    private Double tfsZ;
+    private Integer numPredict;
+    private Double topP;
+    private Double minP;
+}
