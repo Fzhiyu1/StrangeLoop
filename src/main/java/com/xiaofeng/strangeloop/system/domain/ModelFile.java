@@ -1,9 +1,12 @@
 package com.xiaofeng.strangeloop.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
 public class ModelFile {
+    @TableId(type = IdType.AUTO)
     private Integer modelFileId;
     private Integer mirostat;
     private Double mirostatEat;
