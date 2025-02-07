@@ -38,12 +38,18 @@ public class ModelInfoController {
         return ApiResponse.success(modelInfoList);
     }
 
+    /**
+     * 获取模型详细信息
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public ApiResponse  getModelInfoById(@PathVariable("id") Integer id) {
         ModelInfo modelInfo = modelInfoService.getById(id);
 //        根据linkType判断连接类型
         if (modelInfo.getLinkType() == 1) {
 //            当linkType==1时为在线ai
+//            获取在线ai信息
             String aiName = modelInfo.getAiName();
             ModelAiOnline modelAiOnline = new ModelAiOnline();
             modelAiOnline.setAiName(aiName);
@@ -51,12 +57,14 @@ public class ModelInfoController {
             ModelAiOnline returnAiOnline = modelAiOnlineService.getOne(modelAiOnlineQueryWrapper);
             modelInfo.setModelAiOnline(returnAiOnline);
         } else if (modelInfo.getLinkType() == 0) {
+//            当linkType==0时为本地ai
             Integer modelFileId = modelInfo.getModelFileId();
+//            获取ollama本地ai设置信息
             ModelFile modelFile = modelFileService.getById(modelFileId);
             modelInfo.setModelFile(modelFile);
 
         }
-
+//        返回数据
         return ApiResponse.success(modelInfo);
     }
 }
