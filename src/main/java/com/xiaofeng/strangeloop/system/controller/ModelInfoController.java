@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Wrapper;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -105,6 +106,19 @@ public class ModelInfoController {
     @PutMapping
     public ApiResponse updateModelInfo(@RequestBody ModelInfo modelInfo) {
         modelInfoService.updateById(modelInfo);
+        return ApiResponse.success(null);
+    }
+
+    @DeleteMapping("/{ids}")
+    public ApiResponse deleteModelInfo(@PathVariable("ids") Long[] ids) {
+        ArrayList<Long> idArray = new ArrayList<>();
+        for (Long id : ids) {
+            idArray.add(id);
+        }
+        boolean isRemove = modelInfoService.removeByIds(idArray);
+        if (!isRemove) {
+            return ApiResponse.error("删除失败！");
+        }
         return ApiResponse.success(null);
     }
 }
