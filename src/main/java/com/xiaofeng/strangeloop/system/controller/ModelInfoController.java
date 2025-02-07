@@ -2,6 +2,7 @@ package com.xiaofeng.strangeloop.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xiaofeng.strangeloop.springframework.UserUtil;
 import com.xiaofeng.strangeloop.system.domain.ApiResponse;
 import com.xiaofeng.strangeloop.system.domain.ModelAiOnline;
 import com.xiaofeng.strangeloop.system.domain.ModelFile;
@@ -26,6 +27,9 @@ public class ModelInfoController {
 
     @Autowired
     private ModelAiOnlineService modelAiOnlineService;
+
+
+
 
     /**
      * 获取模型信息列表
@@ -66,5 +70,30 @@ public class ModelInfoController {
         }
 //        返回数据
         return ApiResponse.success(modelInfo);
+    }
+
+    /**
+     * 新建模型信息
+     * @param modelInfo
+     * @return
+     */
+    @PostMapping
+    public ApiResponse saveModelInfo(@RequestBody ModelInfo modelInfo) {
+        if(modelInfo.getLinkType() == null){
+            return ApiResponse.error("请填写连接类型!");
+        }
+//        设置modelInfo的初始值
+        ModelFile modelFile = new ModelFile();
+        modelInfo.setDisable(1);
+        Integer currentUserId = UserUtil.getCurrentUserId();
+        modelInfo.setUserId(currentUserId);
+//        创建对应的modelFile表
+        modelFileService.save(modelFile);
+//        获取创建后的File表id
+        modelInfo.setModelFileId(modelFile.getModelFileId());
+        modelInfoService.save(modelInfo);
+
+
+        return ApiResponse.success(null);
     }
 }
