@@ -96,4 +96,15 @@ public class ModelInfoController {
 
         return ApiResponse.success(null);
     }
+
+    /**
+     * 修改模型信息
+     * @param modelInfo
+     * @return
+     */
+    @PutMapping
+    public ApiResponse updateModelInfo(@RequestBody ModelInfo modelInfo) {
+        modelInfoService.updateById(modelInfo);
+        return ApiResponse.success(null);
+    }
 }
