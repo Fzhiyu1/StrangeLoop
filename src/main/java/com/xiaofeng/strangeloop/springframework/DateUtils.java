@@ -1,6 +1,7 @@
 package com.xiaofeng.strangeloop.springframework;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -13,6 +14,12 @@ public class DateUtils {
     public static String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
         return sdf.format(new Date());
+    }
+
+//    获取当前日期时间对象
+    public static LocalDateTime getCurrentLocalDateTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+        return LocalDateTime.parse(sdf.format(new Date()));
     }
 
     // 将字符串转换为日期对象
