@@ -110,16 +110,34 @@ public class ModelInfoController {
         return ApiResponse.success(null);
     }
 
+    /**
+     * 删除模型信息
+     * @param ids
+     * @return
+     */
     @DeleteMapping("/{ids}")
     public ApiResponse deleteModelInfo(@PathVariable("ids") Long[] ids) {
-        ArrayList<Long> idArray = new ArrayList<>();
+
+//        循环删除
         for (Long id : ids) {
-            idArray.add(id);
-        }
-        boolean isRemove = modelInfoService.removeByIds(idArray);
-        if (!isRemove) {
-            return ApiResponse.error("删除失败！");
+//            获取modelFileId
+            ModelInfo modelInfo = modelInfoService.getById(id);
+            Integer modelFileId = modelInfo.getModelFileId();
+//            根据modelFileId删除
+            boolean isRemoveModelFile = modelFileService.removeById(modelFileId);
+//            删除失败则返回错错误信息
+            if (!isRemoveModelFile) {
+                return ApiResponse.error("删除失败");
+            }
+//            根据传入的id删除
+            boolean isRemoveModelInfo = modelInfoService.removeById(id);
+//            删除失败则返回错错误信息
+            if (!isRemoveModelInfo) {
+                return ApiResponse.error("删除失败");
+            }
+
         }
         return ApiResponse.success(null);
     }
+
 }
