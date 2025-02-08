@@ -26,4 +26,15 @@ public class ModelAiOnlineController {
         List<ModelAiOnline> modelAiOnlineList = modelAiOnlineService.list(modelAiOnlineQueryWrapper);
         return ApiResponse.success(modelAiOnlineList);
     }
+
+    /**
+     * 获取在线模型详情
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public ApiResponse getModelAiOnlineById(@PathVariable("id") String id) {
+        ModelAiOnline modelAiOnline = modelAiOnlineService.getById(id);
+        return ApiResponse.success(modelAiOnline);
+    }
 }
