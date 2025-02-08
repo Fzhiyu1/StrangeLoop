@@ -59,7 +59,7 @@ public class ModelInfoController {
             ModelAiOnline modelAiOnline = new ModelAiOnline();
             modelAiOnline.setAiId(aiolId);
             QueryWrapper<ModelAiOnline> modelAiOnlineQueryWrapper = new QueryWrapper<>();
-            modelAiOnlineQueryWrapper.eq("aiol_id", aiolId);
+            modelAiOnlineQueryWrapper.eq("ai_id", aiolId);
             ModelAiOnline returnAiOnline = modelAiOnlineService.getOne(modelAiOnlineQueryWrapper);
             modelInfo.setModelAiOnline(returnAiOnline);
         } else if (modelInfo.getLinkType() == 0) {
@@ -139,5 +139,7 @@ public class ModelInfoController {
         }
         return ApiResponse.success(null);
     }
+//    @PutMapping("/detail")
+//    public ApiResponse
 
 }
