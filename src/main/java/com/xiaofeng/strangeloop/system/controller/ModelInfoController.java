@@ -55,10 +55,11 @@ public class ModelInfoController {
         if (modelInfo.getLinkType() == 1) {
 //            当linkType==1时为在线ai
 //            获取在线ai信息
-            String aiName = modelInfo.getAiName();
+            Integer aiolId = modelInfo.getAiolId();
             ModelAiOnline modelAiOnline = new ModelAiOnline();
-            modelAiOnline.setAiName(aiName);
-            QueryWrapper<ModelAiOnline> modelAiOnlineQueryWrapper = new QueryWrapper<>(modelAiOnline);
+            modelAiOnline.setAiId(aiolId);
+            QueryWrapper<ModelAiOnline> modelAiOnlineQueryWrapper = new QueryWrapper<>();
+            modelAiOnlineQueryWrapper.eq("aiol_id", aiolId);
             ModelAiOnline returnAiOnline = modelAiOnlineService.getOne(modelAiOnlineQueryWrapper);
             modelInfo.setModelAiOnline(returnAiOnline);
         } else if (modelInfo.getLinkType() == 0) {

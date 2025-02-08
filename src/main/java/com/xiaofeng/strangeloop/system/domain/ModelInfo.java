@@ -14,7 +14,7 @@ public class ModelInfo {
     private Integer modelFileId;
     private Integer disable;
     private Integer userId;
-    private String aiName;
+    private Integer aiolId;
     private Integer linkType;
     private String description;
     @TableField(exist = false)
