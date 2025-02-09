@@ -12,4 +12,6 @@ public interface ModelInfoService extends IService<ModelInfo> {
 
 
     public List<ModelInfo> getModelInfoList(ModelInfo modelInfo);
+
+    public ModelInfo getModelInfoById(Integer id);
 }

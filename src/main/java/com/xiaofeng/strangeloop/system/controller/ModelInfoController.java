@@ -50,31 +50,7 @@ public class ModelInfoController {
      */
     @GetMapping("/{id}")
     public ApiResponse  getModelInfoById(@PathVariable("id") Integer id) {
-        ModelInfo modelInfo = modelInfoService.getById(id);
-//        根据linkType判断连接类型
-        if (modelInfo.getLinkType() == 1) {
-//            当linkType==1时为在线ai
-//            获取在线ai信息
-            Integer aiolId = modelInfo.getAiolId();
-            ModelAiOnline modelAiOnline = new ModelAiOnline();
-            modelAiOnline.setAiId(aiolId);
-            QueryWrapper<ModelAiOnline> modelAiOnlineQueryWrapper = new QueryWrapper<>();
-            modelAiOnlineQueryWrapper.eq("ai_id", aiolId);
-            ModelAiOnline returnAiOnline = modelAiOnlineService.getOne(modelAiOnlineQueryWrapper);
-            modelInfo.setModelAiOnline(returnAiOnline);
-        } else if (modelInfo.getLinkType() == 0) {
-//            当linkType==0时为本地ai
-            Integer modelFileId = modelInfo.getModelFileId();
-            QueryWrapper<ModelFileEgmessage> modelFileEgmessageQueryWrapper = new QueryWrapper<>();
-//            获取对应的样例回复表数据
-            modelFileEgmessageQueryWrapper.eq("model_file_id", modelFileId);
-            List<ModelFileEgmessage> modelFileEgmessageList = modelFileEgmessageService.list(modelFileEgmessageQueryWrapper);
-//            获取ollama本地ai设置信息
-            ModelFile modelFile = modelFileService.getById(modelFileId);
-            modelFile.setModelFileEgmessages(modelFileEgmessageList);
-            modelInfo.setModelFile(modelFile);
-
-        }
+        ModelInfo modelInfo = modelInfoService.getModelInfoById(id);
 //        返回数据
         return ApiResponse.success(modelInfo);
     }
@@ -145,7 +121,6 @@ public class ModelInfoController {
         return ApiResponse.success(null);
     }
 //    @PutMapping("/detail")
-//    public ApiResponse updateModelFile(@RequestBody ModelFile modelFile) {
 //
 //    }
 
