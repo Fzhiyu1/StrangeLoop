@@ -3,11 +3,9 @@ package com.xiaofeng.strangeloop.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xiaofeng.strangeloop.springframework.UserUtil;
-import com.xiaofeng.strangeloop.system.domain.ApiResponse;
-import com.xiaofeng.strangeloop.system.domain.ModelAiOnline;
-import com.xiaofeng.strangeloop.system.domain.ModelFile;
-import com.xiaofeng.strangeloop.system.domain.ModelInfo;
+import com.xiaofeng.strangeloop.system.domain.*;
 import com.xiaofeng.strangeloop.system.service.ModelAiOnlineService;
+import com.xiaofeng.strangeloop.system.service.ModelFileEgmessageService;
 import com.xiaofeng.strangeloop.system.service.ModelFileService;
 import com.xiaofeng.strangeloop.system.service.ModelInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,8 @@ public class ModelInfoController {
     @Autowired
     private ModelAiOnlineService modelAiOnlineService;
 
+    @Autowired
+    private ModelFileEgmessageService modelFileEgmessageService;
 
 
 
@@ -65,8 +65,13 @@ public class ModelInfoController {
         } else if (modelInfo.getLinkType() == 0) {
 //            当linkType==0时为本地ai
             Integer modelFileId = modelInfo.getModelFileId();
+            QueryWrapper<ModelFileEgmessage> modelFileEgmessageQueryWrapper = new QueryWrapper<>();
+//            获取对应的样例回复表数据
+            modelFileEgmessageQueryWrapper.eq("model_file_id", modelFileId);
+            List<ModelFileEgmessage> modelFileEgmessageList = modelFileEgmessageService.list(modelFileEgmessageQueryWrapper);
 //            获取ollama本地ai设置信息
             ModelFile modelFile = modelFileService.getById(modelFileId);
+            modelFile.setModelFileEgmessages(modelFileEgmessageList);
             modelInfo.setModelFile(modelFile);
 
         }
@@ -140,6 +145,8 @@ public class ModelInfoController {
         return ApiResponse.success(null);
     }
 //    @PutMapping("/detail")
-//    public ApiResponse
+//    public ApiResponse updateModelFile(@RequestBody ModelFile modelFile) {
+//
+//    }
 
 }
