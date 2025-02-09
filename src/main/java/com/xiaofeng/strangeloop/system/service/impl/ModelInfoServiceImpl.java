@@ -81,7 +81,7 @@ public class ModelInfoServiceImpl extends ServiceImpl<ModelInfoMapper, ModelInfo
             ModelFile modelFile = modelFileMapper.selectById(modelFileId);
 
             // 将示例消息列表设置到模型文件对象中
-            modelFile.setModelFileEgmessages(modelFileEgmessages);
+            modelFile.setModelFileEgmessageList(modelFileEgmessages);
 
             // 将完整模型文件数据设置到主模型对象中
             modelInfo.setModelFile(modelFile);

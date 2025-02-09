@@ -120,8 +120,21 @@ public class ModelInfoController {
         }
         return ApiResponse.success(null);
     }
-//    @PutMapping("/detail")
-//
-//    }
+
+    /**
+     * 修改模型信息和模型设置接口
+     * @param modelInfo
+     * @return
+     */
+    @PutMapping("/detail")
+    public ApiResponse updateModelInfoAndModelFile(@RequestBody ModelInfo modelInfo) {
+        System.out.println(modelInfo);
+        boolean isUpdateModelInfo = modelInfoService.updateById(modelInfo);
+        if (!isUpdateModelInfo) return ApiResponse.error("修改模型信息表失败");
+        boolean isUpdateModelFile = modelFileService.updateFileAndEgmessage(modelInfo.getModelFile());
+        if(!isUpdateModelFile) return ApiResponse.error("修改模型设置表失败");
+        return ApiResponse.success(null);
+    }
+
 
 }
