@@ -31,7 +31,7 @@ public class ModelConversationController {
      * @return
      */
     @GetMapping("/list")
-    public ApiResponse<PageResult> getModelConversationList(@RequestBody ModelConversation modelConversation) {
+    public ApiResponse<PageResult> getModelConversationList(ModelConversation modelConversation) {
         List<ModelConversation> modelConversationList = modelConversationService.findAll(modelConversation);
         PageResult<ModelConversation> modelConversationPageResult = new PageResult<>(modelConversationList);
         return ApiResponse.success(modelConversationPageResult);
