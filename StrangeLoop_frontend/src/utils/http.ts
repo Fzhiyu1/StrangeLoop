@@ -12,7 +12,7 @@ const http={
         const config = {
             method: 'get',
             url: url,
-            params: undefined
+            params:undefined
         }
         if (params) {
             config.params = params;

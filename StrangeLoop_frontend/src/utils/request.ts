@@ -2,7 +2,7 @@
 import axios from 'axios';
 // 使用elmentui message作为信息提醒
 import {ElMessage } from "element-plus";
-import {getToken} from "./auth.ts";
+import {getToken, removeToken} from "./auth.ts";
 // import {getToken} from "./auth.ts";
 // 创建新的axios实例
 const service = axios.create(
@@ -50,6 +50,8 @@ service.interceptors.response.use(response => {
                 break;
             case 401:
                 error.message = '未授权，请重新登录';
+                // 删除token
+                removeToken();
                 ElMessage.error(error.message);
                 break;
             case 403:

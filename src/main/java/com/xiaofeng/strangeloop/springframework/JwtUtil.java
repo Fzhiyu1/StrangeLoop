@@ -42,13 +42,21 @@ public class JwtUtil {
         }
     }
 
-    // 检查 Token 是否过期
-    private static boolean isTokenExpired(String token) {
-        Date expiration = Jwts.parser()
-                .setSigningKey(KEY) // 使用密钥而不是错误的 `SECRET_KEY`
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration();
-        return expiration.before(new Date());
+    public static boolean isTokenExpired(String token) {
+        try {
+            // 使用 parserBuilder 解析 token
+            Date expiration = Jwts.parserBuilder()
+                    .setSigningKey(KEY)  // 使用密钥而不是错误的 SECRET_KEY
+                    .build()
+                    .parseClaimsJws(token)  // 解析 token
+                    .getBody()
+                    .getExpiration();
+
+            return expiration.before(new Date()); // 判断是否过期
+        } catch (JwtException | IllegalArgumentException e) {
+            // 处理解析异常（例如 token 不合法、过期等）
+            return true;
+        }
     }
+
 }
