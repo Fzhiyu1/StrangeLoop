@@ -25,7 +25,7 @@ public class ModelAiOnlineController {
      * @return
      */
     @GetMapping
-    public ApiResponse getModelAiOnlineList(@RequestBody ModelAiOnline modelAiOnline) {
+    public ApiResponse getModelAiOnlineList( ModelAiOnline modelAiOnline) {
         QueryWrapper<ModelAiOnline> modelAiOnlineQueryWrapper = new QueryWrapper<>(modelAiOnline);
         List<ModelAiOnline> modelAiOnlineList = modelAiOnlineService.list(modelAiOnlineQueryWrapper);
         return ApiResponse.success(modelAiOnlineList);

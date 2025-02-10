@@ -8,7 +8,7 @@
         <result property="modelFileId" column="model_file_id"/>
         <result property="disable" column="disable"/>
         <result property="userId" column="user_id"/>
-        <result property="aiName" column="ai_name"/>
+        <result property="aiolId" column="aiol_id"/>
         <result property="linkType" column="link_type"/>
         <result property="description" column="description"/>
     </resultMap>
@@ -36,9 +36,9 @@
             <if test="userId != null and userId != ''">
                 and user_id = #{userId}
             </if>
-            <if test="aiName != null and aiName != ''">
-                and ai_name like concat('%',#{aiName},'%')
-            </if>
+           <if test="aiolId !=null and aiolId !=''">
+               and aiol_id = #{aiolId}
+           </if>
             <if test="linkType != null and linkType != ''">
                 and link_type = #{linkType}
             </if>

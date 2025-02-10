@@ -38,7 +38,7 @@ public class ModelInfoController {
      * @return
      */
     @GetMapping
-    public ApiResponse getModelInfoList(@RequestBody ModelInfo modelInfo) {
+    public ApiResponse getModelInfoList(ModelInfo modelInfo) {
         List<ModelInfo> modelInfoList = modelInfoService.getModelInfoList(modelInfo);
         return ApiResponse.success(modelInfoList);
     }
@@ -128,7 +128,6 @@ public class ModelInfoController {
      */
     @PutMapping("/detail")
     public ApiResponse updateModelInfoAndModelFile(@RequestBody ModelInfo modelInfo) {
-        System.out.println(modelInfo);
         boolean isUpdateModelInfo = modelInfoService.updateById(modelInfo);
         if (!isUpdateModelInfo) return ApiResponse.error("修改模型信息表失败");
         boolean isUpdateModelFile = modelFileService.updateFileAndEgmessage(modelInfo.getModelFile());
