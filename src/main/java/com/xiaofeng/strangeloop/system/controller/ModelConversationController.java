@@ -35,7 +35,7 @@ public class ModelConversationController {
     public ApiResponse<PageResult> getModelConversationList(ModelConversation modelConversation) {
         List<ModelConversation> modelConversationList = modelConversationService.findAll(modelConversation);
         for (ModelConversation conversation : modelConversationList) {
-            ModelInfo modelInfo = modelInfoService.getModelInfoById(conversation.getModelInfoId());
+            ModelInfo modelInfo = modelInfoService.getById(conversation.getModelInfoId());
             conversation.setModelInfo(modelInfo);
         }
         PageResult<ModelConversation> modelConversationPageResult = new PageResult<>(modelConversationList);
