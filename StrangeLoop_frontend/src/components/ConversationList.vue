@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import defaultAvatar from "@/assets/images/user/avatar.jpeg";
 import {useRouter} from "vue-router";
+import {onMounted, onUpdated, ref, watch} from "vue";
+import {getConversation} from "@/api/conversation.ts";
+import {useModelStore} from "@/store/ModelStore.ts";
 
 const router = useRouter();
-defineProps(
+const modelStore = useModelStore()
+const props = defineProps(
     {
+    id:{
+      type:[String,Number],
+       default:""
+    },
       url: {
         type: String,
         default:defaultAvatar
@@ -17,10 +25,6 @@ defineProps(
         type:String,
         default:"llama3.2:1b"
       },
-      date: {
-        type: String,
-        default: "2022年3月15日"
-      },
       description: {
         type: String,
         default: "AI小智是一只可爱的小机器人，她的名字叫做小智。她的主人是一位叫做小明的程序员，她的目标是成为一名优秀的机器学习工程师。"
@@ -29,17 +33,30 @@ defineProps(
         type:Boolean
       }
     })
+
+const _data = ref({
+  date:"2024-06-01"
+})
+
+const conversationClick = async () => {
+  const res = await getConversation({id:props.id})
+  modelStore.currConversation= res.data.data
+  modelStore.topNav = {modelName:props.aiName,modelVersion:props.aiType}
+   router.push('/aichat');
+}
+
+
 </script>
 
 <template>
-  <div :class="classStyle? 'active': ''" class="card" @click="router.push('/aichat')">
+  <div :class="classStyle? 'active': ''" class="card" @click="conversationClick">
     <img :src="url" alt="logo">
     <div class="rightSide">
       <div>
         <span  class="aiName">{{aiName}}</span>
         <span style="margin: 0 5px;color: #02a7f0">|</span>
         <span class="aiType">{{aiType}}</span>
-        <span class="date">{{date}}</span>
+        <span class="date">{{_data.date}}</span>
       </div>
       <div class="description">{{description}}</div>
     </div>
@@ -94,6 +111,7 @@ defineProps(
         height: 1rem;
         font-size: 12px;
         color: #666;
+        text-align: left;
       }
     }
   }

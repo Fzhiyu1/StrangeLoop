@@ -8,7 +8,6 @@ export function loginUser({data}: { data: any }) {
         url: baseUrl + "/login",
         method: 'post',
         data: data,
-
     })
 }
 
@@ -17,6 +16,12 @@ export function createUser({data}: { data: any }) {
         url: baseUrl + "/create",
         method: 'post',
         data: data,
-
     })
+}
+
+export function getCurrentUser() {
+     return request({
+         url:baseUrl+"/nowLoginUser",
+         method:'post'
+     })
 }

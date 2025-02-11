@@ -2,7 +2,11 @@
 import {PropType, ref, watch} from "vue";
 import {Chat} from '@kousum/semi-ui-vue';
 import {SSEService} from "../utils/SSEService.ts";
+import {useModelStore} from "@/store/ModelStore.ts";
+import {addMessage} from "@/api/message.ts";
+import {getTime} from "@/utils/time.ts";
 
+const modelStore = useModelStore();
 
 // 组件参数
 const props = defineProps({
@@ -114,7 +118,6 @@ let sseService = new SSEService();
 // 收到信息
 const onMessageSend = async (content, attachment) => {
   // 1. 用户发送的消息
-
   //用户消息体
   const userMessage = {
     role: 'user',
@@ -154,6 +157,7 @@ const onMessageSend = async (content, attachment) => {
     // 只更新最后一条消息
     message.value[props.messages.length] = aiMessage;
     scrollToBottomWithAnimation();
+    console.log(message1)
   }
 
   const onComplete = (finalMessage) => {
@@ -170,6 +174,21 @@ const onMessageSend = async (content, attachment) => {
     message.value[props.messages.length] = aiMessage;
 
     // 最后处理
+    // 存储用户消息和AI消息
+
+    // 存储用户消息和AI消息
+    addMessage({data:{
+        "role":"user",
+        "content":content,
+        "conversationId":modelStore.currConversation.id,
+        "createdTime":getTime()
+      }})
+    addMessage({data:{
+        "role":"assistant",
+        "content":finalMessage,
+        "conversationId":modelStore.currConversation.id,
+        "createdTime":getTime()
+      }})
   }
 
   // 判断ai类型是否为本地ai

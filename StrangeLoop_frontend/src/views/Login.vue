@@ -87,7 +87,6 @@ const startLogin = async () => {
 
           setToken({token:res.data.data});
           router.push("/");
-          console.log(router)
         } else {
           ElMessage.error(res.data.message);
         }

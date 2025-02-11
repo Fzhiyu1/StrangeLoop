@@ -20,11 +20,13 @@ export function listConversation({params}:{params:any}){
  * 删除一条或者多条会话
  * @param id
  */
-export function deleteConversation({id}:{id:any}){
-    return request({
-        method:'delete',
-        url: baseUrl +'/'+ id,
-    })
+export function deleteConversation({ids}:{ids:[]}){
+        let id = ""
+        id = ids.join(",")
+        return request({
+            method:'delete',
+            url: baseUrl +'/'+ id,
+        })
 }
 
 /**

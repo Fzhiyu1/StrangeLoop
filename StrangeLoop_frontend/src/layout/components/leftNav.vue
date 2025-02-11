@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch, watchEffect} from "vue";
 import ConversationList from "@/components/ConversationList.vue";
-import DialogCom from "@/components/DialogCom.vue";
+import DialogCom from "@/views/AiChat/DialogCom.vue";
 import ModelList from "@/components/ModelList.vue";
 import router from "@/router";
 import {useModelStore} from "@/store/ModelStore.ts";
+import {listConversation} from "@/api/conversation.ts";
+// import {getModuleList} from "@/api/module.ts";
 
 interface Module{
   topBtnName:string
@@ -14,9 +16,11 @@ interface Module{
 }
 
 const modelStore = useModelStore()
-const activeMenu = ref<number>(1)
+const activeMenu = ref<number>(-1)
 const dialog = ref<boolean>(false)
 const isShow = ref<boolean>(false)
+const leftList = ref<any>(null)
+const searchText = ref<string>("")
 const module = reactive<Module[]>([
     {
       topBtnName:"新增对话",
@@ -38,13 +42,64 @@ const module = reactive<Module[]>([
   }
 ])
 
+const AIListData = ref<any[]>([{
+  id: 1,
+  userId: 1,
+  title: "测试数据22212121",
+  aiName: "qwen2.5",
+  modelMessageArrayList: null,
+  modelInfo: {
+    "modelId": 1,
+    "modelVersion": "GPT_3",
+    "modelName": "小智",
+    "modelFileId": 1,
+    "disable": 0,
+    "userId": 1,
+    "aiolId": 3,
+    "linkType": 0,
+    "description": "就这样asdasd",
+    "modelFile": null,
+    "modelAiOnline": null
+  }
+}])
+
 const choose = (index:number) => {
   isShow.value = false
   index ===0?router.push("/chooseAi"):index ===1?router.push("/chooseModel"):null
 }
 const search = () => {
-
+  //防抖
+  setTimeout(()=>{
+    console.log(`根据搜索条件${searchText.value}搜索`)
+  },300)
 }
+
+watch(()=>searchText.value,search)
+
+onMounted( async () => {
+  const res = await listConversation({});
+  AIListData.value = res.data.data.items
+  console.log(AIListData.value)
+
+})
+
+const manageToggle = () => {
+  if(modelStore.modelIndex===0){
+    dialog.value = true
+    return
+  }
+  if(modelStore.modelIndex===1){
+    router.push("/ManageModel")
+  }
+}
+
+// watchEffect(async ()=>{
+//   if(modelStore.modelIndex===1){
+//     const res = await getModuleList()
+//     leftList.value = res.data.models
+//     console.log(leftList)
+//   }
+// })
 </script>
 
 <template>
@@ -57,7 +112,7 @@ const search = () => {
           </div>
            <div class="search" :class="!isShow?'hoverClass':''" @click="isShow = true" :style="isShow?'width:calc(100% - 60px);outline: 1px solid #d7d7d7;':''">
              <svg :style="isShow?'border:none':''"  class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="m795.904 750.72 124.992 124.928a32 32 0 0 1-45.248 45.248L750.656 795.904a416 416 0 1 1 45.248-45.248zM480 832a352 352 0 1 0 0-704 352 352 0 0 0 0 704"></path></svg>
-              <input @keyup.enter="search" v-show="isShow"  type="text" :placeholder="module[modelStore.modelIndex].searchPlaceholder">
+              <input v-model="searchText" v-show="isShow"  type="text" :placeholder="module[modelStore.modelIndex].searchPlaceholder">
            </div>
       </div>
   </div>
@@ -65,13 +120,13 @@ const search = () => {
   <hr color="#d7d7d7">
 
   <div class="middle">
-    <ConversationList v-if="modelStore.modelIndex === 0" :class-style="activeMenu === i" @click="activeMenu = i" v-for="i in 3" :key="i"></ConversationList>
-    <ModelList v-if="modelStore.modelIndex === 1" :class-style="activeMenu === i" @click="activeMenu = i" v-for="i in 3" :key="i"></ModelList>
+    <ConversationList :id="item.id" :ai-type="item.modelInfo?item.modelInfo.modelVersion:null" :description="item.modelInfo?item.modelInfo.description:null" :ai-name="item.modelInfo?item.modelInfo.modelName:null" v-if="modelStore.modelIndex === 0" :class-style="activeMenu === i" @click="activeMenu = i" v-for="(item, i) in AIListData" :key="i"></ConversationList>
+    <ModelList :ai-name="item.modelInfo?item.modelInfo.modelName:null" v-if="modelStore.modelIndex === 1" :class-style="activeMenu === i" @click="activeMenu = i" v-for="(item,i) in AIListData" :key="i"></ModelList>
   </div>
 
   <hr color="#d7d7d7">
   <div class="management">
-    <div @click="dialog = true" class="managerBtn">
+    <div @click="manageToggle" class="managerBtn">
       <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M389.44 768a96.064 96.064 0 0 1 181.12 0H896v64H570.56a96.064 96.064 0 0 1-181.12 0H128v-64zm192-288a96.064 96.064 0 0 1 181.12 0H896v64H762.56a96.064 96.064 0 0 1-181.12 0H128v-64zm-320-288a96.064 96.064 0 0 1 181.12 0H896v64H442.56a96.064 96.064 0 0 1-181.12 0H128v-64z"></path></svg>
       <span>{{ module[modelStore.modelIndex].bottomBtnName }}</span>
     </div>
@@ -167,6 +222,7 @@ const search = () => {
 
     .middle{
       flex: 7;
+      overflow-y: scroll;
     }
 
     .management {

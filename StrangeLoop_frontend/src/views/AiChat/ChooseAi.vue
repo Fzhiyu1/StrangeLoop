@@ -1,22 +1,50 @@
 
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
+import {listModelInfo} from "@/api/manage.ts";
+import {addConversation} from "@/api/conversation.ts";
+import {getCurrentUser} from "@/api/login.ts";
 
 const selectedAI = ref('');
-const aiOptions = [
-  { value: 'ai_xiaozhi', label: 'AI 小智' },
-  { value: 'gwen2.5.7b', label: 'gwen2.5:7b' },
-  { value: 'chatgpt', label: 'ChatGPT' },
-  { value: 'claude', label: 'Claude' },
-];
+const aiOptions = ref([
+  {
+    "modelId": 1,
+    "modelVersion": "GPT_3",
+    "modelName": "小智",
+    "modelFileId": 1,
+    "disable": 0,
+    "userId": 1,
+    "aiolId": 3,
+    "linkType": 0,
+    "description": "就这样asdasd",
+    "modelFile": null,
+    "modelAiOnline": null
+  }
+]);
 
-const startChat = () => {
+const startChat = async () => {
   if (selectedAI.value) {
     console.log(`开始与 ${selectedAI.value} 聊天`);
     // 这里可以添加跳转到聊天页面的逻辑
+    // {
+    //   "userId":"1",
+    //     "aiName":"GPT_3"
+    // }
+   const res = await getCurrentUser()
+    await addConversation({data:{
+      userId: res.data.data.id,
+      aiName: selectedAI.value,
+      title:"新会话"
+    }})
   }
 };
+
+onMounted(async()=>{
+  listModelInfo({}).then(res=>{
+    aiOptions.value = res.data.data
+  })
+})
 </script>
 
 <template>
@@ -25,16 +53,16 @@ const startChat = () => {
       <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">选择一个专属于你的 AI，开始聊天吧！</h1>
 
       <div class="mb-6">
-        <label for="ai-select" class="block text-sm font-medium text-gray-700 mb-2">选择 AI：</label>
+        <label for="ai-select" class="block text-lg font-medium text-gray-700 mb-2">选择 AI：</label>
         <div class="relative">
           <select
               id="ai-select"
               v-model="selectedAI"
-              class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+              class="block w-full pl-3 pr-10 py-2 text-lg border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg rounded-md"
           >
             <option value="">请选择 AI 助手</option>
-            <option v-for="ai in aiOptions" :key="ai.value" :value="ai.value">
-              {{ ai.label }}
+            <option v-for="ai in aiOptions" :key="ai.modelId" :value="ai.modelName">
+              {{ ai.modelName }} | {{ ai.modelVersion }}
             </option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

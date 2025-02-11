@@ -1,6 +1,7 @@
 <!-- 管理对话记录弹窗 -->
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import {ref, computed, onMounted} from 'vue';
+import {deleteConversation, listConversation} from "@/api/conversation.js";
 
 const dialogues = ref([
   { title: '学习方法交流会', date: '2024-12-07 16:40', selected: false },
@@ -14,10 +15,13 @@ const dialogues = ref([
 ]);
 
 const searchQuery = ref('');
+const isSelectAll = ref(false);
 
 const filteredDialogues = computed(() => {
-  return dialogues.value.filter(dialogue =>
-      dialogue.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  return dialogues.value.filter(dialogue =>{
+    dialogue.title = dialogue.title?dialogue.title:" "
+    return dialogue.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  }
   );
 });
 
@@ -26,13 +30,24 @@ const deleteDialogue = (index: number) => {
 };
 
 const deleteSelected = () => {
-  dialogues.value = dialogues.value.filter(dialogue => !dialogue.selected);
+  deleteConversation({ids:dialogues.value.filter(dialogue => dialogue.selected).map(dialogue=>dialogue.id)})
+  selectList()
 };
 
 const cancelSelected = () => {
-  dialogues.value.forEach(dialogue => dialogue.selected = false)
+  isSelectAll.value = !isSelectAll.value;
+  dialogues.value.forEach(dialogue => dialogue.selected = isSelectAll.value)
 }
 
+const selectList = () => {
+  listConversation({}).then(res=>{
+    dialogues.value = res.data.data.items
+  })
+}
+
+onMounted(()=>{
+  selectList()
+})
 const emit = defineEmits(["close"])
 </script>
 
@@ -42,7 +57,7 @@ const emit = defineEmits(["close"])
       <svg @click="emit('close')" class="absolute right-2 top-2 cursor-pointer w-10 h-10"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z"></path></svg>
       <!-- 标题栏 -->
       <div class="flex justify-between items-center p-4 border-b border-gray-200">
-        <h2 class="text-xl font-semibold">管理对话记录：共 {{ dialogues.length }} 条</h2>
+        <h2 class="text-xl font-semibold">管理对话记录：共 {{ filteredDialogues.length }} 条</h2>
         <button class="text-gray-500 hover:text-gray-700">
           <i class="fas fa-times"></i>
         </button>
@@ -63,12 +78,16 @@ const emit = defineEmits(["close"])
 
       <!-- 对话列表 -->
       <div class="max-h-[400px] overflow-y-auto">
+        <div class="flex items-center p-4 hover:bg-gray-50 border-b border-gray-200 last:border-b-0">
+          <input type="checkbox" @click="cancelSelected" class="mr-4 h-5 w-5 text-pink-500 focus:ring-pink-400 border-gray-300 rounded">
+          全选
+          </div>
         <div v-for="(dialogue, index) in filteredDialogues" :key="index" class="flex items-center p-4 hover:bg-gray-50 border-b border-gray-200 last:border-b-0">
           <input type="checkbox" :id="'dialogue-' + index" v-model="dialogue.selected" class="mr-4 h-5 w-5 text-pink-500 focus:ring-pink-400 border-gray-300 rounded">
           <label :for="'dialogue-' + index" class="flex-grow cursor-pointer">
             <span class="font-medium">{{ dialogue.title }}</span>
           </label>
-          <span class="text-sm text-gray-500 mr-4">{{ dialogue.date }}</span>
+<!--          <span class="text-sm text-gray-500 mr-4">{{ dialogue.date }}</span>-->
           <button @click="deleteDialogue(index)" class="text-gray-500 hover:text-red-500">
             <i class="fas fa-trash-alt"></i>
           </button>
@@ -76,10 +95,7 @@ const emit = defineEmits(["close"])
       </div>
 
       <!-- 底部按钮 -->
-      <div class="flex justify-between p-4 border-t border-gray-200">
-        <button @click="cancelSelected" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 !rounded-button whitespace-nowrap">
-          取消选中
-        </button>
+      <div class="flex justify-end p-4 border-t border-gray-200">
         <button @click="deleteSelected" class="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 !rounded-button whitespace-nowrap">
           删除对话
         </button>
