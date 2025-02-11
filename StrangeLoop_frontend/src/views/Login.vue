@@ -84,7 +84,6 @@ const startLogin = async () => {
       loginUser({ data: loginForm }).then((res) => {
         if (res.data.code == 200) {
           ElMessage.success("登录成功");
-
           setToken({token:res.data.data});
           router.push("/");
           console.log(router)
