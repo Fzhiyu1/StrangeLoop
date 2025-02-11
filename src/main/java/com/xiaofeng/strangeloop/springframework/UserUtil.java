@@ -18,4 +18,13 @@ public class UserUtil {
         }
         return null;
     }
+
+    public static SysUser getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof SysUser) {
+            SysUser customUserDetails = (SysUser) authentication.getPrincipal();
+            return customUserDetails;
+        }
+        return null;
+    }
 }

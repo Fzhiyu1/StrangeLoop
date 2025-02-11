@@ -1,6 +1,7 @@
 package com.xiaofeng.strangeloop.system.controller;
 
 import com.xiaofeng.strangeloop.springframework.JwtUtil;
+import com.xiaofeng.strangeloop.springframework.UserUtil;
 import com.xiaofeng.strangeloop.system.domain.ApiResponse;
 import com.xiaofeng.strangeloop.system.domain.LoginRequest;
 import com.xiaofeng.strangeloop.system.domain.PageResult;
@@ -24,6 +25,7 @@ public class SysUserController {
 
     /**
      * 查询所有用户
+     *
      * @return ApiResponse
      */
     @GetMapping("/all")
@@ -34,6 +36,7 @@ public class SysUserController {
 
     /**
      * 登录用户
+     *
      * @param loginRequest
      * @return ApiResponse
      */
@@ -55,24 +58,36 @@ public class SysUserController {
 
     /**
      * 创建用户类
+     *
      * @param sysUser
      * @return ApiResponse
      */
     @PostMapping("/create")
     public ApiResponse<String> createOneUser(@RequestBody SysUser sysUser) {
 //        当用户已存在的时候
-        if(sysUserService.findUserByName(sysUser.getAccount()) !=null){
+        if (sysUserService.findUserByName(sysUser.getAccount()) != null) {
             return ApiResponse.error("创建失败,用户已存在，请重新命名");
         }
 //        创建用户
         int i = sysUserService.insertUser(sysUser);
 
 //        创建失败
-        if ( i== -1) {
+        if (i == -1) {
             return ApiResponse.error("创建失败");
         }
 //        返回创建成功
         return ApiResponse.createdUserSuccess();
     }
+
+    @PostMapping("/nowLoginUser")
+    public ApiResponse getNowLoginUser() {
+
+        SysUser currentUser = UserUtil.getCurrentUser();
+        currentUser.setPassword(null);
+
+        return ApiResponse.success(currentUser);
+
+    }
+
 
 }
