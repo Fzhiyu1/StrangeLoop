@@ -5,12 +5,12 @@
         <result property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="title" column="title"/>
-        <result property="aiName" column="ai_name"/>
+        <result property="modelInfoId" column="model_info_id"/>
     </resultMap>
 
 
     <sql id="selectAll">
-        select id,user_id,title,ai_name from model_conversation
+        select id,user_id,title,model_info_id from model_conversation
     </sql>
     <select id="selectAll" resultMap="ModelConversationResult" parameterType="com.xiaofeng.strangeloop.system.domain.ModelConversation">
         <include refid="selectAll"/>
@@ -19,13 +19,13 @@
                 and id =#{id}
             </if>
             <if test="userId != null and userId != ''">
-                and userId= #{userId}
+                and user_id= #{userId}
             </if>
             <if test="title != null and title != ''">
                 and title like concat('%',#{title},'%')
             </if>
-            <if test="aiName !=null and aiName!=''">
-                and aiName like concat('%',#{aiName},'%')
+            <if test="modelInfoId !=null and modelInfoId!=''">
+                and model_info_id like concat('%',#{modelInfoId},'%')
             </if>
         </where>
 

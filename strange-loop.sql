@@ -11,7 +11,7 @@
  Target Server Version : 80037 (8.0.37)
  File Encoding         : 65001
 
- Date: 08/02/2025 18:24:25
+ Date: 11/02/2025 12:20:53
 */
 
 SET NAMES utf8mb4;
@@ -34,13 +34,15 @@ CREATE TABLE `model_ai_online`  (
   `update_by` int NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`ai_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_ai_online
 -- ----------------------------
 INSERT INTO `model_ai_online` VALUES (3, 'https://api.bianxie.ai/v1/chat/completions', 'sk-qxoWrNw4JDPobNAZxkIV11rXP8cFFTtZa4kUbYthQAhxdJJq', 1, 'gpt-3.5-turbo-0125', 5000, 'gpt-3.5-turbo-0125', NULL, NULL, NULL, NULL);
 INSERT INTO `model_ai_online` VALUES (4, 'https://api.bianxie.ai/v1/chat/completions', 'sk-qxoWrNw4JDPobNAZxkIV11rXP8cFFTtZa4kUbYthQAhxdJJq', 1, 'gpt-3.5-turbo-0125', 5000, 'gpt-3.5-turbo-0125', 8, '2025-02-08 17:23:24', NULL, NULL);
+INSERT INTO `model_ai_online` VALUES (5, NULL, NULL, NULL, NULL, NULL, NULL, 8, '2025-02-10 19:16:13', NULL, NULL);
+INSERT INTO `model_ai_online` VALUES (6, NULL, NULL, NULL, NULL, NULL, NULL, 8, '2025-02-10 19:16:13', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for model_conversation
@@ -50,22 +52,25 @@ CREATE TABLE `model_conversation`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '编号',
   `user_id` int NULL DEFAULT NULL COMMENT '用户编号',
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '会话标题',
-  `ai_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'ai名称',
+  `model_info_id` int NULL DEFAULT NULL COMMENT '模型id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 608768009 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 608768014 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_conversation
 -- ----------------------------
-INSERT INTO `model_conversation` VALUES (1, 1, '测试数据22212121', 'qwen2.5');
-INSERT INTO `model_conversation` VALUES (4, 1, '测试数据4', 'XiaoZhi');
-INSERT INTO `model_conversation` VALUES (5, 1, '测试数据222', 'qwen2.5');
-INSERT INTO `model_conversation` VALUES (6, 1, '测试数据22212121', 'qwen2.5');
-INSERT INTO `model_conversation` VALUES (7, 1, '修改后的数据', 'qwen2.5');
-INSERT INTO `model_conversation` VALUES (8, 1, '测试数据22212121121212312', 'qwen2.5');
-INSERT INTO `model_conversation` VALUES (608768006, 1, '测试数据22212121121212312', 'qwen2.5');
-INSERT INTO `model_conversation` VALUES (608768007, 1, '测试数据22212121121212312', 'qwen2.5');
-INSERT INTO `model_conversation` VALUES (608768008, 1, '测试数据22212121121212312', 'qwen2.5');
+INSERT INTO `model_conversation` VALUES (5, 1, '测试数据222', 1);
+INSERT INTO `model_conversation` VALUES (6, 1, '测试数据22212121', 2);
+INSERT INTO `model_conversation` VALUES (7, 1, '修改后的数据', 1);
+INSERT INTO `model_conversation` VALUES (8, 1, '测试数据22212121121212312', 2);
+INSERT INTO `model_conversation` VALUES (608768006, 1, '测试数据22212121121212312', 3);
+INSERT INTO `model_conversation` VALUES (608768007, 1, '测试数据22212121121212312', 1);
+INSERT INTO `model_conversation` VALUES (608768008, 1, '测试数据22212121121212312', 2);
+INSERT INTO `model_conversation` VALUES (608768009, 1, '', 1);
+INSERT INTO `model_conversation` VALUES (608768010, 1, '', 2);
+INSERT INTO `model_conversation` VALUES (608768011, 1, '测试数据22212121121212312', 1);
+INSERT INTO `model_conversation` VALUES (608768012, 1, '测试数据22212121121212312', 2);
+INSERT INTO `model_conversation` VALUES (608768013, 1, '修改后的数据', 1);
 
 -- ----------------------------
 -- Table structure for model_file
@@ -87,12 +92,12 @@ CREATE TABLE `model_file`  (
   `top_p` double NULL DEFAULT NULL COMMENT '作用：控制核采样的概率阈值，只选择累计概率达到 p 的候选 token。\r\n\n值类型：浮点数（默认：0.9）。\n\r\n影响：\r\n\n较低值（如 0.5）：更保守。\r\n\n较高值（如 0.95）：更多样化。\n\r\n实际用途：需要生成多样化内容时使用。',
   `min_p` double NULL DEFAULT NULL COMMENT '当top_p不满足需求时可使用',
   PRIMARY KEY (`model_file_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_file
 -- ----------------------------
-INSERT INTO `model_file` VALUES (1, 1, 0.1, 5, 9999, 64, 1.1, 0.5, 123456, '停止', 1, NULL, NULL, NULL);
+INSERT INTO `model_file` VALUES (1, 2, 0.1, 5, 2568, 0, 1.1, 0.5, 1734674529, '停止', 1.5, 258, 0.6, 0.6);
 INSERT INTO `model_file` VALUES (2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `model_file` VALUES (3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `model_file` VALUES (4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -103,16 +108,19 @@ INSERT INTO `model_file` VALUES (5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NU
 -- ----------------------------
 DROP TABLE IF EXISTS `model_file_egmessage`;
 CREATE TABLE `model_file_egmessage`  (
-  `message_id` int NOT NULL COMMENT '信息编号',
+  `message_id` int NOT NULL AUTO_INCREMENT COMMENT '信息编号',
   `user_message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '用户信息 ',
   `model_message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '模型回复',
   `model_file_id` int NULL DEFAULT NULL COMMENT '模型角色设定详细id',
   PRIMARY KEY (`message_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_file_egmessage
 -- ----------------------------
+INSERT INTO `model_file_egmessage` VALUES (1, '打开销售管理页面', '好的我已经打开了页面#/mes/detail#', 1);
+INSERT INTO `model_file_egmessage` VALUES (2, '什么是智造领航', '智造领航系统是.......12312321', 1);
+INSERT INTO `model_file_egmessage` VALUES (3, '一条测试用例回复3', '一条测试用例回复23', 2);
 
 -- ----------------------------
 -- Table structure for model_info
@@ -129,12 +137,12 @@ CREATE TABLE `model_info`  (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '模型描述',
   `aiol_id` int NULL DEFAULT NULL COMMENT '在线ai id',
   PRIMARY KEY (`model_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_info
 -- ----------------------------
-INSERT INTO `model_info` VALUES (1, 'GPT_3', '小智', NULL, 0, 1, 0, '就这样', 3);
+INSERT INTO `model_info` VALUES (1, 'GPT_3', '小智', 1, 0, 1, 0, '就这样asdasd', 3);
 INSERT INTO `model_info` VALUES (2, 'qwen2.5:7b', 'XiaoZhi', 1, 1, 1, 0, '一个由qwen2.5:7b为基底模型的ai小智', 4);
 
 -- ----------------------------
@@ -148,13 +156,16 @@ CREATE TABLE `model_message`  (
   `conversation_id` int NULL DEFAULT NULL COMMENT '会话id',
   `created_time` datetime NULL DEFAULT NULL COMMENT '发送时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_message
 -- ----------------------------
 INSERT INTO `model_message` VALUES (1, 'user', '测试数据', 1, '2024-12-11 19:03:04');
 INSERT INTO `model_message` VALUES (3, 'user', '测试数据', 7, '2025-01-23 14:58:38');
+INSERT INTO `model_message` VALUES (10, NULL, NULL, NULL, NULL);
+INSERT INTO `model_message` VALUES (11, 'user', '测试数据12312312312', 7, '2025-01-16 14:58:51');
+INSERT INTO `model_message` VALUES (12, 'user', '测试数据12312312312', 7, '2025-01-16 14:58:51');
 
 -- ----------------------------
 -- Table structure for sys_dict

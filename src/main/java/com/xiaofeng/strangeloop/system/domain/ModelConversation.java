@@ -1,6 +1,7 @@
 package com.xiaofeng.strangeloop.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -15,7 +16,9 @@ public class ModelConversation {
     private Integer id;
     private Integer userId;
     private String title;
-    private String aiName;
+    private Integer modelInfoId;
     private List<ModelMessage> modelMessageArrayList;
+    @TableField(exist = false)
+    private ModelInfo modelInfo;
 
 }

@@ -1,11 +1,9 @@
 package com.xiaofeng.strangeloop.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.xiaofeng.strangeloop.system.domain.ApiResponse;
-import com.xiaofeng.strangeloop.system.domain.ModelConversation;
-import com.xiaofeng.strangeloop.system.domain.ModelMessage;
-import com.xiaofeng.strangeloop.system.domain.PageResult;
+import com.xiaofeng.strangeloop.system.domain.*;
 import com.xiaofeng.strangeloop.system.service.ModelConversationService;
+import com.xiaofeng.strangeloop.system.service.ModelInfoService;
 import com.xiaofeng.strangeloop.system.service.ModelMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +21,9 @@ public class ModelConversationController {
     @Autowired
     private ModelConversationService modelConversationService;
 
+    @Autowired
+    private ModelInfoService modelInfoService;
+
     //    使用mabatis-plus示例controller list操作
 
     /**
@@ -33,6 +34,10 @@ public class ModelConversationController {
     @GetMapping("/list")
     public ApiResponse<PageResult> getModelConversationList(ModelConversation modelConversation) {
         List<ModelConversation> modelConversationList = modelConversationService.findAll(modelConversation);
+        for (ModelConversation conversation : modelConversationList) {
+            ModelInfo modelInfo = modelInfoService.getModelInfoById(conversation.getModelInfoId());
+            conversation.setModelInfo(modelInfo);
+        }
         PageResult<ModelConversation> modelConversationPageResult = new PageResult<>(modelConversationList);
         return ApiResponse.success(modelConversationPageResult);
     }
