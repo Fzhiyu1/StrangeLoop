@@ -67,6 +67,15 @@ const choose = (index:number) => {
   isShow.value = false
   index ===0?router.push("/chooseAi"):index ===1?router.push("/chooseModel"):null
 }
+// 点击管理基底模型
+const clickManageBaseModel=()=>{
+  if (modelStore.modelIndex == 1) {
+    router.push("/baseModel");
+    return;
+  }
+  dialog.value = true;
+
+}
 const search = () => {
   //防抖
   setTimeout(()=>{
@@ -126,7 +135,7 @@ const manageToggle = () => {
 
   <hr color="#d7d7d7">
   <div class="management">
-    <div @click="manageToggle" class="managerBtn">
+    <div @click="clickManageBaseModel" class="managerBtn">
       <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M389.44 768a96.064 96.064 0 0 1 181.12 0H896v64H570.56a96.064 96.064 0 0 1-181.12 0H128v-64zm192-288a96.064 96.064 0 0 1 181.12 0H896v64H762.56a96.064 96.064 0 0 1-181.12 0H128v-64zm-320-288a96.064 96.064 0 0 1 181.12 0H896v64H442.56a96.064 96.064 0 0 1-181.12 0H128v-64z"></path></svg>
       <span>{{ module[modelStore.modelIndex].bottomBtnName }}</span>
     </div>
@@ -187,7 +196,7 @@ const manageToggle = () => {
               background:  #4152b4;
             }
           }
-        
+
           .search {
             display: flex;
             align-items: center;
