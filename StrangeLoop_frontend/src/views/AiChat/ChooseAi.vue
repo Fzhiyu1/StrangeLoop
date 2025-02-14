@@ -5,6 +5,7 @@ import {onMounted, ref} from 'vue';
 import {listModelInfo} from "@/api/manage.ts";
 import {addConversation} from "@/api/conversation.ts";
 import {getCurrentUser} from "@/api/login.ts";
+import {listModelAiOline} from "@/api/manageOl.ts";
 
 const selectedAI = ref('');
 const aiOptions = ref([
@@ -25,12 +26,7 @@ const aiOptions = ref([
 
 const startChat = async () => {
   if (selectedAI.value) {
-    console.log(`开始与 ${selectedAI.value} 聊天`);
-    // 这里可以添加跳转到聊天页面的逻辑
-    // {
-    //   "userId":"1",
-    //     "aiName":"GPT_3"
-    // }
+
    const res = await getCurrentUser()
     await addConversation({data:{
       userId: res.data.data.id,
@@ -41,9 +37,10 @@ const startChat = async () => {
 };
 
 onMounted(async()=>{
-  listModelInfo({}).then(res=>{
-    aiOptions.value = res.data.data
-  })
+  const res =await listModelInfo({})
+  // const resOnline = await listModelAiOline({})
+  aiOptions.value = []
+  aiOptions.value = [...res.data.data]
 })
 </script>
 
@@ -61,13 +58,13 @@ onMounted(async()=>{
               class="block w-full pl-3 pr-10 py-2 text-lg border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg rounded-md"
           >
             <option value="">请选择 AI 助手</option>
-            <option v-for="ai in aiOptions" :key="ai.modelId" :value="ai.modelName">
-              {{ ai.modelName }} | {{ ai.modelVersion }}
+            <option v-for="ai in aiOptions" :key="ai.modelId" :value="ai.modelName ||ai.aiName">
+              {{ ai.modelName || ai.aiName }} | {{ ai.modelVersion || ai.aiVersion }}
             </option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
             <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+<!--              <path fill-rule="pnpmevenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />-->
             </svg>
           </div>
         </div>

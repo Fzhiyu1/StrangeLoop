@@ -6,6 +6,7 @@ import ModelList from "@/components/ModelList.vue";
 import router from "@/router";
 import {useModelStore} from "@/store/ModelStore.ts";
 import {listConversation} from "@/api/conversation.ts";
+import SvgIcon from "@/components/SvgIcon.vue";
 // import {getModuleList} from "@/api/module.ts";
 
 interface Module{
@@ -116,11 +117,11 @@ const manageToggle = () => {
   <div class="top">
       <div class="box">
           <div class="addConv" @click="choose(modelStore.modelIndex)" :style="isShow?'width:60px':''">
-            <svg  class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M480 480V128a32 32 0 0 1 64 0v352h352a32 32 0 1 1 0 64H544v352a32 32 0 1 1-64 0V544H128a32 32 0 0 1 0-64z"></path></svg>
+            <svg  style="width: 28px;height: 28px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M480 480V128a32 32 0 0 1 64 0v352h352a32 32 0 1 1 0 64H544v352a32 32 0 1 1-64 0V544H128a32 32 0 0 1 0-64z"></path></svg>
             <span v-show="!isShow">{{module[modelStore.modelIndex].topBtnName}}</span>
           </div>
            <div class="search" :class="!isShow?'hoverClass':''" @click="isShow = true" :style="isShow?'width:calc(100% - 60px);outline: 1px solid #d7d7d7;':''">
-             <svg :style="isShow?'border:none':''"  class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="m795.904 750.72 124.992 124.928a32 32 0 0 1-45.248 45.248L750.656 795.904a416 416 0 1 1 45.248-45.248zM480 832a352 352 0 1 0 0-704 352 352 0 0 0 0 704"></path></svg>
+             <svg-icon :style="isShow?'border:none':''"  class="svg" icon-name="icon-search-2-copy"></svg-icon>
               <input v-model="searchText" v-show="isShow"  type="text" :placeholder="module[modelStore.modelIndex].searchPlaceholder">
            </div>
       </div>
@@ -130,7 +131,7 @@ const manageToggle = () => {
 
   <div class="middle">
     <ConversationList :id="item.id" :ai-type="item.modelInfo?item.modelInfo.modelVersion:null" :description="item.modelInfo?item.modelInfo.description:null" :ai-name="item.modelInfo?item.modelInfo.modelName:null" v-if="modelStore.modelIndex === 0" :class-style="activeMenu === i" @click="activeMenu = i" v-for="(item, i) in AIListData" :key="i"></ConversationList>
-    <ModelList :ai-name="item.modelInfo?item.modelInfo.modelName:null" v-if="modelStore.modelIndex === 1" :class-style="activeMenu === i" @click="activeMenu = i" v-for="(item,i) in AIListData" :key="i"></ModelList>
+    <ModelList :id="item.id" :ai-name="item.modelInfo?item.modelInfo.modelName:null" v-if="modelStore.modelIndex === 1" :class-style="activeMenu === i" @click="activeMenu = i" v-for="(item,i) in AIListData" :key="i"></ModelList>
   </div>
 
   <hr color="#d7d7d7">
