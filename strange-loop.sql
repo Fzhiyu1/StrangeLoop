@@ -11,7 +11,7 @@
  Target Server Version : 80037 (8.0.37)
  File Encoding         : 65001
 
- Date: 11/02/2025 12:20:53
+ Date: 14/02/2025 18:01:26
 */
 
 SET NAMES utf8mb4;
@@ -34,15 +34,12 @@ CREATE TABLE `model_ai_online`  (
   `update_by` int NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`ai_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_ai_online
 -- ----------------------------
-INSERT INTO `model_ai_online` VALUES (3, 'https://api.bianxie.ai/v1/chat/completions', 'sk-qxoWrNw4JDPobNAZxkIV11rXP8cFFTtZa4kUbYthQAhxdJJq', 1, 'gpt-3.5-turbo-0125', 5000, 'gpt-3.5-turbo-0125', NULL, NULL, NULL, NULL);
-INSERT INTO `model_ai_online` VALUES (4, 'https://api.bianxie.ai/v1/chat/completions', 'sk-qxoWrNw4JDPobNAZxkIV11rXP8cFFTtZa4kUbYthQAhxdJJq', 1, 'gpt-3.5-turbo-0125', 5000, 'gpt-3.5-turbo-0125', 8, '2025-02-08 17:23:24', NULL, NULL);
-INSERT INTO `model_ai_online` VALUES (5, NULL, NULL, NULL, NULL, NULL, NULL, 8, '2025-02-10 19:16:13', NULL, NULL);
-INSERT INTO `model_ai_online` VALUES (6, NULL, NULL, NULL, NULL, NULL, NULL, 8, '2025-02-10 19:16:13', NULL, NULL);
+INSERT INTO `model_ai_online` VALUES (10, 'https://api.bianxie.ai/v1/chat/completions', 'sk-qxoWrNw4JDPobNAZxkIV11rXP8cFFTtZa4kUbYthQAhxdJJq', 1, 'gpt-3.5-turbo-0125', 5000, 'gpt-3.5-turbo-0125', 8, '2025-02-13 17:21:54', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for model_conversation
@@ -54,7 +51,7 @@ CREATE TABLE `model_conversation`  (
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '会话标题',
   `model_info_id` int NULL DEFAULT NULL COMMENT '模型id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 608768014 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 608768016 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_conversation
@@ -71,6 +68,8 @@ INSERT INTO `model_conversation` VALUES (608768010, 1, '', 2);
 INSERT INTO `model_conversation` VALUES (608768011, 1, '测试数据22212121121212312', 1);
 INSERT INTO `model_conversation` VALUES (608768012, 1, '测试数据22212121121212312', 2);
 INSERT INTO `model_conversation` VALUES (608768013, 1, '修改后的数据', 1);
+INSERT INTO `model_conversation` VALUES (608768014, 8, '新会话', NULL);
+INSERT INTO `model_conversation` VALUES (608768015, 8, '新会话', NULL);
 
 -- ----------------------------
 -- Table structure for model_file
@@ -136,14 +135,15 @@ CREATE TABLE `model_info`  (
   `link_type` int NULL DEFAULT NULL COMMENT '链接类型（本地：0，在线：1）',
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '模型描述',
   `aiol_id` int NULL DEFAULT NULL COMMENT '在线ai id',
+  `localmodel_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '本地模型名称',
   PRIMARY KEY (`model_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_info
 -- ----------------------------
-INSERT INTO `model_info` VALUES (1, 'GPT_3', '小智', 1, 0, 1, 0, '就这样asdasd', 3);
-INSERT INTO `model_info` VALUES (2, 'qwen2.5:7b', 'XiaoZhi', 1, 1, 1, 0, '一个由qwen2.5:7b为基底模型的ai小智', 4);
+INSERT INTO `model_info` VALUES (1, 'GPT_3', '小智', 1, 0, 1, 0, '就这样asdasd', 3, NULL);
+INSERT INTO `model_info` VALUES (2, 'qwen2.5:7b', 'XiaoZhi', 1, 1, 1, 0, '一个由qwen2.5:7b为基底模型的ai小智', 4, 'qwen2:7b');
 
 -- ----------------------------
 -- Table structure for model_message
@@ -156,7 +156,7 @@ CREATE TABLE `model_message`  (
   `conversation_id` int NULL DEFAULT NULL COMMENT '会话id',
   `created_time` datetime NULL DEFAULT NULL COMMENT '发送时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_message
@@ -166,6 +166,8 @@ INSERT INTO `model_message` VALUES (3, 'user', '测试数据', 7, '2025-01-23 14
 INSERT INTO `model_message` VALUES (10, NULL, NULL, NULL, NULL);
 INSERT INTO `model_message` VALUES (11, 'user', '测试数据12312312312', 7, '2025-01-16 14:58:51');
 INSERT INTO `model_message` VALUES (12, 'user', '测试数据12312312312', 7, '2025-01-16 14:58:51');
+INSERT INTO `model_message` VALUES (14, 'assistant', '', 7, '2025-02-12 16:55:51');
+INSERT INTO `model_message` VALUES (15, 'user', '123', 7, '2025-02-12 16:55:51');
 
 -- ----------------------------
 -- Table structure for sys_dict

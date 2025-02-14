@@ -43,6 +43,7 @@ const conversationClick = async () => {
   modelStore.currConversation= res.data.data
   modelStore.topNav = {modelName:props.aiName,modelVersion:props.aiType}
    router.push('/aichat');
+  modelStore.currClickId = props.id
 }
 
 

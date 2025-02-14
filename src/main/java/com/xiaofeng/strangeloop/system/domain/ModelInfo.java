@@ -21,6 +21,7 @@ public class ModelInfo {
     private ModelFile modelFile;
     @TableField(exist = false)
     private ModelAiOnline modelAiOnline;
+    private String localmodelName;
 
 
 }

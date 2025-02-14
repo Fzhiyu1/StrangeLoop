@@ -1,4 +1,5 @@
 import request from "../utils/request.ts";
+import {getModelDetail} from "./module.ts";
 
 const baseUrl = "/model/manage";
 
@@ -18,12 +19,18 @@ export function listModelInfo({data}: {data: any}) {
  * 获取模型详细信息
  * @param id
  */
-export function getModelInfo({id}: {id: any}) {
-    return request({
+export async function getModelInfo({id}: {id: any}) {
+    let modelInfo:any = {}
+     const r = await request({
         method: 'get',
         url: baseUrl + '/' + id,
     })
+    modelInfo.sqlData = r.data.data
+    const res = await getModelDetail(r.data.data.modelVersion)
+    modelInfo.localData = {details:res.data.details,info:res.data.model_info}
+    return modelInfo
 }
+
 
 /**
  * 新增模型信息
