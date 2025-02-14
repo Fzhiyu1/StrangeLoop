@@ -2,16 +2,16 @@
 
 <template>
   <div class="flex h-full">
-    <div class=" bg-white p-5 rounded-lg shadow-md  overflow-y-scroll">
+    <div class=" bg-white p-5 rounded-lg shadow-md w-full  overflow-y-scroll">
       <!-- 模型信息区 -->
       <div class="flex justify-start">
         <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600">
           AI
         </div>
         <div class="flex-1 text-left">
-          <h2 class="text-2xl font-bold text-gray-900 mb-2">模型名称: AI智能助手</h2>
-          <p class="text-gray-600 mb-1">模型描述: AI智能助手是一款基于最新人工智能技术的智能助手，致力于为用户提供个性化、高效的服务体验。通过强大的自然语言处理（NLP）能力，AI智能助手能够理解和生成各种语言内容，支持多种场景下的对话，能够实时回答用户的问题、执行命令、提供建议，并与其他系统进行无缝对接。</p>
-          <p class="text-gray-600 mb-1">基础模型: Qwen3.0</p>
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">模型名称:666 </h2>
+          <p class="text-gray-600 mb-1">模型描述: 777</p>
+          <p class="text-gray-600 mb-1">基础模型: 123</p>
           <p class="text-gray-600 mb-1">模型版本: 8b</p>
           <p class="text-gray-600 mb-1">AI类型: LLM</p>
           <p class="text-gray-600">创建时间: 2024年3月15日 09:30:25</p>
@@ -133,13 +133,59 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
+import {useModelStore} from "@/store/ModelStore.ts";
+import {getModelInfo} from "@/api/manage.ts";
 
 // 这里可以添加需要的响应式数据和方法
 const creativityLevel = ref(5.0);
+const modelStore = useModelStore()
+const modelInfo = ref<any>({
+  "modelId": 1,
+  "modelVersion": "GPT_3",
+  "modelName": "小智",
+  "modelFileId": 1,
+  "disable": 0,
+  "userId": 1,
+  "aiolId": 3,
+  "linkType": 0,
+  "description": "就这样asdasd",
+  "modelFile": {
+    "modelFileId": 1,
+    "mirostat": 2,
+    "mirostatEat": 0.1,
+    "mirostatTau": 5.0,
+    "numCtx": 2568,
+    "repeatLastN": 0,
+    "repeatPenalty": 1.1,
+    "temperature": 0.5,
+    "seed": 1734674529,
+    "stop": "停止",
+    "tfsZ": 1.5,
+    "numPredict": 258,
+    "topP": 0.6,
+    "minP": 0.6,
+    "modelFileEgmessageList": [
+      {
+        "messageId": 1,
+        "userMessage": "打开销售管理页面",
+        "modelMessage": "好的我已经打开了页面#/mes/detail#",
+        "modelFileId": 1
+      },
+      {
+        "messageId": 2,
+        "userMessage": "什么是智造领航",
+        "modelMessage": "智造领航系统是.......12312321",
+        "modelFileId": 1
+      }
+    ]
+  }})
 
-onMounted(() => {
-  // 页面加载完成后的初始化操作
-  console.log('组件已挂载');
+onMounted(  async () => {
+  // 获取模型信息
+  // const res = await getModelInfo({id: modelStore.currClickId})
+  // console.log(res)
+  // modelInfo.value = res.data.data
+
 });
 </script>
 

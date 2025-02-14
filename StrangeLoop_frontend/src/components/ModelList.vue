@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import defaultAvatar from "@/assets/images/user/avatar.jpeg";
+import {useModelStore} from "@/store/ModelStore.ts";
 // import {useRouter} from "vue-router";
-
+const modelStore = useModelStore()
 // const router = useRouter();
-defineProps(
+const props = defineProps(
     {
+      id:{
+        type:Number
+      },
       url: {
         type: String,
         default:defaultAvatar
@@ -17,10 +21,14 @@ defineProps(
         type:Boolean
       }
     })
+
+const modelClick = () => {
+  modelStore.currClickId = props.id
+}
 </script>
 
 <template>
-  <div :class="classStyle? 'active': ''" class="card">
+  <div :class="classStyle? 'active': ''" class="card" @click="modelClick">
     <img :src="url" alt="logo">
     <div class="rightSide">
       <div>
