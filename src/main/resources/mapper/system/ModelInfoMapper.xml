@@ -11,6 +11,7 @@
         <result property="aiolId" column="aiol_id"/>
         <result property="linkType" column="link_type"/>
         <result property="description" column="description"/>
+        <result property="localmodelName" column="localmodel_name"/>
     </resultMap>
     <sql id="selectAll">
         select * from model_info
@@ -44,6 +45,9 @@
             </if>
             <if test="description != null and description != ''">
                 and description like concat('%',#{description},'%')
+            </if>
+            <if test="localmodelName != null and localmodelName !=''">
+                and localmodel_name = #{localmodelName}
             </if>
         </where>
 
