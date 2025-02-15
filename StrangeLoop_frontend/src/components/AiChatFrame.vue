@@ -89,7 +89,7 @@ const commonOuterStyle = {
   margin: '8px 16px',
   height: 'calc(100% - 40px)',
   maxWidth:'calc(100% - 32px)',
-  overflow: 'hidden'
+  overflowY: 'auto'
 }
 // 自动滚动
 const scrollToBottomWithAnimation = () => {

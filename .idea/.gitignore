@@ -6,3 +6,15 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+StrangeLoop_frontend/node_modules/
+./src/
+.gitignore
+target/
+strange-loop.sql
+.mvn/
+.idea/
+.vscode/
+pom.xml
+
+

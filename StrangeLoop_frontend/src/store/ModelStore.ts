@@ -20,6 +20,7 @@ export const useModelStore = defineStore('model', () => {
     })//参数
 
     watch(currClickId, (newVal)=>{
+        console.log(currConversation.value)
         if(modelIndex.value !== 1){
             return
         }

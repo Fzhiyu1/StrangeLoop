@@ -32,34 +32,35 @@
           </div>
           <div>
             <label for="mirostat" class="block text-sm font-medium text-gray-700 mb-1">Mirostat</label>
-            <select id="mirostat" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-              <option>关闭</option>
-              <option>开启</option>
+            <select v-model="modelStore.currModelInfo.info.modelFile.mirostat" id="mirostat" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+              <option value="0">关闭</option>
+              <option value="1">启用1.0</option>
+              <option value="2">启用2.0</option>
             </select>
           </div>
           <div>
             <label for="mirostat-learning-rate" class="block text-sm font-medium text-gray-700 mb-1">Mirostat学习速率</label>
-            <input type="number" id="mirostat-learning-rate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.1" step="0.1" min="0" max="1">
+            <input type="number" id="mirostat-learning-rate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" :value="modelStore.currModelInfo.info.modelFile.mirostatEat" step="0.1" min="0" max="1">
           </div>
           <div>
             <label for="mirostat-entropy" class="block text-sm font-medium text-gray-700 mb-1">Mirostat熵值</label>
-            <input type="number" id="mirostat-entropy" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="5.0" step="0.1" min="0" max="10">
+            <input type="number" id="mirostat-entropy" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" :value="modelStore.currModelInfo.info.modelFile.mirostatTau" step="0.1" min="0" max="10">
           </div>
           <div>
             <label for="context-length" class="block text-sm font-medium text-gray-700 mb-1">上下文长度</label>
-            <input type="number" id="context-length" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="2048" step="1" min="0">
+            <input type="number" id="context-length" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" :value="modelStore.currModelInfo.info.modelFile.numCtx" step="1" min="0">
           </div>
           <div>
             <label for="repeat-check-length" class="block text-sm font-medium text-gray-700 mb-1">检查重复长度</label>
-            <input type="number" id="repeat-check-length" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="64" step="1" min="0">
+            <input type="number" id="repeat-check-length" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" :value="modelStore.currModelInfo.info.modelFile.repeatLastN" step="1" min="0">
           </div>
           <div>
             <label for="repeat-penalty" class="block text-sm font-medium text-gray-700 mb-1">重复token惩罚</label>
-            <input type="number" id="repeat-penalty" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="1.1" step="0.1" min="1">
+            <input type="number" id="repeat-penalty" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" :value="modelStore.currModelInfo.info.modelFile.repeatPenalty" step="0.1" min="1">
           </div>
           <div>
             <label for="output-randomness" class="block text-sm font-medium text-gray-700 mb-1">输出随机度</label>
-            <input type="number" id="output-randomness" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.8" step="0.1" min="0" max="1">
+            <input type="number" id="output-randomness" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" :value="modelStore.currModelInfo.info.modelFile.temperature" step="0.1" min="0" max="1">
           </div>
         </div>
         <div class="mt-4 flex items-center">
@@ -67,11 +68,15 @@
             <input id="tail-free-sampling" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
             <span class="ml-2 text-sm text-gray-600">Tail Free Sampling</span>
           </label>
-          <input type="number" id="tail-free-sampling-value" class="ml-4 w-16 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.8" step="0.1" min="0" max="1">
+          <input type="number" id="tail-free-sampling-value" class="ml-4 w-16 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md" :value="modelStore.currModelInfo.info.modelFile.tfsZ" step="0.1" min="0" max="1">
         </div>
         <div class="mt-4">
           <label for="creativity-level" class="block text-sm font-medium text-gray-700 mb-1">创意等级</label>
-          <input type="range" id="creativity-level" class="w-full" min="0" max="10" step="0.1" value="5.0">
+          <div class="flex items-center">
+            <label>0.0</label>
+            <input type="range" id="creativity-level" class="w-full" min="0" max="10" step="0.1" value="5.0">
+            <label>10.0</label>
+          </div>
         </div>
       </div>
 
@@ -83,37 +88,15 @@
             <thead class="bg-gray-50">
             <tr>
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">序号</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">内容</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">客户消息</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">模型回复</th>
             </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-              <td class="px-6 py-4 text-sm text-gray-500">感谢您的提问。根据您描述的情况，我建议可以从以下几个方面着手解决...</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">编辑</a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-              <td class="px-6 py-4 text-sm text-gray-500">感谢您的提问。根据您描述的情况，我建议可以从以下几个方面着手解决...</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">编辑</a>
-              </td>
-            </tr>            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-              <td class="px-6 py-4 text-sm text-gray-500">感谢您的提问。根据您描述的情况，我建议可以从以下几个方面着手解决...</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">编辑</a>
-              </td>
-            </tr>            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-              <td class="px-6 py-4 text-sm text-gray-500">感谢您的提问。根据您描述的情况，我建议可以从以下几个方面着手解决...</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">编辑</a>
-              </td>
+            <tr class="text-left" v-for="(item,index) in modelStore.currModelInfo.info.modelFile.modelFileEgmessageList" :key="index">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{item.messageId}}</td>
+              <td class="px-6 py-4 text-sm text-gray-500">{{item.userMessage}}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">{{item.modelMessage}}</td>
             </tr>
 
             </tbody>

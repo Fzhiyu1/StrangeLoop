@@ -2,6 +2,7 @@
 
 import AiChatFrame from "../../components/AiChatFrame.vue";
 import {useModelStore} from "@/store/ModelStore.ts";
+import {onMounted} from "vue";
 
 const modelStore = useModelStore()
 
@@ -10,9 +11,9 @@ const showArray=()=>{
 }
 
 
-// onMounted(async () => {
+onMounted( () => {
 
-// })
+})
 
 </script>
 
