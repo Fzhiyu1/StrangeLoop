@@ -1,7 +1,7 @@
 <!-- 代码已包含 CSS：使用 TailwindCSS , 安装 TailwindCSS 后方可看到布局样式效果 -->
 
 <template>
-  <div class="flex h-full">
+  <div v-if="modelStore.currModelInfo && modelStore.currModelInfo.details && modelStore.currModelInfo.aiOnline" class="flex h-full">
     <div class=" bg-white p-5 rounded-lg shadow-md w-full  overflow-y-scroll">
       <!-- 模型信息区 -->
       <div class="flex justify-start">
@@ -9,12 +9,12 @@
           AI
         </div>
         <div class="flex-1 text-left">
-          <h2 class="text-2xl font-bold text-gray-900 mb-2">模型名称:666 </h2>
-          <p class="text-gray-600 mb-1">模型描述: 777</p>
-          <p class="text-gray-600 mb-1">基础模型: 123</p>
-          <p class="text-gray-600 mb-1">模型版本: 8b</p>
-          <p class="text-gray-600 mb-1">AI类型: LLM</p>
-          <p class="text-gray-600">创建时间: 2024年3月15日 09:30:25</p>
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">模型名称:{{ modelStore.currModelInfo.info.modelName }} </h2>
+          <p class="text-gray-600 mb-1">模型描述: {{ modelStore.currModelInfo.info.description }}</p>
+          <p class="text-gray-600 mb-1">基础模型: {{  modelStore.currModelInfo.info.localmodelName }}</p>
+          <p class="text-gray-600 mb-1">模型版本: {{ modelStore.currModelInfo.details.parameter_size }}</p>
+          <p class="text-gray-600 mb-1">AI类型: {{ modelStore.currModelInfo.aiOnline.aiType ===1?'LLM': modelStore.currModelInfo.aiOnline.aiType ===2?'CHAT':'IMAGE' }}</p>
+          <p class="text-gray-600">创建时间: {{ modelStore.currModelInfo.aiOnline.createdTime  }}</p>
         </div>
       </div>
 
@@ -129,64 +129,18 @@
       </div>
     </div>
   </div>
+  <div v-else class="h-full w-full"></div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, watch} from 'vue';
 import {useModelStore} from "@/store/ModelStore.ts";
 import {getModelInfo} from "@/api/manage.ts";
-
 // 这里可以添加需要的响应式数据和方法
 const creativityLevel = ref(5.0);
 const modelStore = useModelStore()
-const modelInfo = ref<any>({
-  "modelId": 1,
-  "modelVersion": "GPT_3",
-  "modelName": "小智",
-  "modelFileId": 1,
-  "disable": 0,
-  "userId": 1,
-  "aiolId": 3,
-  "linkType": 0,
-  "description": "就这样asdasd",
-  "modelFile": {
-    "modelFileId": 1,
-    "mirostat": 2,
-    "mirostatEat": 0.1,
-    "mirostatTau": 5.0,
-    "numCtx": 2568,
-    "repeatLastN": 0,
-    "repeatPenalty": 1.1,
-    "temperature": 0.5,
-    "seed": 1734674529,
-    "stop": "停止",
-    "tfsZ": 1.5,
-    "numPredict": 258,
-    "topP": 0.6,
-    "minP": 0.6,
-    "modelFileEgmessageList": [
-      {
-        "messageId": 1,
-        "userMessage": "打开销售管理页面",
-        "modelMessage": "好的我已经打开了页面#/mes/detail#",
-        "modelFileId": 1
-      },
-      {
-        "messageId": 2,
-        "userMessage": "什么是智造领航",
-        "modelMessage": "智造领航系统是.......12312321",
-        "modelFileId": 1
-      }
-    ]
-  }})
 
-onMounted(  async () => {
-  // 获取模型信息
-  // const res = await getModelInfo({id: modelStore.currClickId})
-  // console.log(res)
-  // modelInfo.value = res.data.data
 
-});
 </script>
 
 <style scoped>

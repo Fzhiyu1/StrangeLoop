@@ -1,11 +1,13 @@
 
 
 <script lang="ts" setup>
-import {onMounted, ref} from 'vue';
+import {onMounted, ref,nextTick} from 'vue';
 import {listModelInfo} from "@/api/manage.ts";
 import {addConversation} from "@/api/conversation.ts";
 import {getCurrentUser} from "@/api/login.ts";
 import {listModelAiOline} from "@/api/manageOl.ts";
+import router from "@/router";
+import {useModelStore} from "@/store/ModelStore.ts";
 
 const selectedAI = ref('');
 const aiOptions = ref([
@@ -23,16 +25,25 @@ const aiOptions = ref([
     "modelAiOnline": null
   }
 ]);
+const modelStore = useModelStore()
 
 const startChat = async () => {
   if (selectedAI.value) {
-
    const res = await getCurrentUser()
     await addConversation({data:{
       userId: res.data.data.id,
       aiName: selectedAI.value,
       title:"新会话"
     }})
+    router.push('/aichat')
+    // 跟新菜单栏
+    await modelStore.updateConversationList()
+    //打开最后一个聊天窗口,也就是最新的聊天窗口
+    await nextTick(()=>{
+      const cards = document.querySelectorAll('.card')
+      cards[cards.length - 1].click()
+    })
+
   }
 };
 

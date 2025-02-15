@@ -12,7 +12,8 @@ export function getModelDetail(modelVersion: string) {
         url: "/api/show",
         method: 'post',
         data: {
-            model: modelVersion
+            model: modelVersion,
+            verbose: true
         }
     })
 }

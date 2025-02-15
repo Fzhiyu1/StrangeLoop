@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, reactive, ref, watch, watchEffect} from "vue";
+import {onMounted, onUpdated, reactive, ref, watch, watchEffect} from "vue";
 import ConversationList from "@/components/ConversationList.vue";
 import DialogCom from "@/views/AiChat/DialogCom.vue";
 import ModelList from "@/components/ModelList.vue";
@@ -17,7 +17,8 @@ interface Module{
 }
 
 const modelStore = useModelStore()
-const activeMenu = ref<number>(-1)
+const conversationsActiveMenu = ref<number>(-1)
+const modelActiveMenu = ref<number>(-1)
 const dialog = ref<boolean>(false)
 const isShow = ref<boolean>(false)
 const leftList = ref<any>(null)
@@ -43,27 +44,27 @@ const module = reactive<Module[]>([
   }
 ])
 
-const AIListData = ref<any[]>([{
-  id: 1,
-  userId: 1,
-  title: "测试数据22212121",
-  aiName: "qwen2.5",
-  modelMessageArrayList: null,
-  modelInfo: {
-    "modelId": 1,
-    "modelVersion": "GPT_3",
-    "modelName": "小智",
-    "modelFileId": 1,
-    "disable": 0,
-    "userId": 1,
-    "aiolId": 3,
-    "linkType": 0,
-    "description": "就这样asdasd",
-    "modelFile": null,
-    "modelAiOnline": null
-  }
-}])
 
+// const AIListData = ref<any[]>([{
+//   id: 1,
+//   userId: 1,
+//   title: "测试数据22212121",
+//   aiName: "qwen2.5",
+//   modelMessageArrayList: null,
+//   modelInfo: {
+//     "modelId": 1,
+//     "modelVersion": "GPT_3",
+//     "modelName": "小智",
+//     "modelFileId": 1,
+//     "disable": 0,
+//     "userId": 1,
+//     "aiolId": 3,
+//     "linkType": 0,
+//     "description": "就这样asdasd",
+//     "modelFile": null,
+//     "modelAiOnline": null
+//   }
+// }])
 const choose = (index:number) => {
   isShow.value = false
   index ===0?router.push("/chooseAi"):index ===1?router.push("/chooseModel"):null
@@ -86,30 +87,15 @@ const search = () => {
 
 watch(()=>searchText.value,search)
 
-onMounted( async () => {
-  const res = await listConversation({});
-  AIListData.value = res.data.data.items
-  console.log(AIListData.value)
-
-})
-
-const manageToggle = () => {
-  if(modelStore.modelIndex===0){
-    dialog.value = true
-    return
-  }
-  if(modelStore.modelIndex===1){
-    router.push("/ManageModel")
-  }
+const init =  () => {
+  modelStore.updateConversationList()
 }
 
-// watchEffect(async ()=>{
-//   if(modelStore.modelIndex===1){
-//     const res = await getModuleList()
-//     leftList.value = res.data.models
-//     console.log(leftList)
-//   }
-// })
+
+onMounted( async () => {
+  init()
+})
+
 </script>
 
 <template>
@@ -130,8 +116,26 @@ const manageToggle = () => {
   <hr color="#d7d7d7">
 
   <div class="middle">
-    <ConversationList :id="item.id" :ai-type="item.modelInfo?item.modelInfo.modelVersion:null" :description="item.modelInfo?item.modelInfo.description:null" :ai-name="item.modelInfo?item.modelInfo.modelName:null" v-if="modelStore.modelIndex === 0" :class-style="activeMenu === i" @click="activeMenu = i" v-for="(item, i) in AIListData" :key="i"></ConversationList>
-    <ModelList :id="item.id" :ai-name="item.modelInfo?item.modelInfo.modelName:null" v-if="modelStore.modelIndex === 1" :class-style="activeMenu === i" @click="activeMenu = i" v-for="(item,i) in AIListData" :key="i"></ModelList>
+    <ConversationList :id="item.id"
+                      :ai-type="item.modelInfo?item.modelInfo.modelVersion:null"
+                      :description="item.modelInfo?item.modelInfo.description:null"
+                      :ai-name="item.modelInfo?item.modelInfo.modelName:null"
+                      v-if="modelStore.modelIndex === 0"
+                      :class-style="conversationsActiveMenu === i"
+                      @click="conversationsActiveMenu = i"
+                      v-for="(item, i) in modelStore.conversationList"
+                      :key="i"></ConversationList>
+
+    <ModelList :localmodel-name="item.localmodelName"
+               :model-ai-online="item.modelAiOnline"
+               :id="item.modelId"
+               :ai-name="item.modelName"
+               v-if="modelStore.modelIndex === 1"
+               :class-style="modelActiveMenu === i"
+               @click="modelActiveMenu = i"
+               :ai-type="item.modelVersion"
+               v-for="(item,i) in modelStore.modelList"
+               :key="i"></ModelList>
   </div>
 
   <hr color="#d7d7d7">
@@ -143,7 +147,7 @@ const manageToggle = () => {
   </div>
 
 <!--  管理面板-->
-  <component class="customDialog" @close="dialog = false" v-show="dialog" :is="DialogCom"></component>
+  <component class="customDialog" @close="dialog = false;init()" @update="init()" v-show="dialog"  :is="DialogCom"></component>
 </div>
 </template>
 
@@ -232,7 +236,7 @@ const manageToggle = () => {
 
     .middle{
       flex: 7;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     .management {

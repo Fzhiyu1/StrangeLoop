@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import {nextTick, ref} from "vue";
 import { listModelAiOline } from "@/api/manageOl.ts";
 import axios from "axios";
 
 const linkType = ref(false);
 const modelAiOlineList = ref([]);
 const modelAiLocalList = ref([]);
+const modelStore = useModelStore()
 const form = ref({
   modelName: "",
   linkType: 0,
@@ -31,6 +32,7 @@ import { computed } from "vue";
 import {addModelInfo} from "@/api/manage.ts";
 import router from "@/router";
 import {ElMessage} from "element-plus";
+import {useModelStore} from "@/store/ModelStore.ts";
 
 const rules = computed(() => ({
   modelName: [
@@ -52,7 +54,7 @@ const formRef = ref(null);
 
 // 添加模型信息
 const clickAddModelInfo = async () => {
-  form.value.linkType = linkType.value ? 1 : 0;
+  form.value.linkType = linkType.value ? 0 : 1;
   // 强制触发表单验证
   try {
     await formRef.value.validate(); // 使用 await 确保验证完成
@@ -66,7 +68,13 @@ const clickAddModelInfo = async () => {
     addModelInfo({data:modelData}).then(res => {
       // 还剩一个跳转操作
       ElMessage.success("创建成功");
-
+        //跟新模型列表
+      modelStore.updateModelList()
+      router.push("/modelManager")
+       nextTick(()=>{
+        const cards = document.querySelectorAll('.card')
+        cards[cards.length - 1].click()
+      })
     })
   } catch (error) {
     console.log("表单验证失败:", error);
@@ -77,7 +85,6 @@ const clickAddModelInfo = async () => {
 const changeLinkType=()=>{
   if(linkType.value){
     form.value.aiolId = "";
-
   }else {
     form.value.localmodelName="";
   }

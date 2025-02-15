@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import defaultAvatar from "@/assets/images/user/avatar.jpeg";
 import {useModelStore} from "@/store/ModelStore.ts";
+import {listModelInfo} from "@/api/manage.ts";
+import {string} from "@kousum/semi-ui-vue/dist/PropTypes";
+import {getModelDetail} from "@/api/module.ts";
+import router from "@/router";
 // import {useRouter} from "vue-router";
 const modelStore = useModelStore()
 // const router = useRouter();
@@ -17,13 +21,25 @@ const props = defineProps(
         type:String,
         default:"AI小智"
       },
+      aiType:{
+        type:[String,null],
+      },
       classStyle:{
         type:Boolean
+      },
+      localmodelName:{
+        type:[string,null],
+      },
+      modelAiOnline:{
+        type:[string,null]
       }
     })
 
-const modelClick = () => {
+const modelClick = async () => {
   modelStore.currClickId = props.id
+  modelStore.parameter.propsLocalModelName = props.localmodelName
+  modelStore.topNav = {modelName:props.aiName,modelVersion:props.aiType}
+  await router.push("/modelManager")
 }
 </script>
 
@@ -32,7 +48,7 @@ const modelClick = () => {
     <img :src="url" alt="logo">
     <div class="rightSide">
       <div>
-        <span  class="aiName">{{aiName}}</span>
+        <span class="aiName">{{aiName}}</span>
       </div>
     </div>
   </div>

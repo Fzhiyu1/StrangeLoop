@@ -17,6 +17,7 @@ service.interceptors.request.use(
         // 如果有 data
         // 是否需要设置 token
         const isToken = (config.headers || {}).isToken === false
+        console.log(getToken())
         if (getToken() && !isToken) {
             config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
         }
@@ -99,7 +100,8 @@ service.interceptors.response.use(response => {
     }
     ElMessage.error(error.message);
 //     处理结束
-
+    const store = useRequestStore();
+    store.isLoading = false;
     return Promise.resolve(error.response)
 
 });

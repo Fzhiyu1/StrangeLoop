@@ -39,10 +39,9 @@ const _data = ref({
 })
 
 const conversationClick = async () => {
-  const res = await getConversation({id:props.id})
-  modelStore.currConversation= res.data.data
+  modelStore.currConversation= (await getConversation({id:props.id})).data.data
   modelStore.topNav = {modelName:props.aiName,modelVersion:props.aiType}
-   router.push('/aichat');
+  await router.push('/aichat');
   modelStore.currClickId = props.id
 }
 

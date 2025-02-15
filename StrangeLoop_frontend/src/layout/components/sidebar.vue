@@ -3,6 +3,7 @@ import SvgIcon from "../../components/SvgIcon.vue";
 import {ref,reactive} from "vue";
 import {Router, useRouter} from "vue-router";
 import {useModelStore} from "@/store/ModelStore.ts";
+import {listModelInfo} from "@/api/manage.ts";
 
 const modelStore = useModelStore()
 const router:Router = useRouter()
@@ -20,10 +21,13 @@ const conf = {
     }
   }
 }
-const gotoPage = (index:number,path:string) => {
+const gotoPage =async (index:number,path:string) => {
   activeMenu.value=index
-  router.push(path)
   modelStore.modelIndex = index
+  if(path === '/modelManager' && index === 1){
+    modelStore.modelList =(await listModelInfo({})).data.data
+  }
+   router.push(path)
 }
 </script>
 

@@ -2,7 +2,6 @@ StrangeLoop_frontend/node_modules/
 ./src/
 .gitignore
 target/
-.env
 strange-loop.sql
 .mvn/
 .idea/

@@ -1,5 +1,6 @@
 import request from "../utils/request.ts";
 import {getModelDetail} from "./module.ts";
+import {ElMessage} from "element-plus";
 
 const baseUrl = "/model/manage";
 
@@ -25,9 +26,9 @@ export async function getModelInfo({id}: {id: any}) {
         method: 'get',
         url: baseUrl + '/' + id,
     })
-    modelInfo.sqlData = r.data.data
-    const res = await getModelDetail(r.data.data.modelVersion)
-    modelInfo.localData = {details:res.data.details,info:res.data.model_info}
+    modelInfo = r.data.data
+    // const res = await getModelDetail(r.data.data.modelVersion)
+    // modelInfo.localData = {details:res.data.details,info:res.data.model_info}
     return modelInfo
 }
 

@@ -3,6 +3,8 @@
 import {ref, computed, onMounted} from 'vue';
 import {deleteConversation, listConversation} from "@/api/conversation.js";
 
+const emit = defineEmits(["close","update"])
+
 const dialogues = ref([
   { title: '学习方法交流会', date: '2024-12-07 16:40', selected: false },
   { title: '回答', date: '2024-12-07 16:40', selected: false },
@@ -32,6 +34,8 @@ const deleteDialogue = (index: number) => {
 const deleteSelected = () => {
   deleteConversation({ids:dialogues.value.filter(dialogue => dialogue.selected).map(dialogue=>dialogue.id)})
   selectList()
+  emit("close")
+  emit("update")
 };
 
 const cancelSelected = () => {
@@ -48,7 +52,7 @@ const selectList = () => {
 onMounted(()=>{
   selectList()
 })
-const emit = defineEmits(["close"])
+
 </script>
 
 <template>
