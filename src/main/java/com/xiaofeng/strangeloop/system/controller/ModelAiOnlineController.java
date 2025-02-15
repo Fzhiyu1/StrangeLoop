@@ -7,8 +7,13 @@ import com.xiaofeng.strangeloop.system.domain.ApiResponse;
 import com.xiaofeng.strangeloop.system.domain.ModelAiOnline;
 import com.xiaofeng.strangeloop.system.service.ModelAiOnlineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +22,42 @@ import java.util.List;
 public class ModelAiOnlineController {
     @Autowired
     private ModelAiOnlineService modelAiOnlineService;
+
+    /**
+     * 上传文件
+     *
+     * @param file
+     * @return
+     */
+    @PostMapping("/upload")
+    public ApiResponse uploadFile(@RequestParam("file") MultipartFile file) {
+        // 检查文件是否为空
+        if (file.isEmpty()) {
+            return ApiResponse.error("上传失败，文件为空");
+        }
+
+        try {
+            // 获取系统自定义的存储路径，可以根据实际需要修改
+            String uploadDir = "D:/path/to/custom/directory/";
+
+            // 获取文件原始名称
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+            // 定义保存路径
+            Path path = Paths.get(uploadDir + fileName);
+
+            // 创建目录（如果不存在）
+            Files.createDirectories(path.getParent());
+
+            // 保存文件
+            file.transferTo(path.toFile());
+
+            // 返回成功响应
+            return ApiResponse.success( path.toString());
+        } catch (Exception e) {
+            return ApiResponse.error("上传失败：" + e.getMessage());
+        }
+    }
 
     /**
      * 获取在线模型列表
