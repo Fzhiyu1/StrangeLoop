@@ -152,7 +152,7 @@ const onMessageSend = async (content, attachment) => {
       id: getId(),
       createAt: Date.now(),
       content: message1,
-      status: 'loading'
+      status: 'incomplete'
     };
     // 只更新最后一条消息
     message.value[props.messages.length] = aiMessage;
