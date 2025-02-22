@@ -28,15 +28,18 @@ const filteredDialogues = computed(() => {
 });
 
 const deleteDialogue = (index: number) => {
-  dialogues.value.splice(index, 1);
+  dialogues.value = dialogues.value.filter((_, i) => i !== index);
 };
 
+
 const deleteSelected = () => {
-  deleteConversation({ids:dialogues.value.filter(dialogue => dialogue.selected).map(dialogue=>dialogue.id)})
-  selectList()
-  emit("close")
-  emit("update")
+  deleteConversation({ids: dialogues.value.filter(dialogue => dialogue.selected).map(dialogue => dialogue.id)}).then(() => {
+    selectList();  // 重新加载对话记录
+  });
+  emit("close");
+  emit("update");
 };
+
 
 const cancelSelected = () => {
   isSelectAll.value = !isSelectAll.value;
