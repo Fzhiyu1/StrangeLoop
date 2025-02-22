@@ -42,12 +42,14 @@ public class ModelConversationController {
 //        获取modelInfo
         for (ModelConversation conversation : modelConversationList) {
             ModelInfo modelInfo = modelInfoService.getById(conversation.getModelInfoId());
-//            获取baseModel
-            if (modelInfo.getLinkType() == 1) {
-                ModelAiOnline aiOnline = modelAiOnlineService.getById(modelInfo.getAiolId());
-                modelInfo.setBaseModelName(aiOnline.getAiName());
-            }else {
-                modelInfo.setBaseModelName(modelInfo.getLocalmodelName());
+//            根据linkType获取baseModel
+            if(modelInfo != null) {
+                if (modelInfo.getLinkType() == 1) {
+                    ModelAiOnline aiOnline = modelAiOnlineService.getById(modelInfo.getAiolId());
+                    modelInfo.setBaseModelName(aiOnline.getAiName());
+                }else {
+                    modelInfo.setBaseModelName(modelInfo.getLocalmodelName());
+                }
             }
             conversation.setModelInfo(modelInfo);
         }
