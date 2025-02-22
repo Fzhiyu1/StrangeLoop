@@ -8,6 +8,7 @@ import {getCurrentUser} from "@/api/login.ts";
 import {listModelAiOline} from "@/api/manageOl.ts";
 import router from "@/router";
 import {useModelStore} from "@/store/ModelStore.ts";
+import {getModelAiOline} from "../../api/manageOl.ts";
 
 const selectedAI = ref('');
 const aiOptions = ref([
@@ -29,10 +30,11 @@ const modelStore = useModelStore()
 
 const startChat = async () => {
   if (selectedAI.value) {
+    console.log(selectedAI.value)
    const res = await getCurrentUser()
     await addConversation({data:{
       userId: res.data.data.id,
-      aiName: selectedAI.value,
+      modelInfoId: selectedAI.value,
       title:"新会话"
     }})
     router.push('/aichat')
@@ -47,11 +49,26 @@ const startChat = async () => {
   }
 };
 
-onMounted(async()=>{
+const listAll=async ()=>{
   const res =await listModelInfo({})
+  let aiList = res.data.data;
+  for (let aiListElement of aiList) {
+    if (aiListElement.linkType == 1) {
+
+      aiListElement.baseModel = (await getModelAiOline({id: aiListElement.aiolId})).data.data.aiName;
+    }else {
+      aiListElement.baseModel = aiListElement.localmodelName;
+    }
+  }
   // const resOnline = await listModelAiOline({})
   aiOptions.value = []
-  aiOptions.value = [...res.data.data]
+  aiOptions.value = [...res.data.data];
+  console.log(res)
+}
+onMounted(async()=>{
+  listAll();
+
+
 })
 </script>
 
@@ -69,8 +86,8 @@ onMounted(async()=>{
               class="block w-full pl-3 pr-10 py-2 text-lg border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg rounded-md"
           >
             <option value="">请选择 AI 助手</option>
-            <option v-for="ai in aiOptions" :key="ai.modelId" :value="ai.modelName ||ai.aiName">
-              {{ ai.modelName || ai.aiName }} | {{ ai.modelVersion || ai.aiVersion }}
+            <option v-for="ai in aiOptions" :key="ai.modelId" :value="ai.modelId">
+              {{ ai.modelName || ai.modelName }} | {{ ai.modelVersion || ai.baseModel }}
             </option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
