@@ -40,8 +40,9 @@ const _data = ref({
 
 const conversationClick = async () => {
   modelStore.currConversation= (await getConversation({id:props.id})).data.data
+
   modelStore.topNav = {modelName:props.aiName,modelVersion:props.aiType}
-  await router.push('/aichat');
+  await router.push('/aichat?conversation_id='+props.id);
   modelStore.currClickId = props.id
 }
 
@@ -78,7 +79,7 @@ const conversationClick = async () => {
       background-color: #CCEBFF;
       cursor: pointer;
     }
-    
+
     img {
       width: 60px;
       height: 60px;
