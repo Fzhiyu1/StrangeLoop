@@ -7,6 +7,7 @@ import {ElMessage} from "element-plus";
 import {listConversation} from "../api/conversation.ts";
 
 export const useModelStore = defineStore('model', () => {
+   // 0代笔对话，1代表模型管理，2代表AI工具箱
     const modelIndex = ref<number>(0);
     const topNav = ref<{modelVersion:string,modelName:string}>({modelVersion:'',modelName:''})
     const currConversation = ref<any>({"id":0,"userId":0,"title":"","modelInfoId":0,"modelMessageArrayList":[]})
