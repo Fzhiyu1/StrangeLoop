@@ -50,7 +50,7 @@ public class ModelInfoController {
      */
     @GetMapping("/{id}")
     public ApiResponse  getModelInfoById(@PathVariable("id") Integer id) {
-        ModelInfo modelInfo = modelInfoService.getById(id);
+        ModelInfo modelInfo = modelInfoService.getModelInfoById(id);
 //        返回数据
         return ApiResponse.success(modelInfo);
     }

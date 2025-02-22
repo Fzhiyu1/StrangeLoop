@@ -57,7 +57,7 @@ public class ModelInfoServiceImpl extends ServiceImpl<ModelInfoMapper, ModelInfo
 
             // 构建在线AI查询条件（注意："aiol_id"需与数据库字段名一致）
             QueryWrapper<ModelAiOnline> modelAiOnlineQueryWrapper = new QueryWrapper<>();
-            modelAiOnlineQueryWrapper.eq("aiol_id", aiolId); // 根据主键查询
+            modelAiOnlineQueryWrapper.eq("ai_id", aiolId); // 根据主键查询
 
             // 执行查询并获取关联的在线AI数据
             ModelAiOnline returnAiOnline = modelAiOnlineMapper.selectOne(modelAiOnlineQueryWrapper);
