@@ -2,6 +2,7 @@ package com.xiaofeng.strangeloop.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xiaofeng.strangeloop.system.domain.*;
+import com.xiaofeng.strangeloop.system.service.ModelAiOnlineService;
 import com.xiaofeng.strangeloop.system.service.ModelConversationService;
 import com.xiaofeng.strangeloop.system.service.ModelInfoService;
 import com.xiaofeng.strangeloop.system.service.ModelMessageService;
@@ -24,6 +25,10 @@ public class ModelConversationController {
     @Autowired
     private ModelInfoService modelInfoService;
 
+    @Autowired
+    private ModelAiOnlineService modelAiOnlineService;
+
+
     //    使用mabatis-plus示例controller list操作
 
     /**
@@ -34,8 +39,16 @@ public class ModelConversationController {
     @GetMapping("/list")
     public ApiResponse<PageResult> getModelConversationList(ModelConversation modelConversation) {
         List<ModelConversation> modelConversationList = modelConversationService.findAll(modelConversation);
+//        获取modelInfo
         for (ModelConversation conversation : modelConversationList) {
             ModelInfo modelInfo = modelInfoService.getById(conversation.getModelInfoId());
+//            获取baseModel
+            if (modelInfo.getLinkType() == 1) {
+                ModelAiOnline aiOnline = modelAiOnlineService.getById(modelInfo.getAiolId());
+                modelInfo.setBaseModelName(aiOnline.getAiName());
+            }else {
+                modelInfo.setBaseModelName(modelInfo.getLocalmodelName());
+            }
             conversation.setModelInfo(modelInfo);
         }
         PageResult<ModelConversation> modelConversationPageResult = new PageResult<>(modelConversationList);

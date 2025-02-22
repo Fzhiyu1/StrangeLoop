@@ -22,6 +22,8 @@ public class ModelInfo {
     @TableField(exist = false)
     private ModelAiOnline modelAiOnline;
     private String localmodelName;
+    @TableField(exist = false)
+    private String baseModelName;
 
 
 }
