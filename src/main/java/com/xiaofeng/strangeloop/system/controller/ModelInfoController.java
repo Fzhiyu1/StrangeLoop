@@ -77,7 +77,7 @@ public class ModelInfoController {
         modelInfoService.save(modelInfo);
 
 
-        return ApiResponse.success(null);
+        return ApiResponse.success(modelInfo);
     }
 
     /**
@@ -130,8 +130,15 @@ public class ModelInfoController {
     public ApiResponse updateModelInfoAndModelFile(@RequestBody ModelInfo modelInfo) {
         boolean isUpdateModelInfo = modelInfoService.updateById(modelInfo);
         if (!isUpdateModelInfo) return ApiResponse.error("修改模型信息表失败");
+        if (modelInfo.getLinkType() == 1) {
+            boolean isUpdateModelAiOnline = modelAiOnlineService.updateById(modelInfo.getModelAiOnline());
+            if (!isUpdateModelAiOnline) {
+                return ApiResponse.error("修改在线模型设置表失败");
+            }
+        }
+        System.out.println(modelInfo.getModelFile());
         boolean isUpdateModelFile = modelFileService.updateFileAndEgmessage(modelInfo.getModelFile());
-        if(!isUpdateModelFile) return ApiResponse.error("修改模型设置表失败");
+        if(!isUpdateModelFile) return ApiResponse.error("修改本地模型设置表失败");
         return ApiResponse.success(null);
     }
 
