@@ -65,7 +65,7 @@ public class ModelInfoServiceImpl extends ServiceImpl<ModelInfoMapper, ModelInfo
             // 将在线AI数据设置到主模型对象中
             modelInfo.setModelAiOnline(returnAiOnline);
 
-        } else if (modelInfo.getLinkType() == 0) {
+        }
             // ========== 处理本地AI类型 ==========
             // 获取关联的模型文件主键ID
             Integer modelFileId = modelInfo.getModelFileId();
@@ -85,7 +85,7 @@ public class ModelInfoServiceImpl extends ServiceImpl<ModelInfoMapper, ModelInfo
 
             // 将完整模型文件数据设置到主模型对象中
             modelInfo.setModelFile(modelFile);
-        }
+
 
         // 3. 返回完整装配后的模型信息对象
         return modelInfo;
