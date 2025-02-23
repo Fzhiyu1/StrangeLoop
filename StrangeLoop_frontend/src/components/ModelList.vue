@@ -2,9 +2,13 @@
 import defaultAvatar from "@/assets/images/user/avatar.jpeg";
 import {useModelStore} from "@/store/ModelStore.ts";
 import {listModelInfo} from "@/api/manage.ts";
-import {string} from "@kousum/semi-ui-vue/dist/PropTypes";
+import {any, string} from "@kousum/semi-ui-vue/dist/PropTypes";
 import {getModelDetail} from "@/api/module.ts";
 import router from "@/router";
+import Cookies from "js-cookie";
+import axios from "axios";
+import {getModelAiOline} from "../api/manageOl.ts";
+import {getModelInfo} from "../api/manage.ts";
 // import {useRouter} from "vue-router";
 const modelStore = useModelStore()
 // const router = useRouter();
@@ -32,15 +36,43 @@ const props = defineProps(
       },
       modelAiOnline:{
         type:[string,null]
+      },
+      modelInfo:{
+        type:any
       }
     })
-
+// 模型点击处理函数
 const modelClick = async () => {
+  // 在模型仓库中记录当前点击的模型ID
   modelStore.currClickId = props.id
-  modelStore.parameter.propsLocalModelName = props.localmodelName
-  modelStore.topNav = {modelName:props.aiName,modelVersion:props.aiType}
-  await router.push("/modelManager")
+  // 设置当前选择的本地模型名称到参数中
+  modelStore.parameter.propsLocalModelName = props.localmodelName;
+
+  // 获取模型详细信息
+  let modelInfoTop = props.modelInfo;
+  // 通过API获取完整的模型信息
+  modelInfoTop = (await getModelInfo({id: modelInfoTop.modelId}));
+  console.log('获取的完整模型信息:', modelInfoTop);
+
+  let baseModel = "";
+  // 根据链接类型确定基础模型名称
+  if(modelInfoTop.linkType == 1) { // 1表示在线模型
+    baseModel = modelInfoTop.modelAiOnline.aiName;
+  } else { // 其他情况使用本地模型名称
+    baseModel = modelInfoTop.localmodelName;
+  }
+
+  // 更新顶部导航显示的模型信息
+  modelStore.topNav = {
+    modelName: props.aiName,    // 显示AI名称
+    modelVersion: baseModel     // 显示基础模型版本
+  };
+
+  // 跳转到模型管理页面并携带模型ID参数
+  await router.push("/modelManager?modelId=" + props.id);
 }
+
+
 </script>
 
 <template>
