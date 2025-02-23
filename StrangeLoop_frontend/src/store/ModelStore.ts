@@ -29,22 +29,25 @@ export const useModelStore = defineStore('model', () => {
     })
 
     const updateModelList = async (newVal) => {
-        if(!currModelInfo.value){
-            currModelInfo.value = {}
-        }
-        const {details,model_info,modified_at} = (await getModelDetail(parameter.value.propsLocalModelName)).data
-        currModelInfo.value.details = details
-        currModelInfo.value.model_info = model_info
-        currModelInfo.value.modified_at = modified_at
+        // if(!currModelInfo.value){
+        //     currModelInfo.value = {}
+        // }
+        // console.log(newVal)
+        // const {details,model_info,modified_at} = (await getModelDetail(parameter.value.propsLocalModelName)).data
+        // currModelInfo.value.details = details
+        // currModelInfo.value.model_info = model_info
+        // currModelInfo.value.modified_at = modified_at
+        // console.log(details)
 
-        const info = await getModelInfo({id: newVal})
-        currModelInfo.value.info = info
-        const aiOnline =(await getModelAiOline({id:info.aiolId})).data.data
-        currModelInfo.value.aiOnline = aiOnline
-        console.log("currModelInfo",currModelInfo.value)
-        if(aiOnline === null){
-            ElMessage.warning("缺少在线模型ID参数")
-        }
+        // console.log(newVal)
+        // const info = await getModelInfo({id: newVal.value})
+        // currModelInfo.value.info = info
+        // const aiOnline =(await getModelAiOline({id:info.aiolId})).data.data
+        // currModelInfo.value.aiOnline = aiOnline
+        // console.log("currModelInfo",currModelInfo.value)
+        // if(aiOnline === null){
+        //     ElMessage.warning("缺少在线模型ID参数")
+        // }
     }
 
     const updateConversationList = async () => {
