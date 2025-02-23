@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import {PropType, ref, watch} from "vue";
+import {onBeforeUnmount, PropType, ref, watch} from "vue";
 import {Chat} from '@kousum/semi-ui-vue';
 import {SSEService} from "../utils/SSEService.ts";
 import {useModelStore} from "@/store/ModelStore.ts";
 import {addMessage} from "@/api/message.ts";
 import {getTime} from "@/utils/time.ts";
+import {deleteMessage} from "../api/message.ts";
+import {onBeforeRouteLeave} from "vue-router";
 
 const modelStore = useModelStore();
 
@@ -131,8 +133,8 @@ const onMessageSend = async (content, attachment) => {
     role: 'assistant',
     id: getId(),
     createAt: Date.now(),
-    content: " ",
-    status: 'incomplete'
+    content:"",
+    status: 'loading'
   };
   // 只更新最后一条消息
   message.value[props.messages.length] = aiMessageInit;
@@ -209,6 +211,10 @@ const onChatsChange = (chats) => {
   emit('update:messages', chats); // 向父组件发出事件
   console.log(message.value);
 };
+// 删除消息时触发
+const deleteOne= (message)=>{
+    deleteMessage({id: message.id});
+}
 
 const onStopGenerator = () => {
   sseService.stop();
@@ -225,6 +231,7 @@ const onStopGenerator = () => {
           :show-stop-generate="true"
           ref="chatRef"
           :chats="message"
+          :on-message-delete="deleteOne"
           :role-config="props.roleInfo"
           :onChatsChange="onChatsChange"
           :onMessageSend="onMessageSend"
