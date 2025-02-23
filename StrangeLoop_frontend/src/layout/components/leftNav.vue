@@ -17,6 +17,7 @@ interface Module{
 }
 
 const modelStore = useModelStore()
+
 const conversationsActiveMenu = ref<number>(-1)
 const modelActiveMenu = ref<number>(-1)
 const dialog = ref<boolean>(false)
@@ -70,9 +71,12 @@ const choose = (index:number) => {
   index ===0?router.push("/chooseAi"):index ===1?router.push("/chooseModel"):null
 }
 // 点击管理基底模型
-const clickManageBaseModel=()=>{
+const clickManageBaseModel=async ()=>{
   if (modelStore.modelIndex == 1) {
-    router.push("/baseModel");
+    await router.push("/baseModel").catch(err => {
+      console.error("路由跳转错误:", err)
+    })
+    console.log("点击管理基底模型")
     return;
   }
   dialog.value = true;
@@ -117,7 +121,7 @@ onMounted( async () => {
 
   <div class="middle">
     <ConversationList :id="item.id"
-                      :ai-type="item.modelInfo?item.modelInfo.modelVersion:null"
+                      :ai-type="item.modelInfo?item.modelInfo.baseModelName:null"
                       :description="item.modelInfo?item.modelInfo.description:null"
                       :ai-name="item.modelInfo?item.modelInfo.modelName:null"
                       v-if="modelStore.modelIndex === 0"
@@ -127,13 +131,14 @@ onMounted( async () => {
                       :key="i"></ConversationList>
 
     <ModelList :localmodel-name="item.localmodelName"
-               :model-ai-online="item.modelAiOnline"
+               :model-ai-online="item.aiolId"
                :id="item.modelId"
                :ai-name="item.modelName"
                v-if="modelStore.modelIndex === 1"
                :class-style="modelActiveMenu === i"
                @click="modelActiveMenu = i"
                :ai-type="item.modelVersion"
+               :model-info="item"
                v-for="(item,i) in modelStore.modelList"
                :key="i"></ModelList>
   </div>
