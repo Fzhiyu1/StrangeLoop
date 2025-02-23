@@ -233,7 +233,11 @@ export default {
     }
     // 设置后续cookies
     const setOllamaApiToCookie = (api) => {
-      Cookies.set("OllamaApi", api);
+      const expirationDays = 365 * 10; // 10 年
+      Cookies.set("OllamaApi", api, {
+        expires: expirationDays, // 单位是天（Number 类型）
+        path: "/"                // 确保全站有效
+      });
     }
     initOllamaApiToCookie();
 
@@ -368,6 +372,8 @@ export default {
     function onCancel() {
 
     }
+
+    console.log("组件加载")
 
 
     return {
