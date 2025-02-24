@@ -178,7 +178,6 @@ const onMessageSend = async (content, attachment) => {
     if(convId === modelStore.currConversation.id){
       message.value[props.messages.length] = aiMessage;
     }
-
     // 最后处理
     // 存储用户消息和AI消息
 
@@ -189,6 +188,16 @@ const onMessageSend = async (content, attachment) => {
         "conversationId":convId,
         "createdTime":getTime()
       }}).then(()=>{
+        const str = "<think>\n" +
+            "\n" +
+            "</think>";
+        const str1 = "<think>"
+      console.log(finalMessage)
+        if(finalMessage.includes(str1)){
+          console.log(1234)
+          finalMessage = finalMessage.replace(str, "");
+          finalMessage = finalMessage.replace(str1, "");
+        }
       addMessage({data:{
           "role":"assistant",
           "content":finalMessage,
