@@ -26,4 +26,7 @@ public class ModelFile {
     private Double minP;
     @TableField(exist = false)
     private List<ModelFileEgmessage> modelFileEgmessageList;
+    @TableField("`system`")
+    private String system;
+
 }
