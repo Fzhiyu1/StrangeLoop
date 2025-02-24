@@ -79,6 +79,7 @@ watch(() => props.messages, (newMessages) => {
 // 停止按钮
 
 
+
 //生成 id
 let id = 0;
 
@@ -119,6 +120,7 @@ const onModeChange = (e) => {
 let sseService = new SSEService();
 // 收到信息
 const onMessageSend = async (content, attachment) => {
+  const convId = modelStore.currConversation.id;
   // 1. 用户发送的消息
   //用户消息体
   const userMessage = {
@@ -147,22 +149,23 @@ const onMessageSend = async (content, attachment) => {
   //初始化消息体
 
 
-  const onUpdate = (message1) => {
+  const onUpdate = (message1:string) => {
     // AI 的消息 注意status控制停止按钮的显示 status==incomplete 为加载中 status==complete 为停止加载
     const aiMessage = {
       role: 'assistant',
       id: getId(),
       createAt: Date.now(),
       content: message1,
-      status: 'incomplete'
+      status: 'incomplete',
     };
     // 只更新最后一条消息
-    message.value[props.messages.length] = aiMessage;
-    scrollToBottomWithAnimation();
-    console.log(message1)
+    if(convId === modelStore.currConversation.id){
+      message.value[props.messages.length] = aiMessage;
+      scrollToBottomWithAnimation();
+    }
   }
 
-  const onComplete = (finalMessage) => {
+  const onComplete = (finalMessage:string) => {
     // AI 的消息 注意status控制停止按钮的显示 status==incomplete 为加载中 status==complete 为停止加载
     const aiMessage = {
       role: 'assistant',
@@ -170,27 +173,30 @@ const onMessageSend = async (content, attachment) => {
       createAt: Date.now(),
       content: finalMessage,
       status: 'complete',
-
     };
     // 只更新最后一条消息
-    message.value[props.messages.length] = aiMessage;
+    if(convId === modelStore.currConversation.id){
+      message.value[props.messages.length] = aiMessage;
+    }
 
     // 最后处理
     // 存储用户消息和AI消息
 
-    // 存储用户消息和AI消息
+    //不可能出现用户没有发消息，AI自动发消息
     addMessage({data:{
         "role":"user",
         "content":content,
-        "conversationId":modelStore.currConversation.id,
+        "conversationId":convId,
         "createdTime":getTime()
-      }})
-    addMessage({data:{
-        "role":"assistant",
-        "content":finalMessage,
-        "conversationId":modelStore.currConversation.id,
-        "createdTime":getTime()
-      }})
+      }}).then(()=>{
+      addMessage({data:{
+          "role":"assistant",
+          "content":finalMessage,
+          "conversationId":convId,
+          "createdTime":getTime()
+        }})
+    })
+
   }
 
   // 判断ai类型是否为本地ai

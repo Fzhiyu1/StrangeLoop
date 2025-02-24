@@ -8,7 +8,7 @@
     <leftNav id="leftNav"></leftNav>
     <div id="right">
       <topNav id="topNav"></topNav>
-      <router-view id="views"></router-view>
+        <router-view id="views"></router-view>
     </div>
   </div>
 </template>

@@ -1,23 +1,47 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
+import {getModelInfo, listModelInfo, updateModelInfo} from "../../api/manage.ts";
+import {ElMessage} from "element-plus";
 
-const modelName = ref('AI小智');
-const isLocalModel = ref(true);
-const modelDescription = ref('AI小管是一款基于最新人工智能技术开发的智能助手。它采用先进的深度学习算法，整合了自然语言处理（NLP）能力。AI小管能够理解复杂的问题并提供准确的解答方案，支持多轮对话和多个场景下的任务处理。其中包含问答、推理、决策、并可通过持续学习提升能力。');
 const isDropdownOpen = ref(false);
-const selectedModel = ref('zwen-2.5-7q');
 
 const emit = defineEmits(['confirm','cancel'])
+const props = defineProps({
+  id:{
+    type:Number
+  }
+})
 
-const modelOptions = [
-  'zwen-2.5-7q',
-  'zwen-3.0',
-  'zwen-4.0-preview',
-  'zwen-lite'
-];
+const form = ref({
+  modelId:props.id,
+  modelName:"",
+  linkType:0,
+  description:"",
+  localmodelName:""
+})
+const modelOptions = ref([])
+
+const init = () => {
+  getModelInfo({id:props.id}).then(res=>{
+    // form.value = {res.localmodelName,}
+    form.value = {
+      modelId:props.id,
+      modelName:res.modelName,
+      linkType:res.linkType,
+      description:res.description,
+      localmodelName:res.localmodelName
+    }
+  })
+  listModelInfo({data:{}}).then(res2=>{
+    modelOptions.value = res2.data.data.map(item=>item.modelVersion)
+  })
+  // modelOptions
+}
+
+
 
 const toggleModel = () => {
-  isLocalModel.value = !isLocalModel.value;
+  form.value.linkType = !form.value.linkType;
 };
 
 const toggleDropdown = () => {
@@ -25,19 +49,35 @@ const toggleDropdown = () => {
 };
 
 const selectModel = (model: string) => {
-  selectedModel.value = model;
+  form.value.localmodelName = model;
   isDropdownOpen.value = false;
 };
 
 const handleConfirm = () => {
-  emit('confirm')
   // 处理确认逻辑
+  emit('confirm')
+  updateModelInfo({data:form.value}).then(res=>{
+    if(res.status === 200){
+      ElMessage.success('修改成功')
+      // getModelInfo()
+    }else {
+      ElMessage.error('修改失败')
+    }
+  })
 };
 
 const handleCancel = () => {
   emit('cancel')
   // 处理取消逻辑
 };
+
+
+
+defineExpose({
+  init,
+})
+
+
 </script>
 
 <template>
@@ -55,7 +95,7 @@ const handleCancel = () => {
           <div class="space-y-2">
             <label class="block text-sm font-medium text-gray-700">模型名称：</label>
             <input
-                v-model="modelName"
+                v-model="form.modelName"
                 type="text"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="请输入模型名称"
@@ -70,12 +110,12 @@ const handleCancel = () => {
                 <span class="text-sm text-gray-600">本地模型</span>
                 <button
                     class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
-                    :class="[isLocalModel ? 'bg-blue-600' : 'bg-gray-200']"
+                    :class="[form.linkType===0 ? 'bg-blue-600' : 'bg-gray-200']"
                     @click="toggleModel"
                 >
                   <span
                       class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
-                      :class="[isLocalModel ? 'translate-x-5' : 'translate-x-0']"
+                      :class="[form.linkType===1 ? 'translate-x-5' : 'translate-x-0']"
                   />
                 </button>
                 <span class="text-sm text-gray-600">云端模型</span>
@@ -86,7 +126,7 @@ const handleCancel = () => {
                   @click="toggleDropdown"
                   class="w-full px-3 py-2 text-left border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-between"
               >
-                <span>{{ selectedModel }}</span>
+                <span>{{ form.localmodelName }}</span>
                 <i class="fas fa-chevron-down text-gray-400"></i>
               </button>
               <div v-if="isDropdownOpen" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
@@ -106,7 +146,7 @@ const handleCancel = () => {
           <div class="space-y-2">
             <label class="block text-sm font-medium text-gray-700">模型描述：</label>
             <textarea
-                v-model="modelDescription"
+                v-model="form.description"
                 rows="4"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="请输入模型描述"

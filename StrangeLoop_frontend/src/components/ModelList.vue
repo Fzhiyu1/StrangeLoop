@@ -2,7 +2,7 @@
 import defaultAvatar from "@/assets/images/user/avatar.jpeg";
 import {useModelStore} from "@/store/ModelStore.ts";
 import {listModelInfo} from "@/api/manage.ts";
-import {any, string} from "@kousum/semi-ui-vue/dist/PropTypes";
+import {any, number, string} from "@kousum/semi-ui-vue/dist/PropTypes";
 import {getModelDetail} from "@/api/module.ts";
 import router from "@/router";
 import Cookies from "js-cookie";
@@ -35,7 +35,7 @@ const props = defineProps(
         type:[string,null],
       },
       modelAiOnline:{
-        type:[string,null]
+        type:[string,null,number]
       },
       modelInfo:{
         type:any
@@ -65,7 +65,8 @@ const modelClick = async () => {
   // 更新顶部导航显示的模型信息
   modelStore.topNav = {
     modelName: props.aiName,    // 显示AI名称
-    modelVersion: baseModel     // 显示基础模型版本
+    modelVersion: baseModel,     // 显示基础模型版本
+    modelId: props.id,          // 显示模型ID
   };
 
   // 跳转到模型管理页面并携带模型ID参数

@@ -29,6 +29,7 @@ const gotoPage =async (index:number,path:string) => {
   }
    router.push(path)
 }
+
 </script>
 
 <template>

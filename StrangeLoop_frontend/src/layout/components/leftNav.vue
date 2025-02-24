@@ -93,6 +93,7 @@ watch(()=>searchText.value,search)
 
 const init =  () => {
   modelStore.updateConversationList()
+  console.log(modelStore.conversationList)
 }
 
 
@@ -122,7 +123,7 @@ onMounted( async () => {
   <div class="middle">
     <ConversationList :id="item.id"
                       :ai-type="item.modelInfo?item.modelInfo.baseModelName:null"
-                      :description="item.modelInfo?item.modelInfo.description:null"
+                      :description="item.lastMessage?item.lastMessage:null"
                       :ai-name="item.modelInfo?item.modelInfo.modelName:null"
                       v-if="modelStore.modelIndex === 0"
                       :class-style="conversationsActiveMenu === i"

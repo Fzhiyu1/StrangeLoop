@@ -4,12 +4,12 @@ import {getModelInfo} from "../api/manage.ts";
 import {getModelAiOline} from "../api/manageOl.ts";
 import {getModelDetail} from "../api/module.ts";
 import {ElMessage} from "element-plus";
-import {listConversation} from "../api/conversation.ts";
+import {getConversation, listConversation} from "../api/conversation.ts";
 
 export const useModelStore = defineStore('model', () => {
    // 0代笔对话，1代表模型管理，2代表AI工具箱
     const modelIndex = ref<number>(0);
-    const topNav = ref<{modelVersion:string,modelName:string}>({modelVersion:'',modelName:''})
+    const topNav = ref<any>({modelVersion:'',modelName:''})
     const currConversation = ref<any>({"id":0,"userId":0,"title":"","modelInfoId":0,"modelMessageArrayList":[]})
     const modelType = ref<number>(0)//在线模型和本地模型的切换按钮，0为本地模型，1为在线模型
     const conversationList = ref<any[]>([])//会话列表
@@ -20,8 +20,7 @@ export const useModelStore = defineStore('model', () => {
         propsLocalModelName: null,
     })//参数
 
-    watch(currClickId, (newVal)=>{
-        console.log(currConversation.value)
+    watch(currClickId, ( oldVal,newVal)=>{
         if(modelIndex.value !== 1){
             return
         }
@@ -51,8 +50,21 @@ export const useModelStore = defineStore('model', () => {
     }
 
     const updateConversationList = async () => {
-        const res = await listConversation({});
-        conversationList.value = res.data.data.items
+        const res = await listConversation({params:{}});
+        const p = Promise.allSettled(res.data.data.items.map( async (item)=>{
+            const detail=await getConversation({id:item.id})
+                try{
+                    const length  = detail.data.data.modelMessageArrayList.length
+                    item.lastMessage = detail.data.data.modelMessageArrayList[length-1].content
+                    return item
+                }catch (e){
+                    console.log(e)
+                    item.lastMessage = ""
+                    return item
+                }
+        }))
+        conversationList.value = (await p).map(item=>item.value)
+        console.log("conversationList",conversationList.value)
     }
 
     return {
@@ -66,6 +78,6 @@ export const useModelStore = defineStore('model', () => {
         currModelInfo,
         parameter,
         updateModelList,
-        updateConversationList
+        updateConversationList,
     }
 })

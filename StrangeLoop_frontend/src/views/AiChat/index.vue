@@ -44,10 +44,10 @@ onMounted(() => {
 const initConversation = async () => {
   // 根据conversationId获取对话详情
   conversation.value = (await getConversation({ id: conversationId.value })).data.data;
-  messages.value = conversation.value.modelMessageArrayList; // 更新消息列表
+  messages.value = conversation.value?conversation.value.modelMessageArrayList:[]; // 更新消息列表
 
   // 根据对话中的modelInfoId获取模型信息
-  modelInfo.value = await getModelInfo({ id: conversation.value.modelInfoId });
+  modelInfo.value = await getModelInfo({ id: conversation.value?conversation.value.modelInfoId:null });
 
   // 判断链接类型，并设置相应的url、token和model
   if (modelInfo.value.linkType == 1) {
