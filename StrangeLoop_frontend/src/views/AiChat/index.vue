@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // 导入必要的Vue模块和其他依赖
-import { onMounted, ref, watch } from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import { useRoute } from "vue-router"; // 用于获取路由信息
 import AiChatFrame from "../../components/AiChatFrame.vue"; // AI聊天框组件
 import { useModelStore } from "@/store/ModelStore.ts"; // 状态管理
@@ -38,7 +38,11 @@ onMounted(() => {
   if (conversationId.value) {
     initConversation(); // 在组件加载时如果conversationId存在，则初始化对话
   }
-});
+    const doms= document.querySelectorAll(".semi-chat-container")
+    doms.forEach(dom => {
+      dom.style.overflow = "auto"
+    })
+})
 
 // 初始化对话的异步函数
 const initConversation = async () => {
@@ -63,6 +67,23 @@ const initConversation = async () => {
   }
   console.log(url.value);
 }
+
+const roleInfo = computed(()=>{
+  return {
+    user: {
+      name: '我',
+      avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/docs-icon.png'
+    },
+    assistant: {
+      name: modelStore.topNav.modelName,
+      avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/other/logo.png'
+    },
+    system: {
+      name: 'System',
+      avatar: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/other/logo.png'
+    }
+  }
+})
 </script>
 
 <template>
@@ -72,6 +93,7 @@ const initConversation = async () => {
       :url="url"
       :model="model"
       :token="token"
+      :role-info="roleInfo"
       :ai-type="linkType">
   </AiChatFrame>
 </template>

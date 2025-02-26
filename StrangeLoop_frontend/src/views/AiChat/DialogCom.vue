@@ -1,6 +1,6 @@
 <!-- 管理对话记录弹窗 -->
 <script lang="ts" setup>
-import {ref, computed, onMounted} from 'vue';
+import {ref, computed, onMounted, nextTick} from 'vue';
 import {deleteConversation, listConversation} from "@/api/conversation.js";
 
 const emit = defineEmits(["close","update"])
@@ -21,8 +21,8 @@ const isSelectAll = ref(false);
 
 const filteredDialogues = computed(() => {
   return dialogues.value.filter(dialogue =>{
-    dialogue.title = dialogue.title?dialogue.title:" "
-    return dialogue.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const modelName = dialogue.modelInfo?dialogue.modelInfo.modelName:""
+    return modelName.toLowerCase().includes(searchQuery.value.toLowerCase())
   }
   );
 });
@@ -34,10 +34,11 @@ const deleteDialogue = (index: number) => {
 
 const deleteSelected = () => {
   deleteConversation({ids: dialogues.value.filter(dialogue => dialogue.selected).map(dialogue => dialogue.id)}).then(() => {
-    selectList();  // 重新加载对话记录
+    nextTick(()=>{
+      emit("close");
+      emit("update");
+    })
   });
-  emit("close");
-  emit("update");
 };
 
 
@@ -92,7 +93,7 @@ onMounted(()=>{
         <div v-for="(dialogue, index) in filteredDialogues" :key="index" class="flex items-center p-4 hover:bg-gray-50 border-b border-gray-200 last:border-b-0">
           <input type="checkbox" :id="'dialogue-' + index" v-model="dialogue.selected" class="mr-4 h-5 w-5 text-pink-500 focus:ring-pink-400 border-gray-300 rounded">
           <label :for="'dialogue-' + index" class="flex-grow cursor-pointer">
-            <span class="font-medium">{{ dialogue.title }}</span>
+            <span class="font-medium">{{ dialogue.modelInfo?dialogue.modelInfo.modelName:null }}</span>
           </label>
 <!--          <span class="text-sm text-gray-500 mr-4">{{ dialogue.date }}</span>-->
           <button @click="deleteDialogue(index)" class="text-gray-500 hover:text-red-500">

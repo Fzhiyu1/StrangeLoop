@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, onUpdated, reactive, ref, watch, watchEffect} from "vue";
+import {computed, onMounted, onUpdated, reactive, ref, watch, watchEffect} from "vue";
 import ConversationList from "@/components/ConversationList.vue";
 import DialogCom from "@/views/AiChat/DialogCom.vue";
 import ModelList from "@/components/ModelList.vue";
@@ -82,14 +82,26 @@ const clickManageBaseModel=async ()=>{
   dialog.value = true;
 
 }
-const search = () => {
-  //防抖
-  setTimeout(()=>{
-    console.log(`根据搜索条件${searchText.value}搜索`)
-  },300)
-}
+const searchConv = computed(()=>{
+    return modelStore.conversationList.filter(item=>{
+      try {
+        return item.modelInfo.modelName.toLowerCase().includes(searchText.value)
+      }catch (e){
+        return true
+      }
+    })
+})
 
-watch(()=>searchText.value,search)
+const searchModel = computed(()=>{
+  return modelStore.modelList.filter(item=>{
+    try {
+      return item.modelName.toLowerCase().includes(searchText.value)
+    }catch (e){
+      return true
+    }
+  })
+})
+
 
 const init =  () => {
   modelStore.updateConversationList()
@@ -128,7 +140,7 @@ onMounted( async () => {
                       v-if="modelStore.modelIndex === 0"
                       :class-style="conversationsActiveMenu === i"
                       @click="conversationsActiveMenu = i"
-                      v-for="(item, i) in modelStore.conversationList"
+                      v-for="(item, i) in searchConv"
                       :key="i"></ConversationList>
 
     <ModelList :localmodel-name="item.localmodelName"
@@ -140,7 +152,7 @@ onMounted( async () => {
                @click="modelActiveMenu = i"
                :ai-type="item.modelVersion"
                :model-info="item"
-               v-for="(item,i) in modelStore.modelList"
+               v-for="(item,i) in searchModel"
                :key="i"></ModelList>
   </div>
 

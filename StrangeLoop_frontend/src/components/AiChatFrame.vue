@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onBeforeUnmount, PropType, ref, watch} from "vue";
+import {computed, onBeforeUnmount, PropType, ref, watch} from "vue";
 import {Chat} from '@kousum/semi-ui-vue';
 import {SSEService} from "../utils/SSEService.ts";
 import {useModelStore} from "@/store/ModelStore.ts";
@@ -23,7 +23,6 @@ const props = defineProps({
   },
   roleInfo: {
     type: {},
-
     default: {
       user: {
         name: 'User',
@@ -74,7 +73,6 @@ const emit = defineEmits(['update:messages']);
 //监听message
 watch(() => props.messages, (newMessages) => {
   message.value = [...newMessages];
-  console.log()
 })
 // 停止按钮
 
@@ -238,12 +236,19 @@ const onStopGenerator = () => {
   sseService.stop();
 }
 
+
+const computedMessage = computed(()=>{
+  return message.value.map(item=>{
+    if(item.role === 'assistant'){
+
+    }
+  })
+})
+
 </script>
 
 <template>
   <div id="frame">
-    <!--    -->
-
     <Chat id="chat"
           :style="commonOuterStyle"
           :show-stop-generate="true"

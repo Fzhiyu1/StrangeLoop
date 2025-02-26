@@ -3,9 +3,9 @@ import {useModelStore} from "@/store/ModelStore.ts";
 import {ElMessage, ElMessageBox} from 'element-plus'
 
 import DialogComp from "../../views/ModelManager/DialogComp.vue";
-import {ref} from "vue";
+import {nextTick, ref} from "vue";
 import {useRouter} from "vue-router";
-import {deleteModelInfo} from "../../api/manage.ts";
+import {deleteModelInfo, listModelInfo} from "../../api/manage.ts";
 const router = useRouter();
 const isShow = ref(false);
 const dialogComp = ref(null)
@@ -19,9 +19,14 @@ const delModel = (done:()=>void) => {
     cancelButtonText: '取消',
   })
       .then(() => {
-        deleteModelInfo({id: modelStore.topNav.modelId}).then(res=>{
+        deleteModelInfo({id: modelStore.topNav.modelId}).then(async res=>{
           if(res.status === 200){
+            modelStore.modelList =(await listModelInfo({data:{}})).data.data
             ElMessage.success("删除模型成功!")
+            await nextTick(() => {
+              const cards = document.querySelectorAll('.card')
+              cards[cards.length - 1].click()
+            })
           }else {
             ElMessage.error("删除模型失败!")
           }

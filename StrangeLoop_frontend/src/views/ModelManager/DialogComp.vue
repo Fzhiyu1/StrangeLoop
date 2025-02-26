@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import {ref, watch, watchEffect} from 'vue';
 import {getModelInfo, listModelInfo, updateModelInfo} from "../../api/manage.ts";
 import {ElMessage} from "element-plus";
+import {getModuleList} from "../../api/module.ts";
+import {listModelAiOline} from "../../api/manageOl.ts";
+import router from "../../router";
 
 const isDropdownOpen = ref(false);
 
@@ -15,9 +18,10 @@ const props = defineProps({
 const form = ref({
   modelId:props.id,
   modelName:"",
-  linkType:0,
+  linkType:999,
   description:"",
-  localmodelName:""
+  localmodelName:"",
+  aiolId:-1,
 })
 const modelOptions = ref([])
 
@@ -29,19 +33,16 @@ const init = () => {
       modelName:res.modelName,
       linkType:res.linkType,
       description:res.description,
-      localmodelName:res.localmodelName
+      localmodelName:res.localmodelName,
+      aiolId:res.aiolId,
     }
   })
-  listModelInfo({data:{}}).then(res2=>{
-    modelOptions.value = res2.data.data.map(item=>item.modelVersion)
-  })
-  // modelOptions
 }
 
 
 
 const toggleModel = () => {
-  form.value.linkType = !form.value.linkType;
+  form.value.linkType = form.value.linkType===0?1:0;
 };
 
 const toggleDropdown = () => {
@@ -55,14 +56,14 @@ const selectModel = (model: string) => {
 
 const handleConfirm = () => {
   // 处理确认逻辑
-  emit('confirm')
+
   updateModelInfo({data:form.value}).then(res=>{
     if(res.status === 200){
       ElMessage.success('修改成功')
-      // getModelInfo()
     }else {
       ElMessage.error('修改失败')
     }
+    emit('confirm')
   })
 };
 
@@ -71,7 +72,18 @@ const handleCancel = () => {
   // 处理取消逻辑
 };
 
-
+watchEffect(()=>{
+  if(form.value.linkType === 0){//根据linkType判断是否为本地模型
+    getModuleList().then(res2=>{
+      modelOptions.value = res2.data.models.map(item=>item.name)
+    })
+  }else if(form.value.linkType === 1){//云端模型
+    listModelAiOline({data:{}}).then(res2=>{
+      modelOptions.value = res2.data.data.map(item=>item.aiName)
+      form.value.localmodelName = (res2.data.data.filter(item=>item.aiId === form.value.aiolId))[0].aiVersion
+    })
+  }
+})
 
 defineExpose({
   init,

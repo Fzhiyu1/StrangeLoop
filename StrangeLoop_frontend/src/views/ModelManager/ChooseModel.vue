@@ -33,6 +33,7 @@ import {addModelInfo} from "@/api/manage.ts";
 import router from "@/router";
 import {ElMessage} from "element-plus";
 import {useModelStore} from "@/store/ModelStore.ts";
+import {listModelInfo} from "../../api/manage.ts";
 
 const rules = computed(() => ({
   modelName: [
@@ -65,16 +66,17 @@ const clickAddModelInfo = async () => {
       aiolId: form.value.aiolId,
       localmodelName: form.value.localmodelName,
     };
-    addModelInfo({data:modelData}).then(res => {
+    addModelInfo({data:modelData}).then(async () => {
       // 还剩一个跳转操作
       ElMessage.success("创建成功");
         //跟新模型列表
       // modelStore.updateModelList()
       router.push("/modelManager?modelId+"+modelData)
-      //  nextTick(()=>{
-      //   const cards = document.querySelectorAll('.card')
-      //   cards[cards.length - 1].click()
-      // })
+      modelStore.modelList =(await listModelInfo({data:{}})).data.data
+       await nextTick(() => {
+         const cards = document.querySelectorAll('.card')
+         cards[cards.length - 1].click()
+       })
     })
   } catch (error) {
     console.log("表单验证失败:", error);
