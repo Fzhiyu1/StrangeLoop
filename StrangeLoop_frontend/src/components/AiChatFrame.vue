@@ -7,6 +7,7 @@ import {addMessage} from "@/api/message.ts";
 import {getTime} from "@/utils/time.ts";
 import {deleteMessage} from "../api/message.ts";
 import {onBeforeRouteLeave} from "vue-router";
+import {getConversation} from "../api/conversation.ts";
 
 const modelStore = useModelStore();
 
@@ -102,7 +103,6 @@ const scrollToBottomWithAnimation = () => {
 
 
 // 交互
-const intervalId = ref();
 const message = ref(defaultMessage);
 
 //下列代码试图改变单向数据流，请勿解除注释，否则将会发出readonly警告。修复于2025/2/26 hyh
@@ -139,6 +139,7 @@ const onMessageSend = async (content, attachment) => {
     content:"",
     status: 'loading'
   };
+  console.log(aiMessageInit.id)
   // 只更新最后一条消息
   message.value[props.messages.length] = aiMessageInit;
   // ai消息体
@@ -167,6 +168,7 @@ const onMessageSend = async (content, attachment) => {
   }
 
   const onComplete = (finalMessage:string) => {
+    let maxId = parseInt(message.value[props.messages.length-1].id)
     // AI 的消息 注意status控制停止按钮的显示 status==incomplete 为加载中 status==complete 为停止加载
     const aiMessage = {
       role: 'assistant',
@@ -188,14 +190,13 @@ const onMessageSend = async (content, attachment) => {
         "content":content,
         "conversationId":convId,
         "createdTime":getTime()
-      }}).then(()=>{
+      }}).then((res)=>{
+      message.value[message.value.length-2].id = res.data.data;
         const str = "<think>\n" +
             "\n" +
             "</think>";
         const str1 = "<think>"
-      console.log(finalMessage)
         if(finalMessage.includes(str1)){
-          console.log(1234)
           finalMessage = finalMessage.replace(str, "");
           finalMessage = finalMessage.replace(str1, "");
         }
@@ -204,7 +205,7 @@ const onMessageSend = async (content, attachment) => {
           "content":finalMessage,
           "conversationId":convId,
           "createdTime":getTime()
-        }})
+        }}).then(res2=>message.value[message.value.length-1].id = res2.data.data)
     })
 
   }
@@ -228,7 +229,7 @@ const onChatsChange = (chats) => {
   console.log(message.value);
 };
 // 删除消息时触发
-const deleteOne= (message)=>{
+const deleteOne=async (message)=>{
     deleteMessage({id: message.id});
 }
 
@@ -236,14 +237,6 @@ const onStopGenerator = () => {
   sseService.stop();
 }
 
-
-const computedMessage = computed(()=>{
-  return message.value.map(item=>{
-    if(item.role === 'assistant'){
-
-    }
-  })
-})
 
 </script>
 

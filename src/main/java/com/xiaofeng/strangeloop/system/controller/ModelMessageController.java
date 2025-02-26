@@ -23,12 +23,11 @@ public class ModelMessageController {
      */
     @PostMapping
     public ApiResponse addMessage(@RequestBody ModelMessage modelMessage) {
-        System.out.println(modelMessage);
         boolean isSave = modelMessageService.save(modelMessage);
         if (!isSave||modelMessage.getConversationId()==null) {
             return ApiResponse.error("保存消息失败!");
         }
-        return ApiResponse.success(null);
+        return ApiResponse.success(modelMessage.getId());
     }
 
     /**

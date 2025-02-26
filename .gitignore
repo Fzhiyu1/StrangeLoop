@@ -1,5 +1,4 @@
 StrangeLoop_frontend/node_modules/
-./src/
 .gitignore
 target/
 strange-loop.sql
