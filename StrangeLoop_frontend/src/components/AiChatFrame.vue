@@ -106,7 +106,10 @@ const scrollToBottomWithAnimation = () => {
 // 交互
 const intervalId = ref();
 const message = ref(defaultMessage);
-props.messages = message.value;
+
+//下列代码试图改变单向数据流，请勿解除注释，否则将会发出readonly警告。修复于2025/2/26 hyh
+// props.messages = message.value;
+
 const mode = ref('bubble');
 const align = ref('leftRight');
 const onAlignChange = (e) => {
