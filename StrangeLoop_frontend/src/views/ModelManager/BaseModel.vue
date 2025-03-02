@@ -41,7 +41,7 @@
         <!-- 本地Ollama模型管理 -->
         <div class="table-container">
           <div class="table-title">本地Ollama模型管理</div>
-          <el-table :data="ollamaModelList" style="width: 100%" v-if="ollamaModelList.length > 0" class="model-table">
+          <el-table :data="ollamaModelList" style="width: 100%" v-if="ollamaModelList!=null" class="model-table">
             <el-table-column label="编号" width="80" type="index"></el-table-column>
             <el-table-column prop="name" label="模型名称"></el-table-column>
             <el-table-column prop="details.parameter_size" label="模型版本"></el-table-column>
@@ -167,6 +167,7 @@ import {
   updateModelAiOline
 } from "@/api/manageOl.ts";
 import {InfoFilled} from "@element-plus/icons-vue";
+import {OllamaRequest} from "../../utils/OllamaRequest.ts";
 
 export default {
   name: "ModelManagement",
@@ -194,6 +195,8 @@ export default {
     // 新增状态变量
     const isEdit = ref(false);
     const currentEditId = ref(null);
+
+    const ollamaRequest = ref(new OllamaRequest());
     const requestOllama = async () => {
     }
     const olAiForm = ref({
@@ -226,19 +229,18 @@ export default {
     const initOllamaApiToCookie = () => {
       //如果没有这个cookies则初始化
       if (Cookies.get("OllamaApi") === undefined) {
-        Cookies.set("OllamaApi", ollamaApi);
+        ollamaRequest.value.changeOllamaApi(ollamaApi);
       }
       let api = Cookies.get("OllamaApi");
+
       apiUrl.value = api;
+      ollamaRequest.value.sendOllamaBackBase().then(response => {
+        console.log(response)
+        ollamaModelList.value = response;
+      })
     }
-    // 设置后续cookies
-    const setOllamaApiToCookie = (api) => {
-      const expirationDays = 365 * 10; // 10 年
-      Cookies.set("OllamaApi", api, {
-        expires: expirationDays, // 单位是天（Number 类型）
-        path: "/"                // 确保全站有效
-      });
-    }
+
+
     initOllamaApiToCookie();
 
 
@@ -250,42 +252,16 @@ export default {
     const listOllamaModel = () => {
 
     }
-    const connectOllama = () => {
-      setOllamaApiToCookie(apiUrl.value);
-      // 模拟连接 Ollama 操作
-      if (apiUrl.value) {
-
-        axios.get(apiUrl.value + "/tags")
-            .then(response => {
-              // 请求成功，处理响应数据
-              if (response.status === 200) {
-                ElMessage.success("Ollama链接初始化成功！");
-                ollamaModelList.value = response.data.models;
-                console.log(response)
-                console.log(ollamaModelList.value);
-                // 这里处理成功逻辑
-              } else {
-                // 服务器返回了非200状态码（如404、500等）
-                ElMessage.error(`请求异常，状态码：${response.status}`);
-              }
-            })
-            .catch(error => {
-              // 捕获请求过程中的错误
-              if (error.response) {
-                // 请求已发出，服务器响应状态码非2xx（如4xx、5xx）
-                ElMessage.error(`服务器错误：${error.response.status}`);
-              } else if (error.request) {
-                // 请求已发出，但未收到响应（如网络断开、服务器未运行）
-                ElMessage.error("无法连接到Ollama，请检查是否已安装并运行！");
-              } else {
-                // 其他错误（如请求配置错误）
-                ElMessage.error(`请求配置错误：${error.message}`);
-              }
-            });
-
-
+    const connectOllama = async () => {
+      // 如果apiUrl有值且通过ollama请求类更换ollamaAPi方法
+      if (apiUrl.value && await  ollamaRequest.value.changeOllamaApi(apiUrl.value)) {
+        // 获取本地ollama地址
+        ollamaRequest.value.sendOllamaBackBase().then(response => {
+              ollamaModelList.value = response;
+        });
       } else {
-        ElMessage.error("请输入有效的 API 地址！");
+
+        ollamaModelList.value = [];
       }
     };
     const getModelAiOlineList = () => {
@@ -295,7 +271,7 @@ export default {
       })
     }
     getModelAiOlineList();
-    connectOllama();
+
 
 
     // 删除一条在线模型
