@@ -122,19 +122,20 @@
       </el-table>
     </div>
 
-    <el-dialog v-model="openAddOnLineModelAi" :title="isEdit ? '修改在线模型' : '新增在线模型'" width="800">
+    <el-dialog v-model="openAddOnLineModelAi" :title="isEdit ? '修改在线模型' : '新增在线模型'" width="800"
+               @close="resetForm()">
       <el-form :model="olAiForm" :rules="formRules" ref="olAiFormRef" label-width="auto">
         <el-form-item label="模型名称" prop="aiName">
           <el-input v-model="olAiForm.aiName"></el-input>
         </el-form-item>
         <el-form-item label="模型版本" prop="aiVersion">
-          <el-input v-model="olAiForm.aiVersion" />
+          <el-input v-model="olAiForm.aiVersion"/>
         </el-form-item>
         <el-form-item label="API地址" prop="aiApi">
-          <el-input v-model="olAiForm.aiApi" />
+          <el-input v-model="olAiForm.aiApi"/>
         </el-form-item>
         <el-form-item label="Token" prop="aiToken">
-          <el-input v-model="olAiForm.aiToken" />
+          <el-input v-model="olAiForm.aiToken"/>
         </el-form-item>
         <el-form-item label="模型类型" prop="aiType">
           <el-select v-model="olAiForm.aiType" placeholder="请选择ai类型">
@@ -145,7 +146,7 @@
         <el-form-item>
           <el-button type="primary" @click="onSubmitOlAi">
             提交
-            </el-button>
+          </el-button>
           <el-button @click="onCancelOlAi">取消</el-button>
         </el-form-item>
       </el-form>
@@ -210,19 +211,19 @@ export default {
     // 表单验证规则
     const formRules = ref({
       aiName: [
-        { required: true, message: "请输入模型名称", trigger: "blur" },
+        {required: true, message: "请输入模型名称", trigger: "blur"},
       ],
       aiApi: [
-        { required: true, message: "请输入API地址", trigger: "blur" },
+        {required: true, message: "请输入API地址", trigger: "blur"},
       ],
       aiToken: [
-        { required: true, message: "请输入Token", trigger: "blur" },
+        {required: true, message: "请输入Token", trigger: "blur"},
       ],
       aiType: [
-        { required: true, message: "请选择模型类型", trigger: "change" },
+        {required: true, message: "请选择模型类型", trigger: "change"},
       ],
       aiVersion: [
-        { required: false, message: "请输入模型版本", trigger: "blur" },
+        {required: false, message: "请输入模型版本", trigger: "blur"},
       ],
     });
     // 初始化cookies
@@ -254,10 +255,10 @@ export default {
     }
     const connectOllama = async () => {
       // 如果apiUrl有值且通过ollama请求类更换ollamaAPi方法
-      if (apiUrl.value && await  ollamaRequest.value.changeOllamaApi(apiUrl.value)) {
+      if (apiUrl.value && await ollamaRequest.value.changeOllamaApi(apiUrl.value)) {
         // 获取本地ollama地址
         ollamaRequest.value.sendOllamaBackBase().then(response => {
-              ollamaModelList.value = response;
+          ollamaModelList.value = response;
         });
       } else {
 
@@ -271,7 +272,6 @@ export default {
       })
     }
     getModelAiOlineList();
-
 
 
     // 删除一条在线模型
@@ -290,7 +290,7 @@ export default {
       isEdit.value = true;
       currentEditId.value = id;
       // 获取模型详情并填充表单
-      getModelAiOline({ id: id }).then(res => {
+      getModelAiOline({id: id}).then(res => {
         const modelData = res.data.data;
         olAiForm.value = {
           aiId: modelData.aiId,
@@ -313,8 +313,8 @@ export default {
         const valid = await olAiFormRef.value.validate(); // 使用 async/await 让表单验证异步执行
         if (valid) {
           const apiCall = isEdit.value
-              ? updateModelAiOline({ data: olAiForm.value })
-              : addModelAiOline({ data: olAiForm.value });
+              ? updateModelAiOline({data: olAiForm.value})
+              : addModelAiOline({data: olAiForm.value});
 
           const res = await apiCall; // 等待异步请求的返回
 
@@ -336,7 +336,16 @@ export default {
     const resetForm = () => {
       olAiFormRef.value.resetFields();
       isEdit.value = false;
+      olAiForm.value = {
+        aiId: null,
+        aiName: null,
+        aiVersion: null,
+        aiApi: null,
+        aiToken: null,
+        aiType: null,
+      };
       currentEditId.value = null;
+      console.log("触发重置")
     };
 
     // 修改取消方法
@@ -344,6 +353,7 @@ export default {
       openAddOnLineModelAi.value = false;
       resetForm();
     };
+
     // 气泡取消
     function onCancel() {
 
@@ -367,7 +377,8 @@ export default {
       handleDeletedOne,
       connectOllama,
       handleEditOne,
-      openAddOnLineModelAi
+      openAddOnLineModelAi,
+      resetForm
     };
   },
 };
