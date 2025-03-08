@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {useRequestStore} from "@/store/RequestStore.ts";
-import LoadingPage from "@/views/LoadingPage.vue";
 const requestStore = useRequestStore();
+import LoadingPage from "@/views/LoadingPage.vue";
 </script>
 
 <template>

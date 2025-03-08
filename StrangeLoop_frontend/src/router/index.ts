@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
                 component:Aichat
             },
             {
-                path:'modelManager',
+                path:'modelManager/:modelId?',
                 name: 'modelManager',
                 component:()=>import('@/views/ModelManager/index.vue')
             },

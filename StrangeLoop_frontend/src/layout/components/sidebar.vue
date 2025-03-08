@@ -27,7 +27,7 @@ const gotoPage =async (index:number,path:string) => {
   if(path === '/modelManager' && index === 1){
     modelStore.modelList =(await listModelInfo({})).data.data
   }
-   router.push(path)
+   await router.push(path)
 }
 
 </script>

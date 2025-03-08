@@ -6,6 +6,7 @@ import {getModelDetail} from "../api/module.ts";
 import {ElMessage} from "element-plus";
 import {getConversation, listConversation} from "../api/conversation.ts";
 import {any, number} from "@kousum/semi-ui-vue/dist/PropTypes";
+import {useRoute} from "vue-router";
 
 export const useModelStore = defineStore('model', () => {
    // 0代笔对话，1代表模型管理，2代表AI工具箱

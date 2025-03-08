@@ -4,14 +4,13 @@ import {useModelStore} from "@/store/ModelStore.ts";
 import {listModelInfo} from "@/api/manage.ts";
 import {any, number, string} from "@kousum/semi-ui-vue/dist/PropTypes";
 import {getModelDetail} from "@/api/module.ts";
-import router from "@/router";
 import Cookies from "js-cookie";
 import axios from "axios";
 import {getModelAiOline} from "../api/manageOl.ts";
 import {getModelInfo} from "../api/manage.ts";
-// import {useRouter} from "vue-router";
+import {useRouter} from "vue-router";
 const modelStore = useModelStore()
-// const router = useRouter();
+const router = useRouter();
 const props = defineProps(
     {
       id:{

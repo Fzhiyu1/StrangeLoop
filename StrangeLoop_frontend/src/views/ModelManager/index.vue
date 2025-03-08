@@ -114,7 +114,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, onMounted, watch} from 'vue';
+import {ref, onMounted, watch, watchEffect} from 'vue';
 import {useModelStore} from "@/store/ModelStore.ts";
 import {getModelInfo} from "@/api/manage.ts";
 import {useRoute} from "vue-router";
@@ -133,17 +133,21 @@ const modelId = ref<string | undefined>(route.query.conversation_id as string);
 const modelInfoMange = ref<ModelInfoMangeType|null>();
 const modelStore = useModelStore();
 
-watch(() => route.query.modelId, (newId) => {
-  modelId.value = newId as string;
-  console.log(newId);
-    initManager();
+// watchEffect(()=>{
+//   if(route.query.modelId){
+//     modelId.value = route.query.modelId as string;
+//     initManager();
+//   }
+// })
+watch(() => route.query.modelId, (id) => {
+  modelId.value = id as string;
+  initManager();
+  // 当路由参数变化时调用initConversation函数
+},{deep:true});
 
-      // 当路由参数变化时调用initConversation函数
-});
 onMounted(() =>{
-  if (modelId.value) {
+    modelId.value = route.query.modelId as string
     initManager();
-  }
 })
 // 初始化设置面板
 const initManager = async ()=>{
