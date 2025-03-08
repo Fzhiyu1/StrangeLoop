@@ -47,6 +47,13 @@ const delModel = (done:()=>void) => {
     <template v-if="modelStore.modelIndex === 0">
       {{modelStore.topNav.modelName}} | {{modelStore.topNav.modelVersion}}
     </template>
+
+    <template v-if="modelStore.modelIndex === 2">
+      新增对话
+    </template>
+    <template v-if="modelStore.modelIndex === 3">
+      新增模型
+    </template>
     <template v-if="modelStore.modelIndex === 1 && router.currentRoute.value.path !== '/ManageModel'">
       {{modelStore.topNav.modelName}} | {{modelStore.topNav.modelVersion}}
       <div class="management">

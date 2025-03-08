@@ -31,7 +31,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public int insertUser(SysUser sysUser) {
+    public int insertUser(SysUser sysUser){
         try {
             //        密码加密
             sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));

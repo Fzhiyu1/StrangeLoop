@@ -67,9 +67,10 @@ const listAll=async ()=>{
 }
 onMounted(async()=>{
   listAll();
-
-
+  modelStore.modelIndex = 2;
+  modelStore.indexAichat = null;
 })
+
 </script>
 
 <template>

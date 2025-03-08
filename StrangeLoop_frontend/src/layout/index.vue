@@ -2,8 +2,12 @@
 
 import Sidebar from "./components/sidebar.vue";
 import Content from "./components/content.vue";
-import router from "../router";
-router.push({ path: "/aichat" });
+import {useModelStore} from "../store/ModelStore.ts";
+
+
+
+
+
 </script>
 
 <template>

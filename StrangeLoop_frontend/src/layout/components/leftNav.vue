@@ -67,8 +67,15 @@ const module = reactive<Module[]>([
 //   }
 // }])
 const choose = (index:number) => {
-  isShow.value = false
-  index ===0?router.push("/chooseAi"):index ===1?router.push("/chooseModel"):null
+  isShow.value = false;
+  if (index === 0) {
+    modelStore.modelIndex = 2;
+    router.push("chooseAi");
+  }else if(index === 1) {
+    router.push("chooseModel");
+    modelStore.modelIndex = 3;
+  }
+
 }
 // 点击管理基底模型
 const clickManageBaseModel=async ()=>{
@@ -107,6 +114,18 @@ const init =  () => {
   modelStore.updateConversationList()
   console.log(modelStore.conversationList)
 }
+// 标题显示函数
+const showName =()=>{
+  module[(modelStore.modelIndex === 0 || modelStore.modelIndex === 2) ? 0 : modelStore.modelIndex].topBtnName;
+  switch (modelStore.modelIndex) {
+    case 2:
+      return module[0].topBtnName;
+    case 3:
+      return module[1].topBtnName;
+    default:
+      return module[modelStore.modelIndex].topBtnName;
+  }
+}
 
 
 onMounted( async () => {
@@ -121,11 +140,11 @@ onMounted( async () => {
       <div class="box">
           <div class="addConv" @click="choose(modelStore.modelIndex)" :style="isShow?'width:60px':''">
             <svg  style="width: 28px;height: 28px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M480 480V128a32 32 0 0 1 64 0v352h352a32 32 0 1 1 0 64H544v352a32 32 0 1 1-64 0V544H128a32 32 0 0 1 0-64z"></path></svg>
-            <span v-show="!isShow">{{module[modelStore.modelIndex].topBtnName}}</span>
+            <span v-show="!isShow">{{showName()}}</span>
           </div>
            <div class="search" :class="!isShow?'hoverClass':''" @click="isShow = true" :style="isShow?'width:calc(100% - 60px);outline: 1px solid #d7d7d7;':''">
              <svg-icon :style="isShow?'border:none':''"  class="svg" icon-name="icon-search-2-copy"></svg-icon>
-              <input v-model="searchText" v-show="isShow"  type="text" :placeholder="module[modelStore.modelIndex].searchPlaceholder">
+              <input v-model="searchText" v-show="isShow"  type="text" :placeholder="module[(modelStore.modelIndex === 0 || modelStore.modelIndex === 2) ? 0 : modelStore.modelIndex].searchPlaceholder">
            </div>
       </div>
   </div>
@@ -137,7 +156,7 @@ onMounted( async () => {
                       :ai-type="item.modelInfo?item.modelInfo.baseModelName:null"
                       :description="item.lastMessage?item.lastMessage:null"
                       :ai-name="item.modelInfo?item.modelInfo.modelName:null"
-                      v-if="modelStore.modelIndex === 0"
+                      v-if="modelStore.modelIndex === 0 || modelStore.modelIndex===2"
                       :class-style="conversationsActiveMenu === i"
                       @click="conversationsActiveMenu = i"
                       v-for="(item, i) in searchConv"
@@ -147,7 +166,7 @@ onMounted( async () => {
                :model-ai-online="item.aiolId"
                :id="item.modelId"
                :ai-name="item.modelName"
-               v-if="modelStore.modelIndex === 1"
+               v-if="modelStore.modelIndex === 1 || modelStore.modelIndex==1"
                :class-style="modelActiveMenu === i"
                @click="modelActiveMenu = i"
                :ai-type="item.modelVersion"

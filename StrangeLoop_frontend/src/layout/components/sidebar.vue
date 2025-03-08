@@ -48,7 +48,7 @@ const gotoPage =async (index:number,path:string) => {
           <br/>
           <span>对话</span>
         </div>
-        <div @mouseover="hoverColor[1] = conf.menuColor.hoverColor" @mouseleave="hoverColor[1]=null"  class="logoAndText"  @click="gotoPage(1,'/modelManager')">
+        <div @mouseover="hoverColor[1] = conf.menuColor.hoverColor" @mouseleave="hoverColor[1]=null"  class="logoAndText"  @click="gotoPage(1,'/chooseModel')">
           <svg-icon :style="activeMenu===1?conf.menuColor.activeStyle:''" :hover-color="hoverColor[1]" icon-name="icon-damoxing" class="icon" :color="activeMenu===1? conf.menuColor.hoverColor:conf.menuColor.leavedColor"></svg-icon>
           <br/>
           <span>模型管理</span>

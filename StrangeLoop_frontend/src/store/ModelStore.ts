@@ -5,6 +5,7 @@ import {getModelAiOline} from "../api/manageOl.ts";
 import {getModelDetail} from "../api/module.ts";
 import {ElMessage} from "element-plus";
 import {getConversation, listConversation} from "../api/conversation.ts";
+import {any, number} from "@kousum/semi-ui-vue/dist/PropTypes";
 
 export const useModelStore = defineStore('model', () => {
    // 0代笔对话，1代表模型管理，2代表AI工具箱
@@ -19,6 +20,9 @@ export const useModelStore = defineStore('model', () => {
     const parameter = ref<any>({
         propsLocalModelName: null,
     })//参数
+    // 目标页面参数
+    const indexAichat = ref(number);
+    const indexModelManager=ref(number)
 
     watch(currClickId, ( oldVal,newVal)=>{
         if(modelIndex.value !== 1){

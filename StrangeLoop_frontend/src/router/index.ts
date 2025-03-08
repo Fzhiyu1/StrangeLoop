@@ -14,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/',
         name: 'Home',
         component: Layout,
-        redirect: '/aichat',
+        redirect: '/chooseAi',
         children:[
             {
                 path:'aichat',

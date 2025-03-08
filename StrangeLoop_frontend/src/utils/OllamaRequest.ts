@@ -1,6 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import {ElMessage} from "element-plus";
+import {ElLoading, ElMessage} from "element-plus";
+import {SSEService} from "./SSEService.ts";
+import {Loading} from "@element-plus/icons-vue";
+import {nextTick} from "vue";
 
 /**
  * ollama请求类
@@ -8,9 +11,11 @@ import {ElMessage} from "element-plus";
 export class OllamaRequest {
 
     private ollamaUrl:any=Cookies.get("OllamaApi");
-    private ollamaShowApi = "/show";  // 修正可能的拼写错误
-    private ollamaTagsApi = "/tags";  // 保持API路径统一风格
-    private ollamaModelList: any[] = [];  // 明确类型为数组
+    private ollamaShowApi = "/show";
+    private ollamaTagsApi = "/tags";
+    private ollamaCreateApi = "/create";
+    private ollamaModelList: any[] = [];
+    private sseService = new SSEService();
 
 
 
@@ -63,7 +68,6 @@ export class OllamaRequest {
             // 获取模型列表
             const tagsResponse = await axios.get(`${this.ollamaUrl}${this.ollamaTagsApi}`);
             this.ollamaModelList = tagsResponse.data.models;  // 假设返回结构包含models数组
-
             // 遍历模型进行检查
             const modelsToDelete: string[] = [];
             for (const modelInfo of this.ollamaModelList) {
@@ -72,8 +76,6 @@ export class OllamaRequest {
                         `${this.ollamaUrl}${this.ollamaShowApi}`,
                         { "model": modelInfo.model }  // 假设模型名称在name字段
                     );
-
-
                     if (showResponse.data.details.parent_model!="") {
                         modelsToDelete.push(modelInfo);
                     }
@@ -142,6 +144,41 @@ export class OllamaRequest {
             }
             return false;
         }
+    }
+
+    /**
+     * 创建本地ollama模型
+     * @param localModel
+     */
+    public async sendOllamaCreatedModel(localModel: any) {
+        if (localModel.model == undefined && localModel.from == undefined) {
+            return -1;
+        }
+        const onUpdated = (message:any) => {
+            // 这里触发加载
+            nextTick(()=>{
+                loadingInstance.close();
+            })
+            console.log(message.status);
+            if (message.status == "success") {
+                console.log("创建成功");
+                // 这里停止加载
+                return;
+
+            }
+        };
+        const onComplete=(finalMessage:any)=>{
+
+        }
+        let loadingInstance = ElLoading.service({
+            fullscreen: true,
+
+        });
+        await this.sseService.sendCreatedModel(`${this.ollamaUrl}${this.ollamaCreateApi}`,localModel,onUpdated,onComplete).then(res =>{
+
+        })
+
+
     }
 
 

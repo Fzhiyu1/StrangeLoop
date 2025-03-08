@@ -201,4 +201,95 @@ export class SSEService {
     setToken(token: string): void {
         this.token = token;
     }
+
+
+    async sendCreatedModel(
+        url: string,
+        data: any,
+        onUpdate: (message: string) => void,
+        onComplete: (finalMessage: string) => void
+    ): Promise<void> {
+        this.stopRequested = false;
+        let authorization = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.token
+            },
+            body: JSON.stringify(data),
+        };
+
+        // 新增：数据缓冲区
+        let buffer = '';
+
+        try {
+            const response = await fetch(url, authorization);
+            this.reader = response.body?.getReader() || null;
+            if (!this.reader) throw new Error("Readable stream is not supported.");
+
+            let accumulatedMessage = '';
+
+            const processStream = async ({ done, value }: ReadableStreamReadResult<Uint8Array>) => {
+                if (this.stopRequested || done) {
+                    onComplete(accumulatedMessage);
+                    return;
+                }
+
+                // 解码数据并追加到缓冲区
+                const chunk = this.decoder.decode(value, { stream: true });
+                buffer += chunk;
+
+                // 分割并处理完整 JSON 对象
+                let startIdx = 0;
+                let braceCount = 0;
+                let inString = false;
+
+                for (let i = 0; i < buffer.length; i++) {
+                    const char = buffer[i];
+
+                    // 处理字符串内的转义字符
+                    if (char === '"' && buffer[i - 1] !== '\\') {
+                        inString = !inString;
+                    }
+
+                    if (!inString) {
+                        if (char === '{') {
+                            if (braceCount === 0) startIdx = i; // 记录 JSON 起始位置
+                            braceCount++;
+                        } else if (char === '}') {
+                            braceCount--;
+                            if (braceCount === 0) { // 找到一个完整 JSON 对象
+                                const jsonStr = buffer.slice(startIdx, i + 1);
+                                try {
+                                    const parsed = JSON.parse(jsonStr);
+
+
+
+                                    onUpdate(parsed);
+                                } catch (err) {
+                                    console.error("JSON 解析失败:", jsonStr);
+                                }
+                                startIdx = i + 1; // 更新起始位置
+                            }
+                        }
+                    }
+                }
+
+                // 保留未处理完的数据
+                buffer = buffer.slice(startIdx);
+
+                // 继续读取下一个数据块
+                const nextChunk = await this.reader.read();
+                await processStream(nextChunk);
+            };
+
+            const initialChunk = await this.reader.read();
+            await processStream(initialChunk);
+        } catch (error) {
+            console.error("SSE Error:", error);
+            onComplete("");
+        } finally {
+            this.reader = null;
+        }
+    }
 }

@@ -7,12 +7,14 @@ const linkType = ref(false);
 const modelAiOlineList = ref([]);
 const modelAiLocalList = ref([]);
 const modelStore = useModelStore()
+const ollamaRequest=ref(new OllamaRequest())
 const form = ref({
   modelName: "",
   linkType: 0,
   description: "",
   localmodelName: "",
   aiolId: "",
+
 });
 
 // 获取在线模型和本地ollama模型
@@ -21,9 +23,8 @@ const listAll = () => {
     modelAiOlineList.value = res.data.data;
     console.log(modelAiOlineList)
   });
-  axios.get("http://localhost:11434/api/tags").then(res => {
-    modelAiLocalList.value = res.data.models;
-    console.log(modelAiLocalList)
+  ollamaRequest.value.sendOllamaBackBase().then(res => {
+    modelAiLocalList.value = res;
   })
 }
 listAll();
@@ -34,6 +35,7 @@ import router from "@/router";
 import {ElMessage} from "element-plus";
 import {useModelStore} from "@/store/ModelStore.ts";
 import {listModelInfo} from "../../api/manage.ts";
+import {OllamaRequest} from "../../utils/OllamaRequest.ts";
 
 const rules = computed(() => ({
   modelName: [

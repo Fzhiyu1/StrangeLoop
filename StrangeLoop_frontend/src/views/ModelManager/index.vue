@@ -123,6 +123,7 @@ import axios from "axios";
 import {updateModelInfoAndModelFile} from "../../api/manageDetail.ts";
 import {ElMessage} from "element-plus";
 import {addMessage} from "../../api/message.ts";
+import router from "../../router";
 // 这里可以添加需要的响应式数据和方法
 const creativityLevel = ref(5.0);
 
@@ -130,15 +131,24 @@ const route = useRoute();
 
 const modelId = ref<string | undefined>(route.query.conversation_id as string);
 const modelInfoMange = ref<ModelInfoMangeType|null>();
+const modelStore = useModelStore();
 
 watch(() => route.query.modelId, (newId) => {
   modelId.value = newId as string;
-  if (newId) {
+  console.log(newId);
     initManager();
-  }// 当路由参数变化时调用initConversation函数
+
+      // 当路由参数变化时调用initConversation函数
 });
+onMounted(() =>{
+  if (modelId.value) {
+    initManager();
+  }
+})
 // 初始化设置面板
 const initManager = async ()=>{
+  console.log("initManager");
+  modelStore.indexModelManager = modelId.value;
   let modelInfo = await getModelInfo({id:modelId.value});
   if (modelInfo.localmodelName) {
     modelInfo.localModelInfo=await showOllama(modelInfo.localmodelName);
@@ -170,6 +180,9 @@ const addModelFileEgmessage = () => {
   const listItem = new MessageList()
   modelInfoMange.value.modelFile.modelFileEgmessageList.push(listItem)
 }
+onMounted(()=>{
+
+})
 
 interface ModelInfoMangeType{
   aiolId: any

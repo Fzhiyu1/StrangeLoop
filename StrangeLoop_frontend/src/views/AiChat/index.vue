@@ -6,7 +6,10 @@ import AiChatFrame from "../../components/AiChatFrame.vue"; // AI聊天框组件
 import { useModelStore } from "@/store/ModelStore.ts"; // 状态管理
 import { getModelInfo } from "../../api/manage.ts"; // 获取模型信息的API
 import { getConversation } from "../../api/conversation.ts"; // 获取对话的API
-import Cookies from "js-cookie"; // 处理cookie
+import {OllamaRequest} from "../../utils/OllamaRequest.ts"
+import Cookies from "js-cookie";
+import {pinyin} from "pinyin-pro";
+import router from "../../router"; // 处理cookie
 
 // 使用状态管理中的modelStore
 const modelStore = useModelStore();
@@ -35,8 +38,15 @@ watch(() => route.query.conversation_id, (newId) => {
 
 // 组件挂载后的钩子函数
 onMounted(() => {
+
   if (conversationId.value) {
-    initConversation(); // 在组件加载时如果conversationId存在，则初始化对话
+     initConversation(); // 在组件加载时如果conversationId存在，则初始化对话
+  }
+  // 根据记忆切换前的的页面跳转
+  if (modelStore.indexAichat) {
+    router.push("/aichat?conversation_id=" + modelStore.indexAichat);
+  }else {
+    router.push("/chooseAi");
   }
     const doms= document.querySelectorAll(".semi-chat-container")
     doms.forEach(dom => {
@@ -47,6 +57,7 @@ onMounted(() => {
 // 初始化对话的异步函数
 const initConversation = async () => {
   // 根据conversationId获取对话详情
+  modelStore.indexAichat = conversationId.value;
   conversation.value = (await getConversation({ id: conversationId.value })).data.data;
   messages.value = conversation.value?conversation.value.modelMessageArrayList:[]; // 更新消息列表
 
@@ -65,7 +76,9 @@ const initConversation = async () => {
     model.value = modelInfo.value.localmodelName;
     linkType.value = 0;
   }
-  console.log(url.value);
+
+
+
 }
 
 const roleInfo = computed(()=>{
@@ -84,6 +97,8 @@ const roleInfo = computed(()=>{
     }
   }
 })
+
+
 </script>
 
 <template>
