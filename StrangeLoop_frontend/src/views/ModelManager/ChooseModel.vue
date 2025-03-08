@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, ref} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import { listModelAiOline } from "@/api/manageOl.ts";
 import axios from "axios";
 
@@ -28,6 +28,10 @@ const listAll = () => {
   })
 }
 listAll();
+onMounted(async ()=>{
+  modelStore.modelIndex = 3;
+  modelStore.modelList = (await listModelInfo({data: {}})).data.data;
+})
 
 import { computed } from "vue";
 import {addModelInfo} from "@/api/manage.ts";
@@ -36,6 +40,7 @@ import {ElMessage} from "element-plus";
 import {useModelStore} from "@/store/ModelStore.ts";
 import {listModelInfo} from "../../api/manage.ts";
 import {OllamaRequest} from "../../utils/OllamaRequest.ts";
+import {Logger} from "sass";
 
 const rules = computed(() => ({
   modelName: [
@@ -74,7 +79,8 @@ const clickAddModelInfo = async () => {
         //跟新模型列表
       // modelStore.updateModelList()
       router.push("/modelManager?modelId+"+modelData)
-      modelStore.modelList =(await listModelInfo({data:{}})).data.data
+      modelStore.modelList = (await listModelInfo({data: {}})).data.data;
+
        await nextTick(() => {
          const cards = document.querySelectorAll('.card')
          cards[cards.length - 1].click()

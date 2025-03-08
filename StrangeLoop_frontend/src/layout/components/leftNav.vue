@@ -99,24 +99,24 @@ const searchConv = computed(()=>{
     })
 })
 
-const searchModel = computed(()=>{
-  return modelStore.modelList.filter(item=>{
+const searchModel = computed(() => {
+  return modelStore.modelList.filter(item => {
     try {
       return item.modelName.toLowerCase().includes(searchText.value)
-    }catch (e){
+    } catch (e) {
       return true
     }
   })
-})
+});
+
 
 
 const init =  () => {
   modelStore.updateConversationList()
-  console.log(modelStore.conversationList)
 }
 // 标题显示函数
 const showName =()=>{
-  module[(modelStore.modelIndex === 0 || modelStore.modelIndex === 2) ? 0 : modelStore.modelIndex].topBtnName;
+
   switch (modelStore.modelIndex) {
     case 2:
       return module[0].topBtnName;
@@ -124,6 +124,32 @@ const showName =()=>{
       return module[1].topBtnName;
     default:
       return module[modelStore.modelIndex].topBtnName;
+  }
+}
+
+//显示搜索字函数
+const showSearchText=()=>{
+
+  switch (modelStore.modelIndex) {
+    case 2:
+      return module[0].searchPlaceholder;
+    case 3:
+      return module[1].searchPlaceholder;
+    default:
+      return module[modelStore.modelIndex].searchPlaceholder;
+  }
+}
+// 显示底部按钮字函数
+const showButtonName=()=>{
+
+  switch (modelStore.modelIndex) {
+    case 2:
+      return module[0].bottomBtnName;
+    case 3:
+      return module[1].bottomBtnName;
+    default:
+      return module[modelStore.modelIndex].searchPlaceholder;
+
   }
 }
 
@@ -144,7 +170,7 @@ onMounted( async () => {
           </div>
            <div class="search" :class="!isShow?'hoverClass':''" @click="isShow = true" :style="isShow?'width:calc(100% - 60px);outline: 1px solid #d7d7d7;':''">
              <svg-icon :style="isShow?'border:none':''"  class="svg" icon-name="icon-search-2-copy"></svg-icon>
-              <input v-model="searchText" v-show="isShow"  type="text" :placeholder="module[(modelStore.modelIndex === 0 || modelStore.modelIndex === 2) ? 0 : modelStore.modelIndex].searchPlaceholder">
+              <input v-model="searchText" v-show="isShow"  type="text" :placeholder="showSearchText()">
            </div>
       </div>
   </div>
@@ -166,7 +192,7 @@ onMounted( async () => {
                :model-ai-online="item.aiolId"
                :id="item.modelId"
                :ai-name="item.modelName"
-               v-if="modelStore.modelIndex === 1 || modelStore.modelIndex==1"
+               v-if="modelStore.modelIndex === 1 || modelStore.modelIndex==3"
                :class-style="modelActiveMenu === i"
                @click="modelActiveMenu = i"
                :ai-type="item.modelVersion"
@@ -179,7 +205,7 @@ onMounted( async () => {
   <div class="management">
     <div @click="clickManageBaseModel" class="managerBtn">
       <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M389.44 768a96.064 96.064 0 0 1 181.12 0H896v64H570.56a96.064 96.064 0 0 1-181.12 0H128v-64zm192-288a96.064 96.064 0 0 1 181.12 0H896v64H762.56a96.064 96.064 0 0 1-181.12 0H128v-64zm-320-288a96.064 96.064 0 0 1 181.12 0H896v64H442.56a96.064 96.064 0 0 1-181.12 0H128v-64z"></path></svg>
-      <span>{{ module[modelStore.modelIndex].bottomBtnName }}</span>
+      <span>{{ showButtonName() }}</span>
     </div>
   </div>
 
