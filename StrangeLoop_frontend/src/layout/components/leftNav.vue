@@ -68,10 +68,10 @@ const module = reactive<Module[]>([
 // }])
 const choose = (index:number) => {
   isShow.value = false;
-  if (index === 0) {
+  if (index === 0 || index===2) {
     modelStore.modelIndex = 2;
     router.push("chooseAi");
-  }else if(index === 1) {
+  }else if (index === 1 || index === 3) {
     router.push("chooseModel");
     modelStore.modelIndex = 3;
   }
@@ -79,11 +79,11 @@ const choose = (index:number) => {
 }
 // 点击管理基底模型
 const clickManageBaseModel=async ()=>{
-  if (modelStore.modelIndex == 1) {
+  if (modelStore.modelIndex == 1 || modelStore.modelIndex == 3) {
     await router.push("/baseModel").catch(err => {
       console.error("路由跳转错误:", err)
-    })
-    console.log("点击管理基底模型")
+    });
+    console.log("点击管理基底模型");
     return;
   }
   dialog.value = true;
