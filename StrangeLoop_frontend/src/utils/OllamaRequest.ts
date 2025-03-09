@@ -174,9 +174,7 @@ export class OllamaRequest {
             fullscreen: true,
 
         });
-        await this.sseService.sendCreatedModel(`${this.ollamaUrl}${this.ollamaCreateApi}`,localModel,onUpdated,onComplete).then(res =>{
-
-        })
+        await this.sseService.sendCreatedModel(`${this.ollamaUrl}${this.ollamaCreateApi}`, localModel, onUpdated, onComplete);
 
 
     }
