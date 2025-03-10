@@ -73,7 +73,7 @@ const initConversation = async () => {
     console.log(token.value);
   } else {
     url.value = ollamaUrl + "/chat";
-    model.value = modelInfo.value.localmodelName;
+    model.value = modelInfo.value.ollamaModelName;
     linkType.value = 0;
   }
 
