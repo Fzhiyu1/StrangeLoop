@@ -159,11 +159,11 @@ export class OllamaRequest {
             nextTick(()=>{
                 loadingInstance.close();
             })
-            console.log(message.status);
+            console.log(message);
             if (message.status == "success") {
                 console.log("创建成功");
                 // 这里停止加载
-                return;
+                return true;
 
             }
         };
