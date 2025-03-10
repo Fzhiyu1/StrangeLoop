@@ -69,8 +69,8 @@ const module = reactive<Module[]>([
 const choose = (index:number) => {
   isShow.value = false;
   if (index === 0 || index===2) {
-    modelStore.modelIndex = 2;
     router.push("chooseAi");
+    modelStore.modelIndex = 2;
   }else if (index === 1 || index === 3) {
     router.push("chooseModel");
     modelStore.modelIndex = 3;
@@ -148,7 +148,7 @@ const showButtonName=()=>{
     case 3:
       return module[1].bottomBtnName;
     default:
-      return module[modelStore.modelIndex].searchPlaceholder;
+      return module[modelStore.modelIndex].bottomBtnName;
 
   }
 }

@@ -153,6 +153,7 @@ onMounted(() =>{
 const initManager = async ()=>{
   console.log("initManager");
   modelStore.indexModelManager = modelId.value;
+  modelStore.modelIndex = 1;
   let modelInfo = await getModelInfo({id:modelId.value});
   if (modelInfo.localmodelName) {
     modelInfo.localModelInfo=await showOllama(modelInfo.localmodelName);
