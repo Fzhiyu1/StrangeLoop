@@ -24,6 +24,7 @@ public class ModelInfo {
     private String localmodelName;
     @TableField(exist = false)
     private String baseModelName;
+    private String ollamaModelName;
 
 
 }
