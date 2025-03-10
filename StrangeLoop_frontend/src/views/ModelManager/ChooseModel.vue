@@ -14,6 +14,7 @@ const form = ref({
   description: "",
   localmodelName: "",
   aiolId: "",
+  localmodelNameFront:""
 
 });
 
@@ -41,6 +42,7 @@ import {useModelStore} from "@/store/ModelStore.ts";
 import {listModelInfo} from "../../api/manage.ts";
 import {OllamaRequest} from "../../utils/OllamaRequest.ts";
 import {Logger} from "sass";
+import {PinyinUtil} from "../../utils/pinyinUtil.ts";
 
 const rules = computed(() => ({
   modelName: [
@@ -72,7 +74,19 @@ const clickAddModelInfo = async () => {
       description: form.value.description,
       aiolId: form.value.aiolId,
       localmodelName: form.value.localmodelName,
+      ollamaModelName:form.value.localmodelNameFront
     };
+    // 检测是否为本地ai如果是则进入一下判断
+    if(form.value.linkType==0) {
+      // 如果添加模型到ollama成功则继续下面的代码 如果失败则直接结束
+      await ollamaRequest.value.sendOllamaCreatedModel(
+          {
+            model: form.value.localmodelNameFront,
+            from: form.value.localmodelName,
+          }
+      )
+    }
+    // 将数据添加到后端数据库
     addModelInfo({data:modelData}).then(async () => {
       // 还剩一个跳转操作
       ElMessage.success("创建成功");
@@ -85,12 +99,20 @@ const clickAddModelInfo = async () => {
          const cards = document.querySelectorAll('.card')
          cards[cards.length - 1].click()
        })
-    })
+    });
   } catch (error) {
     console.log("表单验证失败:", error);
   }
 };
-
+// 实时转换汉字为大写函数
+const changeToLetter=()=>{
+  // 后缀名
+  let suffix = ":latest";
+  const index = form.value.modelName;
+  // 引入拼英工具类
+  let pinyinUtil = new PinyinUtil();
+  form.value.localmodelNameFront = form.value.modelName==""?pinyinUtil.PinYin(index):pinyinUtil.PinYin(index)+suffix;
+}
 // 切换时清空form对应的数据
 const changeLinkType=()=>{
   if(linkType.value){
@@ -111,7 +133,8 @@ const changeLinkType=()=>{
             <span>起一个名字</span>
           </el-form-item>
           <el-form-item class="input" prop="modelName">
-            <el-input placeholder="输入模型名称" style="width: 40%" v-model="form.modelName"></el-input>
+            <el-input placeholder="输入模型名称" style="width: 40%" v-model="form.modelName" @input="changeToLetter()"></el-input>
+            <span>{{form.localmodelNameFront}}</span>
           </el-form-item>
           <el-form-item>
             <span>选择基底模型</span>
@@ -175,6 +198,17 @@ const changeLinkType=()=>{
 }
 .input{
   margin-top: -10px;
+
+}
+input{
+  border: none; /* 移除所有默认边框 */
+  outline: none; /* 移除获得焦点时的默认outline */
+  height: 25px;
+}
+input:focus{
+
+  border-bottom: 1px solid black; /* 设置下边框，可以根据需要调整宽度和颜色 */
+
 }
 /* Flexbox 容器样式 */
 .flex-container {
