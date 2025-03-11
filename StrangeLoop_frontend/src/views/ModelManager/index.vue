@@ -44,9 +44,9 @@
                 <label class="block text-lg font-medium text-gray-700 mb-1" for="mirostat">Mirostat</label>
                 <select id="mirostat" v-model="modelInfoMange.modelFile.mirostat"
                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg rounded-md">
-                  <option value="0">关闭</option>
-                  <option value="1">启用1.0</option>
-                  <option value="2">启用2.0</option>
+                  <option :value="0">关闭</option>
+                  <option :value="1">启用1.0</option>
+                  <option :value="2">启用2.0</option>
                 </select>
               </div>
               <div>
