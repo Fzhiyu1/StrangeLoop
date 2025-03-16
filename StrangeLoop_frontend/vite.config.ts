@@ -11,9 +11,9 @@ export default defineConfig({
       registerType: 'autoUpdate', // 自动更新 Service Worker
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'], // 需要缓存的静态资源
       manifest: {
-        name: '本地化AI', // 应用名称
-        short_name: '本地化AI', // 短名称
-        description: '本地化AI', // 描述
+        name: '怪圈', // 应用名称
+        short_name: '怪圈', // 短名称
+        description: '怪圈', // 描述
         theme_color: '#ffffff', // 主题颜色
         icons: [
           {
@@ -46,8 +46,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     }
   },
-  server:{
+  server: {
     port: 80,
+    cors: true, // 允许所有跨域请求
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:9090',
@@ -55,7 +56,8 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
-  },
+  }
+
 
 
 })

@@ -1,7 +1,7 @@
 {
-  "name": "本地化AI",
-  "short_name": "本地化AI",
-  "description": "本地化AI",
+  "name": "怪圈",
+  "short_name": "怪圈",
+  "description": "怪圈",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
